@@ -1,21 +1,19 @@
 import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
-import { SampleComponent } from '@/SampleComponent.tsx';
-import { ListaPersoane } from '@/pages/ListaPersoane.tsx';
-import { Persoana } from '@/pages/Persoana.tsx';
 import { Situatie } from '@/pages/Situatie.tsx';
 import { Leaderboard } from '@/pages/Leaderboard.tsx';
 import { Navbar } from '@/pages/Navbar.tsx';
-
+import { ListaPersoane } from '@/pages/persoane/lista/ListaPersoane.tsx';
+import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
 
 export const AppRoutes: RouteObject[] = [
   {
     path: '',
-    element: <Navbar/>,
+    element: <Navbar />,
 
     children: [
       {
         path: '',
-        element: <Navigate to={'/situatie'} />
+        element: <Navigate to={'/situatie'} />,
       },
       {
         path: 'persoana',
@@ -23,29 +21,28 @@ export const AppRoutes: RouteObject[] = [
           {
             index: true,
             path: '',
-            element: <ListaPersoane/>,
+            element: <ListaPersoane />,
           },
           {
             path: ':id',
-            element: <Persoana/>,
-          }
-        ]
+            element: <Persoana />,
+          },
+        ],
       },
       {
         path: 'situatie',
-        element: <Situatie/>,
+        element: <Situatie />,
       },
       {
         path: 'leaderboard',
-        element: <Leaderboard/>,
-      }
-    ]
+        element: <Leaderboard />,
+      },
+    ],
   },
   {
     path: '*',
-    element: <div>Not found</div>
-  }
-
+    element: <div>Not found</div>,
+  },
 ];
 
 export const router = createBrowserRouter(AppRoutes);

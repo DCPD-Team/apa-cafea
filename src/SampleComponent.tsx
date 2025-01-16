@@ -80,7 +80,6 @@ export const SampleComponent: FC = () => {
                 </div>
               ))}
           </div>
-
           <div className={'flex flex-col gap-1'}>
             <h1>Plati</h1>
             {plati?.map((x) => (
