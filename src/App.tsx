@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@/AppRouter.tsx';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { Navbar } from '@/pages/Navbar.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
