@@ -25,14 +25,14 @@ const generateNewPerson = (): Person => {
     prenume: faker.person.lastName(),
     dataInscriere: faker.date.past().toISOString().slice(0, -5),
     participaApa: faker.datatype.boolean({ probability: 0.9 }),
-    participaCafea: faker.datatype.boolean({ probability: 0.5 }),
+    participaCafea: faker.datatype.boolean({ probability: 0.4 }),
   };
 };
 
 export const FakePersonApi = new FakeApi<Person>({
   generatorFunction: generateNewPerson,
   dataSize: 30,
-  delayTimer: 200,
+  delayTimer: 1000,
   localStorageKey: 'person',
 });
 
