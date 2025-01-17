@@ -10,24 +10,41 @@ import {
 import React, { useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FormularAdaugaModificaPersoana } from '@/pages/persoane/lista/components/FormularAdaugaModificaPersoana.tsx';
+import { Person } from '@/fake-api/fakePaymentApi.ts';
+import { FaEdit } from 'react-icons/fa';
 
-export const ButonAdaugaPersoana: React.FC = () => {
+type Props = {
+  persoana?: Person;
+};
+
+export const ButonAdaugaModificaPersoana: React.FC<Props> = ({ persoana }) => {
   const [open, setOpen] = useState(false);
 
   return (
     <Dialog
       open={open}
-      onOpenChange={(oo) => setOpen(oo)}>
+      onOpenChange={(o) => setOpen(o)}>
       <DialogTrigger asChild>
         <Button variant="default">
-          <IoMdAddCircleOutline /> Adauga
+          {!persoana ? (
+            <>
+              <IoMdAddCircleOutline /> Adauga
+            </>
+          ) : (
+            <>
+              <FaEdit /> Modifica
+            </>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Adaugǎ persoana</DialogTitle>
+          <DialogTitle>{!persoana ? 'Adauga persoana' : 'Modifica persoana'} </DialogTitle>
         </DialogHeader>
-        <FormularAdaugaModificaPersoana close={() => setOpen(false)} />
+        <FormularAdaugaModificaPersoana
+          close={() => setOpen(false)}
+          persoana={persoana}
+        />
       </DialogContent>
     </Dialog>
   );

@@ -5,6 +5,7 @@ import { FaEdit, FaInfo, FaTrash } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
+import { ButonAdaugaModificaPersoana } from '@/pages/persoane/lista/components/ButonAdaugaModificaPersoana.tsx';
 
 type Props = {
   persoana: Person;
@@ -35,9 +36,8 @@ export const ActiuniPersoana: React.FC<Props> = ({ persoana }) => {
           <FaInfo /> Detalii
         </NavLink>
       </Button>
-      <Button variant="outline">
-        <FaEdit /> Edit
-      </Button>
+
+      <ButonAdaugaModificaPersoana persoana={persoana} />
       <Button
         variant="destructive"
         onClick={() => sterge(persoana.id)}>

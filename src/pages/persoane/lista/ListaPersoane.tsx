@@ -5,13 +5,15 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { ActiuniPersoana } from '@/pages/persoane/lista/components/ActiuniPersoana.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { ButonAdaugaPersoana } from '@/pages/persoane/lista/components/ButonAdaugaPersoana.tsx';
+import { ButonAdaugaModificaPersoana } from '@/pages/persoane/lista/components/ButonAdaugaModificaPersoana.tsx';
+import { Loader2 } from 'lucide-react';
 
 export const ListaPersoane: React.FC = () => {
   const {
     data: persoane,
     isLoading,
     isError,
+    isFetching,
     error,
   } = useQuery({
     queryKey: ['persoane'],
@@ -27,8 +29,12 @@ export const ListaPersoane: React.FC = () => {
   return (
     <div className={'container mx-auto'}>
       <div className={'flex items-center justify-between pb-3 pt-10'}>
-        <h1 className={'text-3xl font-bold'}>Listǎ persoane</h1>
-        <ButonAdaugaPersoana />
+        <h1 className={'text-3xl font-bold'}>
+          Listǎ persoane
+          {isFetching && <Loader2 className="animate-spin" />}
+        </h1>
+
+        <ButonAdaugaModificaPersoana />
       </div>
       <Table>
         <TableHeader>
