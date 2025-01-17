@@ -27,25 +27,26 @@ export const ListaPersoane: React.FC = () => {
   return (
     <div className={'container mx-auto'}>
       <div className={'flex items-center justify-between pb-3 pt-10'}>
-        <h1 className={'text-3xl font-bold'}>Lista persoane</h1>
+        <h1 className={'text-3xl font-bold'}>Listǎ persoane</h1>
         <ButonAdaugaPersoana />
       </div>
       <Table>
-        <TableCaption>A list of your recent invoices.</TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead>Index</TableHead>
             <TableHead>Nume</TableHead>
             <TableHead>Prenume</TableHead>
-            <TableHead>Participa apa</TableHead>
-            <TableHead>Participa cafea</TableHead>
-            <TableHead>Data inscriere</TableHead>
+            <TableHead>Participǎ apǎ</TableHead>
+            <TableHead>Participǎ cafea</TableHead>
+            <TableHead>Datǎ înscriere</TableHead>
             <TableHead></TableHead>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody className={'group'}>
           {persoane.map((persoana, index) => (
-            <TableRow key={persoana.id}>
+            <TableRow
+              key={persoana.id}
+              className={'bg-white odd:bg-slate-100 hover:bg-slate-300'}>
               <TableCell className="font-medium">{index + 1}</TableCell>
               <TableCell className="font-medium">{persoana.nume}</TableCell>
               <TableCell className="font-medium">{persoana.prenume}</TableCell>
@@ -55,7 +56,7 @@ export const ListaPersoane: React.FC = () => {
               <TableCell className="font-medium">
                 <Checkbox checked={persoana.participaCafea} />
               </TableCell>
-              <TableCell className="font-medium">{persoana.dataInscriere.slice(0, -9)}</TableCell>
+              <TableCell className="font-medium">{persoana.dataInscriere.slice(0, -14)}</TableCell>
               <TableCell>
                 <ActiuniPersoana persoana={persoana} />
               </TableCell>

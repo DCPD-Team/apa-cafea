@@ -23,7 +23,7 @@ const generateNewPerson = (): Person => {
     id: faker.string.uuid(),
     nume: faker.person.firstName(),
     prenume: faker.person.lastName(),
-    dataInscriere: faker.date.past().toISOString().slice(0, -5),
+    dataInscriere: faker.date.past().toISOString(),
     participaApa: faker.datatype.boolean({ probability: 0.9 }),
     participaCafea: faker.datatype.boolean({ probability: 0.4 }),
   };
