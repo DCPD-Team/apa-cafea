@@ -1,47 +1,38 @@
 import React from 'react';
-import { FakePersonApi, Person } from '@/fake-api/fakePaymentApi.ts';
+import { Person } from '@/fake-api/fakePaymentApi.ts';
 import { Button } from '@/components/ui/button.tsx';
-import { FaEdit, FaInfo, FaTrash } from 'react-icons/fa';
+import { FaInfo, FaTrash } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
 import { ButonAdaugaModificaPersoana } from '@/pages/persoane/lista/components/ButonAdaugaModificaPersoana.tsx';
+import { Loader2 } from 'lucide-react';
+import { useStergePersoanaMutation } from '@/pages/persoane/hooks/useStergePersoanaMutation.tsx';
 
 type Props = {
   persoana: Person;
+  areButonDetalii?: boolean;
 };
 
-export const ActiuniPersoana: React.FC<Props> = ({ persoana }) => {
-  const queryClient = useQueryClient();
-
-  const { mutate: sterge, isPending } = useMutation<FakeApiResponse, FakeApiResponse, string>({
-    mutationFn: (id) => {
-      return FakePersonApi.delete(id);
-    },
-    onError: (response) => {
-      //toast
-    },
-    onSuccess: (response) => {
-      //toast + close
-      queryClient.invalidateQueries({
-        queryKey: ['persoane'],
-      });
-    },
-  });
+export const ActiuniPersoana: React.FC<Props> = ({ persoana, areButonDetalii = true }) => {
+  const { isPending, mutate: sterge } = useStergePersoanaMutation({ shouldRedirect: !areButonDetalii });
 
   return (
     <div className="flex gap-1">
-      <Button asChild={true}>
-        <NavLink to={`/persoana/${persoana.id}`}>
-          <FaInfo /> Detalii
-        </NavLink>
-      </Button>
+      {areButonDetalii && (
+        <Button asChild={true}>
+          <NavLink to={`/persoana/${persoana.id}`}>
+            <FaInfo /> Detalii
+          </NavLink>
+        </Button>
+      )}
 
       <ButonAdaugaModificaPersoana persoana={persoana} />
+
       <Button
         variant="destructive"
-        onClick={() => sterge(persoana.id)}>
-        <FaTrash /> Sterge
+        onClick={() => sterge(persoana.id)}
+        disabled={isPending}>
+        {isPending ? <Loader2 className="animate-spin" /> : <FaTrash />}
+        Sterge
       </Button>
     </div>
   );

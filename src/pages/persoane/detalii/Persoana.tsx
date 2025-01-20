@@ -1,8 +1,6 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useParams } from 'react-router-dom';
+import { InformatiiPersoana } from '@/pages/persoane/detalii/informatii/InformatiiPersoana.tsx';
 
 export const Persoana: React.FC = () => {
-  const { id } = useParams();
-  return <div>{id}</div>;
+  return <InformatiiPersoana />;
 };

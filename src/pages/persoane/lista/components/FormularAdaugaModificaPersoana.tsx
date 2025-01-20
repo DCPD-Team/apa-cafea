@@ -1,64 +1,24 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { FakePersonApi, Person } from '@/fake-api/fakePaymentApi.ts';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Person } from '@/fake-api/fakePaymentApi.ts';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
-import { useToast } from '@/hooks/use-toast.ts';
 import { Loader2 } from 'lucide-react';
+import { useAdaugaModificaPersoanaMutation } from '@/pages/persoane/hooks/useAdaugaModificaPersoanaMutation.tsx';
+import { useFormAdaugaModificaPersoana } from '@/pages/persoane/lista/hooks/useFormAdaugaModificaPersoana.tsx';
 
 type Props = {
   close: () => void;
   persoana?: Person;
 };
 
-type AdaugaModificaPersoana = Omit<Person, 'id' | 'dataInscriere'>;
-
-const formSchema = z.object({
-  nume: z.string().min(2, 'Numele trebuie sa aiba minim 2 caractere').max(50),
-  prenume: z.string().min(2).max(50),
-  participaApa: z.boolean(),
-  participaCafea: z.boolean(),
-});
+export type AdaugaModificaPersoana = Omit<Person, 'id' | 'dataInscriere'>;
 
 export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
   const { close, persoana } = props;
-  const form = useForm<AdaugaModificaPersoana>({
-    mode: 'onChange',
-    resolver: zodResolver(formSchema),
-    defaultValues: persoana,
-  });
-
-  const queryClient = useQueryClient();
-  const { toast } = useToast();
-
-  const { mutate, isPending } = useMutation<FakeApiResponse, FakeApiResponse, AdaugaModificaPersoana>({
-    mutationFn: (data) => {
-      if (!persoana) {
-        return FakePersonApi.add({ ...data, dataInscriere: new Date().toISOString() });
-      } else {
-        return FakePersonApi.update(persoana.id, { ...data, dataInscriere: persoana.dataInscriere });
-      }
-    },
-    onSuccess: (response) => {
-      //toast + close
-      queryClient.invalidateQueries({
-        queryKey: ['persoane'],
-      });
-
-      close();
-      toast({
-        variant: 'default',
-        title: 'Persoana a fost adaugata!',
-        description: response.message,
-      });
-    },
-  });
+  const form = useFormAdaugaModificaPersoana({ defaultValues: persoana });
+  const { mutate, isPending } = useAdaugaModificaPersoanaMutation({ persoana });
 
   const onSubmit = (data: AdaugaModificaPersoana) => {
     mutate(data);

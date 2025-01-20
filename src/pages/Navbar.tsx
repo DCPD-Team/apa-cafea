@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 
 export const Navbar: React.FC = () => {
@@ -10,8 +10,8 @@ export const Navbar: React.FC = () => {
   };
 
   return (
-    <div>
-      <div>
+    <div className={'container mx-auto flex flex-col gap-3'}>
+      <div className="pt-5">
         <NavLink
           to="/persoana"
           className={({ isActive }) => getStyles(isActive)}>

@@ -3,8 +3,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@/AppRouter.tsx';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Navbar } from '@/pages/Navbar.tsx';
 import { Toaster } from '@/components/ui/toaster.tsx';
+import { ToastProvider } from '@/components/ui/toast.tsx';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -23,6 +23,7 @@ export const App: FC = () => {
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />
       <ReactQueryDevtools initialIsOpen={false} />
+      <ToastProvider duration={3000}></ToastProvider>
       <Toaster />
     </QueryClientProvider>
   );

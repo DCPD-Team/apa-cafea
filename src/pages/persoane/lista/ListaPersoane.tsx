@@ -1,27 +1,14 @@
 import React from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { FakePersonApi } from '@/fake-api/fakePaymentApi.ts';
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { ActiuniPersoana } from '@/pages/persoane/lista/components/ActiuniPersoana.tsx';
-import { Button } from '@/components/ui/button.tsx';
 import { ButonAdaugaModificaPersoana } from '@/pages/persoane/lista/components/ButonAdaugaModificaPersoana.tsx';
 import { Loader2 } from 'lucide-react';
+import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
 
 export const ListaPersoane: React.FC = () => {
-  const {
-    data: persoane,
-    isLoading,
-    isError,
-    isFetching,
-    error,
-  } = useQuery({
-    queryKey: ['persoane'],
-    // placeholderData:[],
-    queryFn: () => {
-      return FakePersonApi.getAll();
-    },
-  });
+  const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery();
+
   if (isLoading || !persoane) {
     return <div>loading</div>;
   }
