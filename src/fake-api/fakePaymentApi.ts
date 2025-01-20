@@ -7,6 +7,7 @@ export type Payment = {
   userId: string;
   suma: number;
   pentru: ApaSauCafea;
+  data: string;
 };
 
 export type Person = {
@@ -42,6 +43,7 @@ const generateNewPayment = (): Payment => {
     userId: faker.helpers.arrayElement(FakePersonApi.getInitialData().map((x) => x.id)),
     suma: faker.number.int({ min: 10, max: 150, multipleOf: 10 }),
     pentru: faker.datatype.boolean() ? 'apa' : 'cafea',
+    data: faker.date.past().toISOString(),
   };
 };
 

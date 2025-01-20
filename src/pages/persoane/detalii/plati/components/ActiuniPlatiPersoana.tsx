@@ -1,0 +1,25 @@
+import React from 'react';
+import { Payment } from '@/fake-api/fakePaymentApi.ts';
+import { Button } from '@/components/ui/button.tsx';
+import { FaTrash } from 'react-icons/fa';
+import { Loader2 } from 'lucide-react';
+import { useStergePlataPersoanaMutation } from '@/pages/persoane/hooks/useStergePlataPersoanaMutation.tsx';
+
+type Props = {
+  payment: Payment;
+};
+
+export const ActiuniPlatiPersoana: React.FC<Props> = ({ payment }) => {
+  const { isPending, mutate } = useStergePlataPersoanaMutation({ userId: payment.userId });
+  return (
+    <div className="flex gap-1">
+      <Button
+        variant="destructive"
+        onClick={() => mutate(payment.id)}
+        disabled={isPending}>
+        {isPending ? <Loader2 className="animate-spin" /> : <FaTrash />}
+        Sterge
+      </Button>
+    </div>
+  );
+};
