@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button.tsx';
 import { FaTrash } from 'react-icons/fa';
 import { Loader2 } from 'lucide-react';
 import { useStergePlataPersoanaMutation } from '@/pages/persoane/hooks/useStergePlataPersoanaMutation.tsx';
+import { ButonAdaugaModificaPlata } from '@/pages/persoane/detalii/plati/components/ButonAdaugaModificaPlata.tsx';
 
 type Props = {
   payment: Payment;
@@ -20,6 +21,7 @@ export const ActiuniPlatiPersoana: React.FC<Props> = ({ payment }) => {
         {isPending ? <Loader2 className="animate-spin" /> : <FaTrash />}
         Sterge
       </Button>
+      <ButonAdaugaModificaPlata plata={payment} />
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { Loader2 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { ActiuniPlatiPersoana } from '@/pages/persoane/detalii/plati/components/ActiuniPlatiPersoana.tsx';
 import { useParams } from 'react-router-dom';
+import { ButonAdaugaModificaPlata } from '@/pages/persoane/detalii/plati/components/ButonAdaugaModificaPlata.tsx';
 
 export const ListaPlatiPersoana: React.FC = () => {
   const { id } = useParams();
@@ -17,7 +18,10 @@ export const ListaPlatiPersoana: React.FC = () => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Listǎ plati persoana</CardTitle>
+        <div className={'flex items-center justify-between'}>
+          <CardTitle>Listǎ plati persoana</CardTitle>
+          <ButonAdaugaModificaPlata />
+        </div>
       </CardHeader>
       <CardContent>
         {isFetching && <Loader2 className="animate-spin" />}
