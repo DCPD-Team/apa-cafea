@@ -46,7 +46,7 @@ export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) =
         <FormField
           control={form.control}
           name="suma"
-          defaultValue=""
+          defaultValue={0}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Suma</FormLabel>
@@ -68,7 +68,6 @@ export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) =
         <FormField
           control={form.control}
           name="pentru"
-          defaultValue=""
           render={({ field }) => (
             <FormItem>
               <FormLabel>Pentru</FormLabel>

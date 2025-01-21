@@ -19,7 +19,7 @@ export const useAdaugaModificaPlataMutation = ({
   return useMutation<FakeApiResponse, FakeApiResponse, AdaugaModificaPlata>({
     mutationFn: (data) => {
       if (!plata) {
-        return FakePaymentApi.add({ ...data, data: new Date().toISOString(), userId: userId });
+        return FakePaymentApi.add({ ...data, data: new Date().toISOString(), userId: userId as string });
       } else {
         const { id, ...restPlata } = plata;
         return FakePaymentApi.update(plata.id, { ...restPlata, ...data });

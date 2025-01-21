@@ -18,7 +18,7 @@ export type AdaugaModificaPersoana = Omit<Person, 'id' | 'dataInscriere'>;
 export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
   const { close, persoana } = props;
   const form = useFormAdaugaModificaPersoana({ defaultValues: persoana });
-  const { mutate, isPending } = useAdaugaModificaPersoanaMutation({ persoana });
+  const { mutate, isPending } = useAdaugaModificaPersoanaMutation({ persoana, close });
 
   const onSubmit = (data: AdaugaModificaPersoana) => {
     mutate(data);
