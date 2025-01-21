@@ -84,5 +84,5 @@ export const useCalculeazaSituatie = ({ an }: { an: number }): SituatiePersoana[
         } satisfies SituatiePersoana,
       ];
     }, [] as SituatiePersoana[]);
-  }, [an]);
+  }, [an, persoane, plati]);
 };
