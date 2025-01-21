@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
 import { useQuery } from '@tanstack/react-query';
 import { FakePaymentApi } from '@/fake-api/fakePaymentApi.ts';
+import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
 
 export const PE_LUNA = 40;
 
@@ -23,13 +24,10 @@ export const useCalculeazaSituatie = ({ an }: { an: number }): SituatiePersoana[
 
     const groupedPayments: Record<string, number> = plati.reduce(
       (acc, payment) => {
-        if (!acc[payment.userId]) {
-          acc[payment.userId] = 0;
-        }
         acc[payment.userId] += payment.suma;
         return acc;
       },
-      {} as Record<string, number>
+      persoane.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {} as Record<string, number>)
     );
 
     for (const userId in groupedPayments) {
