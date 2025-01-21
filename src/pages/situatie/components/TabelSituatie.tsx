@@ -1,7 +1,9 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
+import { useCalculeazaSituatie } from '@/pages/situatie/hooks/useCalculeazaSituatie.tsx';
+import { twMerge } from 'tailwind-merge';
 
-const LunileAnului = {
+export const LunileAnului = {
   IANUARIE: 'Ianuarie',
   FEBRUARIE: 'Februarie',
   MARTIE: 'Martie',
@@ -16,7 +18,7 @@ const LunileAnului = {
   DECEMBRIE: 'Decembrie',
 };
 
-type Luna = keyof typeof LunileAnului;
+export type Luna = keyof typeof LunileAnului;
 
 export type SituatiePersoana = {
   nume: string;
@@ -31,7 +33,22 @@ export const TabelSituatie: React.FC = () => {
   // const { isLoading, isFetching, data: situatii } = useGetListaPersoanaQuery();
   // const { isLoading: isLoadingPlati, isFetching: isFetchingPlati, data: plati } = useGetListaPlatiPersoanaQuery();
 
-  const situatii: SituatiePersoana[] = [];
+  // const situatii: SituatiePersoana[] = [];
+  const situatii = useCalculeazaSituatie({ an: 2025 });
+
+  console.log(situatii);
+
+  const getMonthCellColor = (value: number) => {
+    if (value === 40) {
+      return 'bg-green-200';
+    }
+
+    if (value > 0) {
+      return 'bg-yellow-200';
+    }
+
+    return 'bg-red-200';
+  };
 
   // if (isLoading || !situatii) {
   //   return (
@@ -78,7 +95,7 @@ export const TabelSituatie: React.FC = () => {
             {Object.keys(LunileAnului).map((key) => (
               <TableCell
                 key={key}
-                className="font-medium">
+                className={twMerge('text-lg font-bold', getMonthCellColor(situatie.luni[key as Luna]))}>
                 {situatie.luni[key as Luna]}
               </TableCell>
             ))}
