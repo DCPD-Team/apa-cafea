@@ -5,9 +5,9 @@ import { twMerge } from 'tailwind-merge';
 import { Button } from '@/components/ui/button.tsx';
 import { NavLink } from 'react-router-dom';
 import { FaInfo } from 'react-icons/fa';
-import { FaCheck, FaX } from 'react-icons/fa6';
 import { FiltreSituatie } from '@/pages/situatie/components/FiltreSituatie.tsx';
 import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { Badge } from '@/components/ui/badge.tsx';
 
 export const LunileAnului = {
   IANUARIE: 'Ianuarie',
@@ -45,16 +45,23 @@ export const TabelSituatie: React.FC = () => {
 
   console.log(situatii);
 
-  const getMonthCellColor = (value: number) => {
+  const getMonthCellColor = (value: number, luna: Luna, an: number) => {
+    const lunaCurenta = new Date().getMonth();
+    const anCurent = new Date().getFullYear();
+
+    const lunaIndex = Object.keys(LunileAnului).findIndex((key) => key === luna);
+
+    if (lunaIndex > lunaCurenta && anCurent <= an) return 'text-primary';
+
     if (value === 40) {
-      return 'bg-green-200';
+      return 'text-green-700';
     }
 
     if (value > 0) {
-      return 'bg-yellow-200';
+      return 'text-yellow-700';
     }
 
-    return 'bg-red-200';
+    return 'text-red-700';
   };
 
   // TODO:
@@ -79,13 +86,11 @@ export const TabelSituatie: React.FC = () => {
           <TableRow>
             <TableHead>Index</TableHead>
             <TableHead>Nume</TableHead>
-            <TableHead>Prenume</TableHead>
 
             {Object.keys(LunileAnului).map((key) => (
               <TableHead key={key}>{LunileAnului[key as Luna]}</TableHead>
             ))}
 
-            <TableHead>La zi?</TableHead>
             <TableHead>Actiuni</TableHead>
           </TableRow>
         </TableHeader>
@@ -103,17 +108,28 @@ export const TabelSituatie: React.FC = () => {
               key={situatie.userId}
               className={'odd:bg-slate-50 hover:bg-slate-100'}>
               <TableCell className="font-medium">{index + 1}</TableCell>
-              <TableCell className="font-medium">{situatie.nume}</TableCell>
-              <TableCell className="font-medium">{situatie.prenume}</TableCell>
+              <TableCell className="font-medium">
+                <div className={'flex flex-row justify-between'}>
+                  {`${situatie.nume} ${situatie.prenume}`}
+
+                  {situatie.laZi ? (
+                    <Badge variant={'success'}>La zi</Badge>
+                  ) : (
+                    <Badge variant={'destructive'}>Restantier</Badge>
+                  )}
+                </div>
+              </TableCell>
               {Object.keys(LunileAnului).map((key) => (
                 <TableCell
                   key={key}
-                  className={twMerge('text-lg font-bold', getMonthCellColor(situatie.luni[key as Luna]))}>
+                  className={twMerge(
+                    'text-lg font-bold',
+                    getMonthCellColor(situatie.luni[key as Luna], key as Luna, filtre.an)
+                  )}>
                   {situatie.luni[key as Luna]}
                 </TableCell>
               ))}
 
-              <TableCell className={'max-w-[200px]'}>{situatie.laZi ? <FaCheck /> : <FaX />}</TableCell>
               <TableCell className={'max-w-[200px]'}>
                 <Button asChild={true}>
                   <NavLink to={`/persoana/${situatie.userId}`}>
