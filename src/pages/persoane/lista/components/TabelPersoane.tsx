@@ -5,9 +5,10 @@ import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { ActiuniPersoana } from '@/pages/persoane/lista/components/ActiuniPersoana.tsx';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
 import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
+import { compareByDataInscriere } from '@/fake-api/fakePaymentApi.ts';
 
 export const TabelPersoane: React.FC = () => {
-  const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery();
+  const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
 
   if (isLoading || !persoane) {
     return (

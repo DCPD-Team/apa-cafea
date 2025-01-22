@@ -19,6 +19,10 @@ export type Person = {
   participaCafea: boolean;
 };
 
+export const compareByName = (a: Person, b: Person): number => a.nume.toLowerCase().localeCompare(b.nume.toLowerCase());
+export const compareByDataInscriere = (a: Person, b: Person): number =>
+  new Date(a.dataInscriere).getTime() - new Date(b.dataInscriere).getTime();
+
 const generateNewPerson = (): Person => {
   return {
     id: faker.string.uuid(),
