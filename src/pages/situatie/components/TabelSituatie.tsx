@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
 import { useCalculeazaSituatie } from '@/pages/situatie/hooks/useCalculeazaSituatie.tsx';
 import { twMerge } from 'tailwind-merge';
+import { Button } from '@/components/ui/button.tsx';
+import { NavLink } from 'react-router-dom';
+import { FaInfo } from 'react-icons/fa';
+import { FaCheck, FaX } from 'react-icons/fa6';
+import { FiltreSituatie } from '@/pages/situatie/components/FiltreSituatie.tsx';
+import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
 
 export const LunileAnului = {
   IANUARIE: 'Ianuarie',
@@ -28,13 +34,14 @@ export type SituatiePersoana = {
   userId: string;
 };
 
-export const TabelSituatie: React.FC = () => {
-  // const { isLoading: isLoadingPersoane, isFetching: isFetchingPersoane, data: persoane } = useGetListaPersoanaQuery();
-  // const { isLoading, isFetching, data: situatii } = useGetListaPersoanaQuery();
-  // const { isLoading: isLoadingPlati, isFetching: isFetchingPlati, data: plati } = useGetListaPlatiPersoanaQuery();
+export type FiltreSituatieType = {
+  an: number;
+  pentru: ApaSauCafea;
+};
 
-  // const situatii: SituatiePersoana[] = [];
-  const situatii = useCalculeazaSituatie({ an: 2025 });
+export const TabelSituatie: React.FC = () => {
+  const [filtre, setFiltre] = useState<FiltreSituatieType>({ an: 2025, pentru: 'cafea' });
+  const situatii = useCalculeazaSituatie(filtre);
 
   console.log(situatii);
 
@@ -50,6 +57,7 @@ export const TabelSituatie: React.FC = () => {
     return 'bg-red-200';
   };
 
+  // TODO:
   // if (isLoading || !situatii) {
   //   return (
   //     <div>Loading...</div>
@@ -61,50 +69,62 @@ export const TabelSituatie: React.FC = () => {
   // }
 
   return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Index</TableHead>
-          <TableHead>Nume</TableHead>
-          <TableHead>Prenume</TableHead>
+    <>
+      <FiltreSituatie
+        filtre={filtre}
+        setFiltre={setFiltre}
+      />
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Index</TableHead>
+            <TableHead>Nume</TableHead>
+            <TableHead>Prenume</TableHead>
 
-          {Object.keys(LunileAnului).map((key) => (
-            <TableHead key={key}>{LunileAnului[key as Luna]}</TableHead>
-          ))}
-
-          <TableHead>La zi?</TableHead>
-          <TableHead>Actiuni</TableHead>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <tr>
-          <td
-            className={'h-2.5 border-b'}
-            colSpan={7}>
-            {/*{isFetching && <ProgressBar mode={'indeterminate'} />}*/}
-          </td>
-        </tr>
-
-        {situatii.map((situatie, index) => (
-          <TableRow
-            key={situatie.userId}
-            className={'odd:bg-slate-50 hover:bg-slate-100'}>
-            <TableCell className="font-medium">{index + 1}</TableCell>
-            <TableCell className="font-medium">{situatie.nume}</TableCell>
-            <TableCell className="font-medium">{situatie.prenume}</TableCell>
             {Object.keys(LunileAnului).map((key) => (
-              <TableCell
-                key={key}
-                className={twMerge('text-lg font-bold', getMonthCellColor(situatie.luni[key as Luna]))}>
-                {situatie.luni[key as Luna]}
-              </TableCell>
+              <TableHead key={key}>{LunileAnului[key as Luna]}</TableHead>
             ))}
 
-            {/*<TableCell className={'max-w-[200px]'}>{}</TableCell>*/}
-            <TableCell className={'max-w-[200px]'}>{/*<ActiuniPersoana persoana={situatie} />*/}</TableCell>
+            <TableHead>La zi?</TableHead>
+            <TableHead>Actiuni</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+        <TableBody>
+          <tr>
+            <td
+              className={'h-2.5 border-b'}
+              colSpan={7}>
+              {/*{isFetching && <ProgressBar mode={'indeterminate'} />}*/}
+            </td>
+          </tr>
+
+          {situatii.map((situatie, index) => (
+            <TableRow
+              key={situatie.userId}
+              className={'odd:bg-slate-50 hover:bg-slate-100'}>
+              <TableCell className="font-medium">{index + 1}</TableCell>
+              <TableCell className="font-medium">{situatie.nume}</TableCell>
+              <TableCell className="font-medium">{situatie.prenume}</TableCell>
+              {Object.keys(LunileAnului).map((key) => (
+                <TableCell
+                  key={key}
+                  className={twMerge('text-lg font-bold', getMonthCellColor(situatie.luni[key as Luna]))}>
+                  {situatie.luni[key as Luna]}
+                </TableCell>
+              ))}
+
+              <TableCell className={'max-w-[200px]'}>{situatie.laZi ? <FaCheck /> : <FaX />}</TableCell>
+              <TableCell className={'max-w-[200px]'}>
+                <Button asChild={true}>
+                  <NavLink to={`/persoana/${situatie.userId}`}>
+                    <FaInfo /> Detalii
+                  </NavLink>
+                </Button>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </>
   );
 };

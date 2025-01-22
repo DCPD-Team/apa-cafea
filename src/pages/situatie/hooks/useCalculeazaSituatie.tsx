@@ -2,21 +2,26 @@ import { Luna, LunileAnului, SituatiePersoana } from '@/pages/situatie/component
 import { useMemo } from 'react';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
 import { useQuery } from '@tanstack/react-query';
-import { FakePaymentApi } from '@/fake-api/fakePaymentApi.ts';
-import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
+import { ApaSauCafea, FakePaymentApi } from '@/fake-api/fakePaymentApi.ts';
 
 export const PE_LUNA = 40;
 
-export const useCalculeazaSituatie = ({ an }: { an: number }): SituatiePersoana[] => {
+export const useCalculeazaSituatie = ({ an, pentru }: { an: number; pentru: ApaSauCafea }): SituatiePersoana[] => {
   const { data: persoane } = useGetListaPersoanaQuery();
 
-  const { data: plati } = useQuery({
+  const { data: platiApi } = useQuery({
     queryKey: ['plati'],
     queryFn: () => {
       return FakePaymentApi.getAll();
     },
-    select: (data) => data.filter((plata) => new Date(plata.data).getFullYear() === an),
   });
+
+  const plati = useMemo(() => {
+    if (!platiApi) {
+      return [];
+    }
+    return platiApi.filter((plata) => new Date(plata.data).getFullYear() === an && plata.pentru === pentru);
+  }, [platiApi, an, pentru]);
 
   return useMemo(() => {
     if (!plati) return [];
@@ -35,7 +40,7 @@ export const useCalculeazaSituatie = ({ an }: { an: number }): SituatiePersoana[
     }
 
     const getSumPerMonth = ({ monthIndex, paidMonths }: { monthIndex: number; paidMonths: number }): number => {
-      const index = monthIndex + 1;
+      const index = monthIndex;
 
       if (paidMonths >= index) {
         if (paidMonths < index + 1) {
@@ -49,13 +54,14 @@ export const useCalculeazaSituatie = ({ an }: { an: number }): SituatiePersoana[
     return Object.entries(groupedPayments).reduce((acc, [userId, paidMonths]) => {
       const persoana = persoane.find((persoana) => persoana.id === userId);
       if (!persoana) return acc;
+
       return [
         ...acc,
         {
           nume: persoana.nume,
           prenume: persoana.prenume,
           userId,
-          laZi: paidMonths >= new Date().getMonth(),
+          laZi: paidMonths >= new Date().getMonth() + 1,
           luni: Object.keys(LunileAnului).reduce(
             (acc, key, monthIndex) => {
               return {
@@ -65,20 +71,6 @@ export const useCalculeazaSituatie = ({ an }: { an: number }): SituatiePersoana[
             },
             {} as Record<Luna, number>
           ),
-          // luni: {
-          //   IANUARIE: paidMonths >= 1 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   FEBRUARIE: paidMonths >= 2 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   MARTIE: paidMonths >= 3 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   APRILIE: paidMonths >= 4 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   MAI: paidMonths >= 5 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   IUNIE: paidMonths >= 6 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   IULIE: paidMonths >= 7 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   AUGUST: paidMonths >= 8 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   SEPTEMBRIE: paidMonths >= 9 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   OCTOMBRIE: paidMonths >= 10 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   NOIEMBRIE: paidMonths >= 11 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          //   DECEMBRIE: paidMonths >= 12 ? 40 : (paidMonths - Math.floor(paidMonths)) * 12,
-          // },
         } satisfies SituatiePersoana,
       ];
     }, [] as SituatiePersoana[]);

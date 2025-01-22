@@ -8,7 +8,6 @@ export const Situatie: React.FC = () => {
       <CardHeader>
         <div className={'flex items-center justify-between'}>
           <CardTitle className={'text-3xl'}>Situatie</CardTitle>
-          {/*<ButonAdaugaModificaPersoana />*/}
         </div>
       </CardHeader>
       <CardContent>

@@ -35,21 +35,25 @@ export const ListaPlatiPersoana: React.FC = () => {
               <TableHead>Actiuni</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody className={'group'}>
-            {plati.map((plata, index) => (
-              <TableRow
-                key={plata.id}
-                className={'bg-white odd:bg-slate-100 hover:bg-slate-300'}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
-                <TableCell className="font-medium">{plata.suma}</TableCell>
-                <TableCell className="font-medium">{plata.pentru}</TableCell>
-                <TableCell className="font-medium">{plata.data.slice(0, -14)}</TableCell>
-                <TableCell>
-                  <ActiuniPlatiPersoana payment={plata} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {plati.length > 0 && (
+            <TableBody className={'group'}>
+              {plati.map((plata, index) => (
+                <TableRow
+                  key={plata.id}
+                  className={'bg-white odd:bg-slate-100 hover:bg-slate-300'}>
+                  <TableCell className="font-medium">{index + 1}</TableCell>
+                  <TableCell className="font-medium">{plata.suma}</TableCell>
+                  <TableCell className="font-medium">{plata.pentru}</TableCell>
+                  <TableCell className="font-medium">{plata.data.slice(0, -14)}</TableCell>
+                  <TableCell>
+                    <ActiuniPlatiPersoana payment={plata} />
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
+
+          {plati.length == 0 && <h2 className="flex items-center justify-between">Nu exista date</h2>}
         </Table>
       </CardContent>
     </Card>
