@@ -43,8 +43,6 @@ export const TabelSituatie: React.FC = () => {
   const [filtre, setFiltre] = useState<FiltreSituatieType>({ an: 2025, pentru: 'cafea' });
   const situatii = useCalculeazaSituatie(filtre);
 
-  console.log(situatii);
-
   const getMonthCellColor = (value: number, luna: Luna, an: number) => {
     const lunaCurenta = new Date().getMonth();
     const anCurent = new Date().getFullYear();

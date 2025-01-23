@@ -10,8 +10,10 @@ type Props = {
 export const LocPodium: React.FC<Props> = ({ locPodium, className }) => {
   return (
     <div>
-      <h3 className="text-center">{locPodium.nume}</h3>
-      <div className={twMerge('flex w-32 items-center justify-center', className)}>{locPodium.valoare}</div>
+      <h3 className="text-center">{locPodium ? locPodium.nume : ''}</h3>
+      <div className={twMerge('flex w-32 items-center justify-center', className)}>
+        {locPodium ? locPodium.valoare : ''}
+      </div>
     </div>
   );
 };

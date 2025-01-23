@@ -7,12 +7,15 @@ export type LocPodiumType = {
   valoare: number;
 };
 
-type Props = {
-  titlu: string;
+export type PodiumType = {
   locul1: LocPodiumType;
   locul2: LocPodiumType;
   locul3: LocPodiumType;
 };
+
+type Props = {
+  titlu: string;
+} & PodiumType;
 
 export const Podium: React.FC<Props> = ({ titlu, locul1, locul2, locul3 }) => {
   return (
