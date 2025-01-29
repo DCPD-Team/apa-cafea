@@ -4,6 +4,7 @@ import { Leaderboard } from '@/pages/leaderboard/Leaderboard.tsx';
 import { Navbar } from '@/pages/Navbar.tsx';
 import { ListaPersoane } from '@/pages/persoane/lista/ListaPersoane.tsx';
 import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
+import { ListaCheltuieli } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
 
 export const AppRoutes: RouteObject[] = [
   {
@@ -36,6 +37,16 @@ export const AppRoutes: RouteObject[] = [
       {
         path: 'leaderboard',
         element: <Leaderboard />,
+      },
+      {
+        path: 'cheltuiala',
+        children: [
+          {
+            index: true,
+            path: '',
+            element: <ListaCheltuieli />,
+          },
+        ],
       },
     ],
   },

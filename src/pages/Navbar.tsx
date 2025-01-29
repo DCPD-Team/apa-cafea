@@ -27,6 +27,11 @@ export const Navbar: React.FC = () => {
           className={({ isActive }) => getStyles(isActive)}>
           Leaderboard
         </NavLink>
+        <NavLink
+          to="/cheltuiala"
+          className={({ isActive }) => getStyles(isActive)}>
+          Cheltuieli
+        </NavLink>
       </div>
       <Outlet />
     </div>
