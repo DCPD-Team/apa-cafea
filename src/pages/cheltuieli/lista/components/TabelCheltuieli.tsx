@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
 import { ProgressBar } from '@/components/ui/progressbar.tsx';
 import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
 import { ApaSauCafea, Cheltuiala, compareByDataCheltuiala } from '@/fake-api/fakePaymentApi.ts';
@@ -10,17 +10,12 @@ import { SumarCheltuieli } from '@/pages/cheltuieli/lista/components/SumarCheltu
 import {
   ColumnDef,
   ColumnFiltersState,
-  FilterFn,
   flexRender,
   getCoreRowModel,
-  getFacetedMinMaxValues,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
   PaginationState,
-  Row,
   SortingState,
   useReactTable,
 } from '@tanstack/react-table';
@@ -29,6 +24,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { Button } from '@/components/ui/button.tsx';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input.tsx';
+import { PagingFooterTabel } from '@/components/ui/PagingFooterTabel.tsx';
 
 export type FiltreCheltuialaType = {
   an: number;
@@ -46,6 +42,13 @@ export const TabelCheltuieli: React.FC = () => {
 
   const columns = useMemo<ColumnDef<Cheltuiala>[]>(
     () => [
+      {
+        header: 'Index',
+        id: 'index',
+        accessorFn: (originalRow, index) => {
+          return index + 1;
+        },
+      },
       {
         header: () => 'Suma',
         accessorKey: 'suma',
@@ -67,7 +70,7 @@ export const TabelCheltuieli: React.FC = () => {
       },
       {
         header: () => 'Actiuni',
-        accessorKey: 'actiu',
+        accessorKey: 'actiuni',
         cell: ({ row }) => <ActiuniCheltuiala cheltuiala={row.original} />,
       },
     ],
@@ -96,6 +99,7 @@ export const TabelCheltuieli: React.FC = () => {
       pagination,
       columnFilters,
     },
+    autoResetPageIndex: false,
   });
 
   if (isLoading || !cheltuieli || cheltuieli.length === 0) {
@@ -168,7 +172,6 @@ export const TabelCheltuieli: React.FC = () => {
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
-              <TableHead>Index</TableHead>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead
@@ -204,10 +207,9 @@ export const TabelCheltuieli: React.FC = () => {
             </td>
           </tr>
 
-          {table.getRowModel().rows.map((row, index) => {
+          {table.getRowModel().rows.map((row) => {
             return (
               <TableRow key={row.id}>
-                <TableCell className="font-medium">{index + 1}</TableCell>
                 {row.getVisibleCells().map((cell) => {
                   return (
                     <TableCell
@@ -222,68 +224,7 @@ export const TabelCheltuieli: React.FC = () => {
           })}
         </TableBody>
       </Table>
-      <div>
-        <div className="h-2" />
-        <div className="flex items-center justify-end gap-2">
-          <button
-            className="rounded border p-1"
-            onClick={() => table.firstPage()}
-            disabled={!table.getCanPreviousPage()}>
-            {'<<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}>
-            {'<'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}>
-            {'>'}
-          </button>
-          <button
-            className="rounded border p-1"
-            onClick={() => table.lastPage()}
-            disabled={!table.getCanNextPage()}>
-            {'>>'}
-          </button>
-          <span className="flex items-center gap-1">
-            <div>Pagina</div>
-            <strong>
-              {table.getState().pagination.pageIndex + 1} din {table.getPageCount().toLocaleString()}
-            </strong>
-          </span>
-          <span className="flex items-center gap-1">
-            | Mergi la pagina:
-            <input
-              type="number"
-              min="1"
-              max={table.getPageCount()}
-              defaultValue={table.getState().pagination.pageIndex + 1}
-              onChange={(e) => {
-                const page = e.target.value ? Number(e.target.value) - 1 : 0;
-                table.setPageIndex(page);
-              }}
-              className="w-16 rounded border p-1"
-            />
-          </span>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}>
-            {[10, 20, 30, 40, 50].map((pageSize) => (
-              <option
-                key={pageSize}
-                value={pageSize}>
-                Afiseaza {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      <PagingFooterTabel table={table} />
     </div>
   );
 };
