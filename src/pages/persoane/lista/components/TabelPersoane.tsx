@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
-import { ProgressBar } from '@/components/ui/progressbar.tsx';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
 import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
 import { compareByDataInscriere, Person } from '@/fake-api/fakePaymentApi.ts';
@@ -18,6 +17,7 @@ import { PagingFooterTabel } from '@/components/ui/PagingFooterTabel.tsx';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { ActiuniPersoana } from '@/pages/persoane/lista/components/ActiuniPersoana.tsx';
 import { FiltruColoanePersoane } from '@/pages/persoane/lista/components/FiltruColoanePersoane.tsx';
+import { LoadingBarTable } from '@/components/ui/LoadingBarTable.tsx';
 
 export const TabelPersoane: React.FC = () => {
   const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
@@ -83,7 +83,7 @@ export const TabelPersoane: React.FC = () => {
     return (
       <SkeletonTable
         numberOfColumns={7}
-        numberOfRows={15}
+        numberOfRows={13}
       />
     );
   }
@@ -124,13 +124,10 @@ export const TabelPersoane: React.FC = () => {
           ))}
         </TableHeader>
         <TableBody>
-          <tr>
-            <td
-              className={'h-2.5 border-b'}
-              colSpan={7}>
-              {isFetching && <ProgressBar mode={'indeterminate'} />}
-            </td>
-          </tr>
+          <LoadingBarTable
+            isFetching={isFetching}
+            colSpan={7}
+          />
 
           {table.getRowModel().rows.map((row) => {
             return (

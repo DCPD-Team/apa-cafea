@@ -1,43 +1,29 @@
-import React, { useMemo, useState } from 'react';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
+import React, { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import { useGetListaPlatiPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPlatiPersoanaQuery.tsx';
 import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
-import { ApaSauCafea, Cheltuiala, compareByDataCheltuiala } from '@/fake-api/fakePaymentApi.ts';
-import { useGetListaCheltuialaQuery } from '@/pages/cheltuieli/hooks/useGetListaCheltuialaQuery.tsx';
-import { ActiuniCheltuiala } from '@/pages/cheltuieli/lista/components/ActiuniCheltuiala.tsx';
-import { FiltreCheltuiala } from '@/pages/cheltuieli/lista/components/FiltreCheltuiala.tsx';
-import { SumarCheltuieli } from '@/pages/cheltuieli/lista/components/SumarCheltuieli.tsx';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
+import { LoadingBarTable } from '@/components/ui/LoadingBarTable.tsx';
 import {
   ColumnDef,
-  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  PaginationState,
-  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { PagingFooterTabel } from '@/components/ui/PagingFooterTabel.tsx';
-import { FiltruColoaneCheltuieli } from '@/pages/cheltuieli/lista/components/FiltruColoaneCheltuieli.tsx';
-import { LoadingBarTable } from '@/components/ui/LoadingBarTable.tsx';
+import { FiltruColoanePlatiPersoana } from '@/pages/persoane/detalii/plati/components/FiltruColoanePlatiPersoana.tsx';
+import { Payment } from '@/fake-api/fakePaymentApi.ts';
+import { ActiuniPlatiPersoana } from '@/pages/persoane/detalii/plati/components/ActiuniPlatiPersoana.tsx';
 
-export type FiltreCheltuialaType = {
-  an: number;
-  pentru: ApaSauCafea;
-};
+export const TabelPlatiPersoana: React.FC = () => {
+  const { id } = useParams();
+  const { isLoading, isFetching, data: plati } = useGetListaPlatiPersoanaQuery({ id });
 
-export const TabelCheltuieli: React.FC = () => {
-  const [filtre, setFiltre] = useState<FiltreCheltuialaType>({ an: 2025, pentru: 'cafea' });
-  const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState<PaginationState>({
-    pageIndex: 0,
-    pageSize: 10,
-  });
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-
-  const columns = useMemo<ColumnDef<Cheltuiala>[]>(
+  const columns = useMemo<ColumnDef<Payment>[]>(
     () => [
       {
         header: 'Index',
@@ -47,63 +33,43 @@ export const TabelCheltuieli: React.FC = () => {
         },
       },
       {
-        header: () => 'Sumă',
+        header: () => 'Suma',
         accessorKey: 'suma',
-        meta: {
-          filterVariant: 'range',
-        },
       },
       {
-        header: () => 'Dată cheltuială',
+        header: () => 'Apa/Cafea',
+        accessorKey: 'pentru',
+      },
+      {
+        header: 'Dată',
         accessorKey: 'data',
-        cell: (data) => data.getValue()?.toString().slice(0, -14),
-        filterFn: 'includesString',
+        accessorFn: (originalRow) => originalRow.data.slice(0, -14),
       },
       {
-        header: () => 'Descriere',
-        accessorKey: 'descriere',
-        sortingFn: 'alphanumeric',
-        filterFn: 'includesString',
-      },
-      {
-        header: () => 'Acțiuni',
+        header: () => 'Actiuni',
         accessorKey: 'actiuni',
-        cell: ({ row }) => <ActiuniCheltuiala cheltuiala={row.original} />,
+        cell: ({ row }) => <ActiuniPlatiPersoana payment={row.original} />,
       },
     ],
     []
   );
 
-  const {
-    isLoading,
-    isFetching,
-    data: cheltuieli,
-  } = useGetListaCheltuialaQuery({ ...filtre, compareFn: compareByDataCheltuiala });
-
   const table = useReactTable({
     columns,
-    data: cheltuieli ?? [],
+    data: plati ?? [],
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     manualPagination: false,
-    onSortingChange: setSorting,
-    onPaginationChange: setPagination,
-    onColumnFiltersChange: setColumnFilters,
-    state: {
-      sorting,
-      pagination,
-      columnFilters,
-    },
     autoResetPageIndex: false,
   });
 
-  if (isLoading || !cheltuieli || cheltuieli.length === 0) {
+  if (isLoading || !plati) {
     return (
       <SkeletonTable
-        numberOfColumns={7}
-        numberOfRows={15}
+        numberOfColumns={5}
+        numberOfRows={5}
       />
     );
   }
@@ -111,12 +77,7 @@ export const TabelCheltuieli: React.FC = () => {
   return (
     <div className={'flex flex-col gap-3'}>
       <div className="flex items-center justify-between">
-        <FiltreCheltuiala
-          filtre={filtre}
-          setFiltre={setFiltre}
-        />
-        <FiltruColoaneCheltuieli table={table} />
-        <SumarCheltuieli filtre={filtre} />
+        <FiltruColoanePlatiPersoana table={table} />
       </div>
       <Table className="w-full table-auto">
         <TableHeader>

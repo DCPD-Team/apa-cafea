@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
 import { useCalculeazaSituatie } from '@/pages/situatie/hooks/useCalculeazaSituatie.tsx';
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
+import { FaArrowDown, FaArrowUp, FaInfo } from 'react-icons/fa';
 import { FiltreSituatie } from '@/pages/situatie/components/FiltreSituatie.tsx';
 import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
 import { SumarCheltuieli } from '@/pages/cheltuieli/lista/components/SumarCheltuieli.tsx';
@@ -18,6 +18,11 @@ import { PagingFooterTabel } from '@/components/ui/PagingFooterTabel.tsx';
 import { twMerge } from 'tailwind-merge';
 import { Badge } from '@/components/ui/badge.tsx';
 import { FiltruColoaneSituatie } from '@/pages/situatie/components/FiltruColoaneSituatie.tsx';
+import { useGetDateSituatie } from '@/pages/situatie/hooks/useGetDateSituatie.tsx';
+import { LoadingBarTable } from '@/components/ui/LoadingBarTable.tsx';
+import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
+import { Button } from '@/components/ui/button.tsx';
+import { NavLink } from 'react-router-dom';
 
 export const LunileAnului = {
   IANUARIE: 'Ianuarie',
@@ -75,7 +80,8 @@ const getMonthCellColor = (value: number, luna: Luna, an: number) => {
 
 export const TabelSituatie: React.FC = () => {
   const [filtre, setFiltre] = useState<FiltreSituatieType>({ an: 2025, pentru: 'cafea' });
-  const situatii = useCalculeazaSituatie(filtre);
+  const { queryPersoane, queryPlati } = useGetDateSituatie();
+  const situatii = useCalculeazaSituatie({ ...filtre, persoane: queryPersoane.data, platiApi: queryPlati.data });
 
   const luniColumnDefs: ColumnDef<SituatiePersoana>[] = Object.entries(LunileAnului).map(([key, value], index) => {
     return {
@@ -108,6 +114,19 @@ export const TabelSituatie: React.FC = () => {
         info.getValue() ? <Badge variant={'success'}>La zi</Badge> : <Badge variant={'destructive'}>Restantier</Badge>,
     },
     ...luniColumnDefs,
+    {
+      header: 'Detalii',
+      id: 'detalii',
+      cell: (info) => {
+        return (
+          <Button asChild={true}>
+            <NavLink to={`/persoana/${info.row.original.userId}`}>
+              <FaInfo /> Detalii
+            </NavLink>
+          </Button>
+        );
+      },
+    },
   ];
 
   const table = useReactTable({
@@ -120,16 +139,14 @@ export const TabelSituatie: React.FC = () => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  // TODO:
-  // if (isLoading || !situatii) {
-  //   return (
-  //     <div>Loading...</div>
-  //     // <SkeletonTable
-  //     //   numberOfColumns={7}
-  //     //   numberOfRows={15}
-  //     // />
-  //   );
-  // }
+  if (queryPersoane.isLoading || queryPlati.isLoading || !situatii) {
+    return (
+      <SkeletonTable
+        numberOfColumns={15}
+        numberOfRows={12}
+      />
+    );
+  }
 
   return (
     <div className={'flex flex-col gap-3'}>
@@ -172,14 +189,10 @@ export const TabelSituatie: React.FC = () => {
           ))}
         </TableHeader>
         <TableBody>
-          {/*TODO:*/}
-          {/*<tr>*/}
-          {/*  <td*/}
-          {/*    className={'h-2.5 border-b'}*/}
-          {/*    colSpan={7}>*/}
-          {/*    {isFetching && <ProgressBar mode={'indeterminate'} />}*/}
-          {/*  </td>*/}
-          {/*</tr>*/}
+          <LoadingBarTable
+            isFetching={queryPersoane.isFetching || queryPlati.isFetching}
+            colSpan={16}
+          />
 
           {table.getRowModel().rows.map((row) => {
             return (
