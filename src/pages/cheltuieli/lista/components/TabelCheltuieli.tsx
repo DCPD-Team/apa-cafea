@@ -111,12 +111,14 @@ export const TabelCheltuieli: React.FC = () => {
     return (
         <div className={'flex flex-col gap-3'}>
             <div className="flex items-center justify-between">
-                <FiltreCheltuiala
-                    filtre={filtre}
-                    setFiltre={setFiltre}
-                />
-                <FiltruColoaneCheltuieli table={table}/>
                 <SumarCheltuieli filtre={filtre}/>
+                <div className={"flex flex-row gap-2"}>
+                    <FiltreCheltuiala
+                        filtre={filtre}
+                        setFiltre={setFiltre}
+                    />
+                    <FiltruColoaneCheltuieli table={table}/>
+                </div>
             </div>
             <Table className="w-full table-auto">
                 <TableHeader>

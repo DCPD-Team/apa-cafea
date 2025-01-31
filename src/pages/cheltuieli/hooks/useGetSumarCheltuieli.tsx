@@ -1,76 +1,60 @@
-import {ApaSauCafea, Cheltuiala, FakeCheltuialaApi, FakePaymentApi} from '@/fake-api/fakePaymentApi.ts';
-import {useQuery} from '@tanstack/react-query';
+import {ApaSauCafea, compareByDataCheltuiala} from '@/fake-api/fakePaymentApi.ts';
 import {useMemo} from 'react';
-import {TotalPlati} from "@/pages/cheltuieli/lista/components/SumarCheltuieli.tsx";
+import {useGetListaCheltuialaQuery} from "@/pages/cheltuieli/hooks/useGetListaCheltuialaQuery.tsx";
+import {useGetListaPlatiPersoanaFilteredQuery} from "@/pages/persoane/hooks/useGetListaPlatiPersoanaFilteredQuery.tsx";
+
+export type TotalPlati = {
+    totalDisponibil: number,
+    totalCheltuit: number
+}
 
 export const useGetSumarCheltuieli = ({an, pentru}: { an: number; pentru: ApaSauCafea }) => {
-    const {data: platiApi} = useQuery({
-        queryKey: ['plati'],
-        queryFn: () => {
-            return FakePaymentApi.getAll();
-        },
-    });
+
+    const platiFiltered = useGetListaPlatiPersoanaFilteredQuery({an: an, pentru: pentru});
 
     const plati = useMemo(() => {
-        if (!platiApi) {
-            return [];
-        }
-        return platiApi.filter((plata) => new Date(plata.data).getFullYear() === an && plata.pentru === pentru);
-    }, [platiApi, an, pentru]);
+        return platiFiltered.data;
+    }, [platiFiltered, an, pentru]);
 
-    const {data: cheltuieliApi} = useQuery({
-        queryKey: ['cheltuieli'],
-        queryFn: () => {
-            return FakeCheltuialaApi.getAll();
-        },
-    });
+    const cheltuieliFiltered = useGetListaCheltuialaQuery({an: an, pentru: pentru, compareFn: compareByDataCheltuiala});
 
     const cheltuieli = useMemo(() => {
-        if (!cheltuieliApi) {
-            return [] as Cheltuiala[];
-        }
-        return cheltuieliApi.filter(
-            (cheltuiala) => new Date(cheltuiala.data).getFullYear() === an && cheltuiala.pentru === pentru
-        );
-    }, [cheltuieliApi, an, pentru]);
+        return cheltuieliFiltered.data;
+    }, [cheltuieliFiltered, an, pentru]);
 
-    // return useMemo(() => {
-    //   const totalPlati = plati.reduce((acc, curr) => (acc += curr.suma), 0);
-    //   const totalCheltuieli = cheltuieli.reduce((acc, curr) => (acc += curr.suma), 0);
-    //   const totalDisponibil = totalPlati - totalCheltuieli;
-    //   return {
-    //     total: totalPlati,
-    //     totalDisponibil: totalDisponibil,
-    //     totalCheltuit: totalCheltuieli,
-    //   };
-    // }, [cheltuieli, plati, an, pentru]);
 
     return useMemo(() => {
 
-        if (!cheltuieli) {
-            return []
+        if (!plati || !cheltuieli) {
+            return {totalApaDisponibil: 0, totalApaCheltuit: 0, totalCafeaDisponibil: 0, totalCafeaCheltuit: 0}
         }
 
-        const totalExpensesApa = cheltuieli?.filter((cheltuiala) => cheltuiala.pentru === 'apa')
-            .reduce((acc, expense) => acc + expense.suma, 0);
-        const totalExpensesCafea = cheltuieli?.filter((cheltuiala) => cheltuiala.pentru === 'cafea')
-            .reduce((acc, expense) => acc + expense.suma, 0);
+        if (pentru === 'apa') {
+            const filtredPaymentsApa = plati.filter((plata) => plata.pentru === 'apa');
+            const filtredExpensesApa = cheltuieli.filter((cheltuiala) => cheltuiala.pentru === 'apa');
 
+            const totalPaymentsApa = filtredPaymentsApa.length > 0 ?
+                filtredPaymentsApa.reduce((acc, plata) => acc + plata.suma, 0) : 0;
+            const totalExpensesApa = filtredExpensesApa.length > 0 ? filtredExpensesApa
+                .reduce((acc, expense) => acc + expense.suma, 0) : 0;
 
-        const totals = plati.reduce<TotalPlati>(
-            (acc, plata) => {
-                if (plata.pentru === 'apa') acc.totalSumaApa += plata.suma;
-                if (plata.pentru === 'cafea') acc.totalSumaCafea += plata.suma;
+            return {
+                totalDisponibil: totalPaymentsApa,
+                totalCheltuit: totalExpensesApa,
+            } as TotalPlati;
+        } else {
+            const filtredPaymentsCafea = plati.filter((plata) => plata.pentru === 'cafea');
+            const filtredExpensesCafea = cheltuieli.filter((cheltuiala) => cheltuiala.pentru === 'cafea');
 
+            const totalPaymentsCafea = filtredPaymentsCafea.length > 0 ? filtredPaymentsCafea.reduce((acc, plata) => acc + plata.suma, 0) : 0;
+            const totalExpensesCafea = filtredExpensesCafea.length > 0 ? filtredExpensesCafea
+                .reduce((acc, expense) => acc + expense.suma, 0) : 0;
 
-                return acc;
-            },
-            {totalSumaApa: 0, totalSumaCafea: 0}
-        )
-        return {
-            ...totals,
-            totalSumaApa: totals.totalSumaApa - totalExpensesApa,
-            totalSumaCafea: totals.totalSumaCafea - totalExpensesCafea,
+            return {
+                totalDisponibil: totalPaymentsCafea,
+                totalCheltuit: totalExpensesCafea,
+            } as TotalPlati;
+
         }
     }, [cheltuieli, plati, an, pentru]);
 

@@ -1,33 +1,47 @@
 import React from 'react';
 import {useGetSumarCheltuieli} from '@/pages/cheltuieli/hooks/useGetSumarCheltuieli.tsx';
 import {FiltreCheltuialaType} from '@/pages/cheltuieli/lista/components/TabelCheltuieli.tsx';
-import {CardContent} from "@/components/ui/card.tsx";
 
 type Props = {
     filtre: FiltreCheltuialaType;
 };
 
-export type TotalPlati = {
-    totalSumaApa: number,
-    totalSumaCafea: number,
-}
-
-
 export const SumarCheltuieli: React.FC<Props> = ({filtre}) => {
-    const {totalSumaApa, totalSumaCafea,} = useGetSumarCheltuieli(filtre);
+    const {
+        totalDisponibil,
+        totalCheltuit
+    } = useGetSumarCheltuieli(filtre);
+
+    console.log('Total disponibil', totalDisponibil);
+    console.log('Total cheltuit', totalCheltuit);
 
     return (
 
-        <CardContent className="grid grid-cols-2 gap-2">
-            <div className="flex flex-col gap-1">
-                <span className="text-sm text-muted-foreground">Total disponibil apa</span>
-                <span className="text-xl font-bold">{totalSumaApa} RON</span>
-            </div>
-            <div className="flex flex-col gap-1">
-                <span className="text-sm text-muted-foreground">Total disponibil cafea</span>
-                <span className="text-xl font-bold">{totalSumaCafea} RON</span>
-            </div>
-        </CardContent>
+        <div className="grid grid-cols-2 gap-3">
+            {filtre.pentru === 'apa' ? (
+                <>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-sm text-muted-foreground">Total disponibil apa</span>
+                        <span className="text-xl font-bold">{totalDisponibil} RON</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-sm text-muted-foreground">Total cheltuit apa</span>
+                        <span className="text-xl font-bold">{totalCheltuit} RON</span>
+                    </div>
+                </>
+            ) : (
+                <>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-sm text-muted-foreground">Total disponibil cafea</span>
+                        <span className="text-xl font-bold">{totalDisponibil} RON</span>
+                    </div>
+                    <div className="flex flex-col gap-1">
+                        <span className="text-sm text-muted-foreground">Total cheltuit cafea</span>
+                        <span className="text-xl font-bold">{totalCheltuit} RON</span>
+                    </div>
+                </>
+            )}
+        </div>
 
 
 
