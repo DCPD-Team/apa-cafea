@@ -2,22 +2,12 @@ import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetListaPlatiPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPlatiPersoanaQuery.tsx';
 import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
-import { LoadingBarTable } from '@/components/ui/LoadingBarTable.tsx';
-import {
-  ColumnDef,
-  flexRender,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
-import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
-import { PagingFooterTabel } from '@/components/ui/PagingFooterTabel.tsx';
+import { ColumnDef } from '@tanstack/react-table';
 import { FiltruColoanePlatiPersoana } from '@/pages/persoane/detalii/plati/components/FiltruColoanePlatiPersoana.tsx';
 import { Payment } from '@/fake-api/fakePaymentApi.ts';
 import { ActiuniPlatiPersoana } from '@/pages/persoane/detalii/plati/components/ActiuniPlatiPersoana.tsx';
+import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
+import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 
 export const TabelPlatiPersoana: React.FC = () => {
   const { id } = useParams();
@@ -54,16 +44,7 @@ export const TabelPlatiPersoana: React.FC = () => {
     []
   );
 
-  const table = useReactTable({
-    columns,
-    data: plati ?? [],
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    manualPagination: false,
-    autoResetPageIndex: false,
-  });
+  const { table } = useCustomDataTable({ columns, data: plati });
 
   if (isLoading || !plati) {
     return (
@@ -79,59 +60,11 @@ export const TabelPlatiPersoana: React.FC = () => {
       <div className="flex items-center justify-between">
         <FiltruColoanePlatiPersoana table={table} />
       </div>
-      <Table className="w-full table-auto">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    key={header.id}
-                    colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div
-                        className={
-                          header.column.getCanSort()
-                            ? 'flex cursor-pointer select-none content-center items-center gap-1'
-                            : 'flex content-center items-center'
-                        }
-                        onClick={header.column.getToggleSortingHandler()}>
-                        {flexRender(header.column.columnDef.header, header.getContext())}
-                        {{
-                          asc: <FaArrowUp />,
-                          desc: <FaArrowDown />,
-                        }[header.column.getIsSorted() as string] ?? null}
-                      </div>
-                    )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          <LoadingBarTable
-            isFetching={isFetching}
-            colSpan={7}
-          />
-          {table.getRowModel().rows.map((row) => {
-            return (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => {
-                  return (
-                    <TableCell
-                      className="font-medium"
-                      key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  );
-                })}
-              </TableRow>
-            );
-          })}
-        </TableBody>
-      </Table>
-      <PagingFooterTabel table={table} />
+      <TabelCustom
+        table={table}
+        isFetching={isFetching}
+        isLoading={isLoading}
+      />
     </div>
   );
 };
