@@ -19,9 +19,19 @@ export type Person = {
   participaCafea: boolean;
 };
 
+export type Cheltuiala = {
+  id: string;
+  descriere: string;
+  suma: number;
+  data: string;
+  pentru: ApaSauCafea;
+};
+
 export const compareByName = (a: Person, b: Person): number => a.nume.toLowerCase().localeCompare(b.nume.toLowerCase());
 export const compareByDataInscriere = (a: Person, b: Person): number =>
   new Date(a.dataInscriere).getTime() - new Date(b.dataInscriere).getTime();
+export const compareByDataCheltuiala = (a: Cheltuiala, b: Cheltuiala): number =>
+  new Date(a.data).getTime() - new Date(b.data).getTime();
 
 const generateNewPerson = (): Person => {
   return {
@@ -56,4 +66,21 @@ export const FakePaymentApi = new FakeApi<Payment>({
   dataSize: 200,
   delayTimer: 200,
   localStorageKey: 'payment',
+});
+
+const generateNewCheltuiala = (): Cheltuiala => {
+  return {
+    id: faker.string.uuid(),
+    descriere: faker.commerce.productDescription(),
+    suma: faker.number.int({ min: 10, max: 150, multipleOf: 10 }),
+    pentru: faker.datatype.boolean() ? 'apa' : 'cafea',
+    data: faker.date.past().toISOString(),
+  };
+};
+
+export const FakeCheltuialaApi = new FakeApi<Cheltuiala>({
+  generatorFunction: generateNewCheltuiala,
+  dataSize: 200,
+  delayTimer: 200,
+  localStorageKey: 'cheltuiala',
 });

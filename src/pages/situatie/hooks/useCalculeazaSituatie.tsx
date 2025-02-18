@@ -1,21 +1,20 @@
 import { Luna, LunileAnului, SituatiePersoana } from '@/pages/situatie/components/TabelSituatie.tsx';
 import { useMemo } from 'react';
-import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
-import { useQuery } from '@tanstack/react-query';
-import { ApaSauCafea, compareByName, FakePaymentApi } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea, Payment, Person } from '@/fake-api/fakePaymentApi.ts';
 
 export const PE_LUNA = 40;
 
-export const useCalculeazaSituatie = ({ an, pentru }: { an: number; pentru: ApaSauCafea }): SituatiePersoana[] => {
-  const { data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByName });
-
-  const { data: platiApi } = useQuery({
-    queryKey: ['plati'],
-    queryFn: () => {
-      return FakePaymentApi.getAll();
-    },
-  });
-
+export const useCalculeazaSituatie = ({
+  platiApi,
+  persoane,
+  an,
+  pentru,
+}: {
+  persoane: Person[] | undefined;
+  platiApi: Payment[] | undefined;
+  an: number;
+  pentru: ApaSauCafea;
+}): SituatiePersoana[] => {
   const plati = useMemo(() => {
     if (!platiApi) {
       return [];
