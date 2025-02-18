@@ -5,23 +5,49 @@ import { PersonFilter } from '@/pages/persoane/lista/ListaPersoane.tsx';
 import { useForm } from 'react-hook-form';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
-import { Checkbox } from '@/components/ui/checkbox.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select.tsx';
+import { IoFilterOutline } from 'react-icons/io5';
 
 type Props = {
   currentFilter: PersonFilter;
   setFilter: (filters: PersonFilter) => void;
 };
 
-export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilter }) => {
-  const [open, setOpen] = useState(false);
+type PersonFilterForm = Omit<PersonFilter, 'participaApa' | 'participaCafea'> & {
+  participaApa: string;
+  participaCafea: string;
+};
 
-  const form = useForm<PersonFilter>({
+export const FiltruColoanePersoane: React.FC<Props> = ({ setFilter }) => {
+  const [open, setOpen] = useState(false);
+  const [openApa, setOpenApa] = useState(false);
+  const [openCafea, setOpenCafea] = useState(false);
+  const [keyApa, setKeyApa] = React.useState(+new Date());
+  const [keyCafea, setKeyCafea] = React.useState(+new Date());
+
+  const form = useForm<PersonFilterForm>({
     mode: 'onChange',
-    defaultValues: currentFilter,
+    defaultValues: {
+      nume: '',
+      prenume: '',
+      participaCafea: '',
+    },
   });
 
-  const onSubmit = (data: PersonFilter) => {
-    setFilter(data);
+  const onSubmit = (data: PersonFilterForm) => {
+    setFilter({
+      ...data,
+      participaApa: data.participaApa === 'true' ? true : data.participaApa === 'false' ? false : undefined,
+      participaCafea: data.participaCafea === 'true' ? true : data.participaCafea === 'false' ? false : undefined,
+    });
     setOpen(false);
   };
 
@@ -30,7 +56,10 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilte
       open={open}
       onOpenChange={(o) => setOpen(o)}>
       <PopoverTrigger asChild>
-        <Button variant="outline">Filtru</Button>
+        <Button variant="outline">
+          <IoFilterOutline />
+          Filtru
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
         <Form {...form}>
@@ -76,21 +105,41 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilte
             <FormField
               control={form.control}
               name="participaApa"
-              defaultValue={false}
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex items-center gap-2">
-                    <FormControl>
-                      <Checkbox
-                        {...field}
-                        checked={field.value}
-                        value={undefined}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel> Participa apa</FormLabel>
-                  </div>
-
+                  <FormLabel>Apǎ</FormLabel>
+                  <FormControl>
+                    <Select
+                      key={keyApa}
+                      onValueChange={field.onChange}
+                      defaultValue={undefined}
+                      open={openApa}
+                      onOpenChange={(o) => setOpenApa(o)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Participa apǎ?" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value={'true'}>Da</SelectItem>
+                          <SelectItem value={'false'}>Nu</SelectItem>
+                        </SelectGroup>
+                        <SelectSeparator />
+                        <Button
+                          type="button"
+                          className="w-full px-2"
+                          variant="secondary"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            form.setValue('participaApa', '');
+                            setKeyApa(+new Date());
+                            setOpenApa(false);
+                          }}>
+                          Clear
+                        </Button>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
@@ -99,31 +148,63 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilte
             <FormField
               control={form.control}
               name="participaCafea"
-              defaultValue={false}
               render={({ field }) => (
                 <FormItem>
-                  <div className="flex items-center gap-2">
-                    <FormControl>
-                      <Checkbox
-                        {...field}
-                        checked={field.value}
-                        value={undefined}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel> Participa cafea</FormLabel>
-                  </div>
-
+                  <FormLabel>Cafea</FormLabel>
+                  <FormControl>
+                    <Select
+                      key={keyCafea}
+                      onValueChange={field.onChange}
+                      defaultValue={undefined}
+                      open={openCafea}
+                      onOpenChange={(o) => setOpenCafea(o)}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Participa cafea?" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value={'true'}>Da</SelectItem>
+                          <SelectItem value={'false'}>Nu</SelectItem>
+                        </SelectGroup>
+                        <SelectSeparator />
+                        <Button
+                          type="button"
+                          className="w-full px-2"
+                          variant="secondary"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            form.setValue('participaCafea', '');
+                            setKeyCafea(+new Date());
+                            setOpenCafea(false);
+                          }}>
+                          Clear
+                        </Button>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
 
-            <Button
-              type="submit"
-              disabled={!form.formState.isValid}>
-              Filtreazǎ
-            </Button>
+            <div className={'flex items-center gap-2'}>
+              <Button
+                type="submit"
+                disabled={!form.formState.isValid}>
+                Filtreazǎ
+              </Button>
+              <Button
+                type={'button'}
+                variant={'destructive'}
+                onClick={() => {
+                  setFilter({});
+                  form.reset();
+                  setOpen(false);
+                }}>
+                Reseteazǎ
+              </Button>
+            </div>
           </form>
         </Form>
       </PopoverContent>

@@ -18,7 +18,9 @@ export type CustomTableOptions<TData> = {
 export const useCustomDataTable = <TData,>({ columns, data = [], filters }: CustomTableOptions<TData>) => {
   const columnFilters: ColumnFilter[] = useMemo(() => {
     if (!filters) return [];
-    return Object.entries(filters).map(([k, v]) => ({ id: k, value: v }));
+    return Object.entries(filters)
+      .filter(([k, v]) => v !== undefined)
+      .map(([k, v]) => ({ id: k, value: v }));
   }, [filters]);
 
   console.log(columnFilters);

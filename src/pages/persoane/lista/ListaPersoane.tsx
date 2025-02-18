@@ -71,7 +71,6 @@ export const ListaPersoane: React.FC = () => {
 
   const { table } = useCustomDataTable({ columns, data: persoane, filters: filters });
 
-  console.log(filters);
   return (
     <Card>
       <CardHeader>
