@@ -30,13 +30,13 @@ export const PagingFooterTabel: React.FC<Props> = ({ table }) => {
         {'>>'}
       </Button>
       <span className="flex items-center gap-1">
-        <div>Page</div>
+        <div>Pagina</div>
         <strong>
-          {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+          {table.getState().pagination.pageIndex + 1} din {table.getPageCount()}
         </strong>
       </span>
       <span className="flex items-center gap-1">
-        | Go to page:
+        | Mergi la pagina:
         <input
           type="number"
           min="1"
@@ -58,7 +58,7 @@ export const PagingFooterTabel: React.FC<Props> = ({ table }) => {
           <option
             key={pageSize}
             value={pageSize}>
-            Show {pageSize}
+            {pageSize} pe paginǎ
           </option>
         ))}
       </select>
