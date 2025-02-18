@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker';
 import { FakeApi } from '@/fake-api/core/fakeApi.ts';
+import { Database } from '../../database.types.ts';
 
 export type ApaSauCafea = 'apa' | 'cafea';
 export type Payment = {
@@ -10,14 +11,7 @@ export type Payment = {
   data: string;
 };
 
-export type Person = {
-  id: string;
-  nume: string;
-  prenume: string;
-  dataInscriere: string;
-  participaApa: boolean;
-  participaCafea: boolean;
-};
+export type Person = Database['public']['Tables']['persons']['Row'];
 
 export type Cheltuiala = {
   id: string;
@@ -27,20 +21,21 @@ export type Cheltuiala = {
   pentru: ApaSauCafea;
 };
 
-export const compareByName = (a: Person, b: Person): number => a.nume.toLowerCase().localeCompare(b.nume.toLowerCase());
+export const compareByName = (a: Person, b: Person): number => a.last_name.toLowerCase().localeCompare(b.last_name.toLowerCase());
 export const compareByDataInscriere = (a: Person, b: Person): number =>
-  new Date(a.dataInscriere).getTime() - new Date(b.dataInscriere).getTime();
+  new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
 export const compareByDataCheltuiala = (a: Cheltuiala, b: Cheltuiala): number =>
   new Date(a.data).getTime() - new Date(b.data).getTime();
 
 const generateNewPerson = (): Person => {
   return {
     id: faker.string.uuid(),
-    nume: faker.person.firstName(),
-    prenume: faker.person.lastName(),
-    dataInscriere: faker.date.past().toISOString(),
-    participaApa: faker.datatype.boolean({ probability: 0.9 }),
-    participaCafea: faker.datatype.boolean({ probability: 0.4 }),
+    last_name: faker.person.firstName(),
+    first_name: faker.person.lastName(),
+    created_at: faker.date.past().toISOString(),
+    updated_at: faker.date.past().toISOString(),
+    water: faker.datatype.boolean({ probability: 0.9 }),
+    coffee: faker.datatype.boolean({ probability: 0.4 }),
   };
 };
 

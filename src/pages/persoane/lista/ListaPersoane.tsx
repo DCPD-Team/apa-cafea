@@ -9,6 +9,7 @@ import { ActiuniPersoana } from '@/pages/persoane/lista/components/ActiuniPersoa
 import { FiltruColoanePersoane } from '@/pages/persoane/lista/components/FiltruColoanePersoane.tsx';
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
+import { formatDate } from 'date-fns';
 
 export type PersonFilter = {
   nume?: string;
@@ -32,33 +33,33 @@ export const ListaPersoane: React.FC = () => {
       },
       {
         header: () => 'Nume',
-        accessorKey: 'nume',
+        accessorKey: 'first_name',
         filterFn: 'includesString',
       },
       {
         header: () => 'Prenume',
-        accessorKey: 'prenume',
+        accessorKey: 'last_name',
         filterFn: 'includesString',
       },
 
       {
         header: 'Participă apă',
-        accessorKey: 'participaApa',
+        accessorKey: 'water',
         cell: ({ row }) => {
-          return <Checkbox checked={row.original.participaApa} />;
+          return <Checkbox checked={row.original.water} />;
         },
       },
       {
         header: 'Participă cafea',
-        accessorKey: 'participaCafea',
+        accessorKey: 'coffee',
         cell: ({ row }) => {
-          return <Checkbox checked={row.original.participaCafea} />;
+          return <Checkbox checked={row.original.coffee} />;
         },
       },
       {
         header: 'Dată înscriere',
-        accessorKey: 'dataInscriere',
-        accessorFn: (originalRow) => originalRow.dataInscriere.slice(0, -14),
+        accessorKey: 'created_at',
+        accessorFn: (originalRow) => formatDate(new Date(originalRow.created_at), 'dd-MM-yyyy'),
       },
       {
         header: () => 'Actiuni',

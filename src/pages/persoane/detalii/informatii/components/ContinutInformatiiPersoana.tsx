@@ -18,19 +18,19 @@ export const ContinutInformatiiPersoana: React.FC = () => {
       <CardContent className="grid grid-cols-4 gap-3">
         <div className="flex flex-col gap-1">
           <span className="text-sm text-muted-foreground">Nume</span>
-          <span className="text-xl font-bold">{persoana.nume}</span>
+          <span className="text-xl font-bold">{persoana.last_name}</span>
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-sm text-muted-foreground">Prenume</span>
-          <span className="text-xl font-bold">{persoana.prenume}</span>
+          <span className="text-xl font-bold">{persoana.first_name}</span>
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-sm text-muted-foreground">Participa apa</span>
-          <span className="text-xl font-bold">{persoana.participaApa ? 'DA' : 'NU'}</span>
+          <span className="text-xl font-bold">{persoana.water ? 'DA' : 'NU'}</span>
         </div>
         <div className="flex flex-col gap-1">
           <span className="text-sm text-muted-foreground">Participa cafea</span>
-          <span className="text-xl font-bold">{persoana.participaCafea ? 'DA' : 'NU'}</span>
+          <span className="text-xl font-bold">{persoana.coffee ? 'DA' : 'NU'}</span>
         </div>
       </CardContent>
       <CardFooter>

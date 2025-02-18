@@ -1,19 +1,21 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
-import { FakePersonApi, Person } from '@/fake-api/fakePaymentApi.ts';
+import { Person } from '@/fake-api/fakePaymentApi.ts';
 import { AdaugaModificaPersoana } from '@/pages/persoane/lista/components/FormularAdaugaModificaPersoana.tsx';
+import { supabaseClient } from '@/App.tsx';
+import { PostgrestError } from '@supabase/supabase-js';
 
 export const useAdaugaModificaPersoanaMutation = ({ persoana, close }: { persoana?: Person; close: () => void }) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  return useMutation<FakeApiResponse, FakeApiResponse, AdaugaModificaPersoana>({
-    mutationFn: (data) => {
-      if (!persoana) {
-        return FakePersonApi.add({ ...data, dataInscriere: new Date().toISOString() });
-      } else {
-        return FakePersonApi.update(persoana.id, { ...data, dataInscriere: persoana.dataInscriere });
+  return useMutation<void, PostgrestError | null, AdaugaModificaPersoana>({
+    mutationFn: async (data) => {
+      const payload = !persoana ? { ...data } : { ...data, id: persoana?.id };
+      const { error } = await supabaseClient.from('persons').upsert(payload);
+
+      if (error) {
+        throw error;
       }
     },
     onSuccess: (response) => {
@@ -26,7 +28,7 @@ export const useAdaugaModificaPersoanaMutation = ({ persoana, close }: { persoan
       toast({
         variant: 'default',
         title: 'Persoana a fost adaugata!',
-        description: response.message,
+        // description: response.message,
       });
     },
   });

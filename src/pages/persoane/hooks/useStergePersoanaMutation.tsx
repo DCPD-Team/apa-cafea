@@ -1,24 +1,28 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
 import { useNavigate } from 'react-router-dom';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
-import { FakePersonApi } from '@/fake-api/fakePaymentApi.ts';
+import { supabaseClient } from '@/App.tsx';
+import { PostgrestError } from '@supabase/supabase-js';
 
 export const useStergePersoanaMutation = ({ shouldRedirect }: { shouldRedirect?: boolean }) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
   const redirect = useNavigate();
 
-  return useMutation<FakeApiResponse, FakeApiResponse, string>({
-    mutationFn: (id) => {
-      return FakePersonApi.delete(id);
+  return useMutation<void, PostgrestError | null, string>({
+    mutationFn: async (id) => {
+      const { error } = await supabaseClient.from('persons').delete().eq('id', id);
+
+      if (error) {
+        throw error;
+      }
     },
     onError: (response) => {
       //toast
       toast({
         variant: 'default',
         title: 'Error!',
-        description: response.message,
+        // description: response.message,
       });
     },
     onSuccess: (response) => {

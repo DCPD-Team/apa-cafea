@@ -10,7 +10,7 @@ import {
 import { useMemo } from 'react';
 
 export type CustomTableOptions<TData> = {
-  data?: TData[];
+  data?: TData[] | null;
   columns: ColumnDef<TData>[];
   filters?: Record<string, any>;
 };
@@ -25,7 +25,7 @@ export const useCustomDataTable = <TData,>({ columns, data = [], filters }: Cust
 
   const table = useReactTable<TData>({
     columns,
-    data,
+    data: data ?? [],
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

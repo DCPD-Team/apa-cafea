@@ -76,7 +76,7 @@ export const SampleComponent: FC = () => {
               !isLoading &&
               persoane?.map((x) => (
                 <div key={x.id}>
-                  {x.id} {x.nume} {x.prenume}
+                  {x.id} {x.last_name} {x.first_name}
                 </div>
               ))}
           </div>

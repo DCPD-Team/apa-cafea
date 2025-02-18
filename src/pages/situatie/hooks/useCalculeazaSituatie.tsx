@@ -57,8 +57,8 @@ export const useCalculeazaSituatie = ({
       return [
         ...acc,
         {
-          nume: persoana.nume,
-          prenume: persoana.prenume,
+          nume: persoana.last_name,
+          prenume: persoana.first_name,
           userId,
           laZi: paidMonths >= new Date().getMonth() + 1,
           luni: Object.keys(LunileAnului).reduce(

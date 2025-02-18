@@ -4,10 +4,10 @@ import { AdaugaModificaPersoana } from '@/pages/persoane/lista/components/Formul
 import { z } from 'zod';
 
 const formSchema = z.object({
-  nume: z.string().min(2, 'Numele trebuie sa aiba minim 2 caractere').max(50),
-  prenume: z.string().min(2).max(50),
-  participaApa: z.boolean(),
-  participaCafea: z.boolean(),
+  last_name: z.string().min(2, 'Numele trebuie sa aiba minim 2 caractere').max(50),
+  first_name: z.string().min(2).max(50),
+  water: z.boolean(),
+  coffee: z.boolean(),
 });
 
 export const useFormAdaugaModificaPersoana = ({ defaultValues }: { defaultValues?: AdaugaModificaPersoana }) => {

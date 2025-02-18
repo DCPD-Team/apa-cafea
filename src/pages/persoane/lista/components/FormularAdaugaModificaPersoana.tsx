@@ -13,7 +13,7 @@ type Props = {
   persoana?: Person;
 };
 
-export type AdaugaModificaPersoana = Omit<Person, 'id' | 'dataInscriere'>;
+export type AdaugaModificaPersoana = Omit<Person, 'id' | 'created_at' | 'updated_at'>;
 
 export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
   const { close, persoana } = props;
@@ -31,7 +31,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
         className="space-y-8">
         <FormField
           control={form.control}
-          name="nume"
+          name="last_name"
           defaultValue=""
           render={({ field }) => (
             <FormItem>
@@ -49,7 +49,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
 
         <FormField
           control={form.control}
-          name="prenume"
+          name="first_name"
           defaultValue=""
           render={({ field }) => (
             <FormItem>
@@ -67,7 +67,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
 
         <FormField
           control={form.control}
-          name="participaApa"
+          name="water"
           defaultValue={false}
           render={({ field }) => (
             <FormItem>
@@ -90,7 +90,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
 
         <FormField
           control={form.control}
-          name="participaCafea"
+          name="coffee"
           defaultValue={false}
           render={({ field }) => (
             <FormItem>
