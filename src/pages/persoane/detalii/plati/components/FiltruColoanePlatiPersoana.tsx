@@ -1,63 +1,182 @@
-import React from 'react';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button.tsx';
-import { Label } from '@/components/ui/label.tsx';
+import { useForm } from 'react-hook-form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select.tsx';
+import { IoFilterOutline } from 'react-icons/io5';
+import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
 import { Input } from '@/components/ui/input.tsx';
-import { Table } from '@tanstack/react-table';
-import { Payment } from '@/fake-api/fakePaymentApi';
+import { PlataPersoanaFilter } from '@/pages/persoane/detalii/plati/ListaPlatiPersoana.tsx';
 
 type Props = {
-  table: Table<Payment>;
+  currentFilter: PlataPersoanaFilter;
+  setFilter: (filters: PlataPersoanaFilter) => void;
 };
 
-export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ table }) => {
+export type PlataPersoanaFilterForm = {
+  pentru?: ApaSauCafea;
+  sumaDeLa?: number;
+  sumaPanaLa?: number;
+};
+
+export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
+  const [open, setOpen] = useState(false);
+  const [openPentru, setOpenPentru] = useState(false);
+  const [keyPentru, setKeyPentru] = React.useState(+new Date());
+
+  const form = useForm<PlataPersoanaFilterForm>({
+    mode: 'onChange',
+    defaultValues: {
+      pentru: undefined,
+      sumaDeLa: undefined,
+      sumaPanaLa: undefined,
+    },
+  });
+
+  const onSubmit = (data: PlataPersoanaFilterForm) => {
+    setFilter({
+      pentru: data.pentru,
+      suma: [data.sumaDeLa, data.sumaPanaLa],
+    });
+    setOpen(false);
+  };
+
   return (
-    <Popover onOpenChange={(open) => (open ? table.resetColumnFilters() : null)}>
+    <Popover
+      open={open}
+      onOpenChange={(o) => setOpen(o)}>
       <PopoverTrigger asChild>
-        <Button variant="outline">Filtru</Button>
+        <Button variant="outline">
+          <IoFilterOutline />
+          Filtru
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
-        <div className="grid gap-4">
-          <div className="space-y-2">
-            <h4 className="font-medium leading-none">Filtru cheltuieli</h4>
-          </div>
-          <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="descriere">Descriere</Label>
-            <Input
-              id="descriere"
-              className="col-span-2 h-8"
-              type="text"
-              onChange={(value) => {
-                table?.getColumn('descriere')?.setFilterValue(value.target.value);
-              }}
-              placeholder={`Search...`}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8">
+            <FormField
+              control={form.control}
+              name="pentru"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Pentru</FormLabel>
+                  <FormControl>
+                    <Select
+                      key={keyPentru}
+                      onValueChange={field.onChange}
+                      defaultValue={undefined}
+                      open={openPentru}
+                      onOpenChange={(o) => setOpenPentru(o)}>
+                      <SelectTrigger className="w-[180px]">
+                        <SelectValue placeholder="Selectează pentru ce plătești" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {Object.entries(apaCafeaEnum).map(([key, value]) => (
+                            <SelectItem
+                              key={key}
+                              value={key}>
+                              {value}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                        <SelectSeparator />
+                        <Button
+                          type="button"
+                          className="w-full px-2"
+                          variant="secondary"
+                          size="sm"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            form.setValue('pentru', undefined);
+                            setKeyPentru(+new Date());
+                            setOpenPentru(false);
+                          }}>
+                          Clear
+                        </Button>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="descriere">Suma de la</Label>
-            <Input
-              id="suma"
-              className="col-span-2 h-8"
-              type="number"
-              onChange={(value) =>
-                table?.getColumn('suma')?.setFilterValue((old: [number, number]) => [value.target.value, old?.[1]])
-              }
-              placeholder={`Min`}
+
+            <FormField
+              control={form.control}
+              name="sumaDeLa"
+              defaultValue={undefined}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Suma de la:</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="0 lei..."
+                      type="number"
+                      onChange={(event) => {
+                        field.onChange(event.target.value ? parseInt(event.target.value) : undefined);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="descriere">Suma pana la</Label>
-            <Input
-              id="suma"
-              className="col-span-2 h-8"
-              type="number"
-              onChange={(value) =>
-                table?.getColumn('suma')?.setFilterValue((old: [number, number]) => [old?.[0], value.target.value])
-              }
-              placeholder={`Max...`}
+
+            <FormField
+              control={form.control}
+              name="sumaPanaLa"
+              defaultValue={undefined}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Suma pânǎ la:</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="100 lei..."
+                      type="number"
+                      onChange={(event) => {
+                        field.onChange(event.target.value ? parseInt(event.target.value) : undefined);
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-        </div>
+
+            <div className={'flex items-center gap-2'}>
+              <Button
+                type="submit"
+                disabled={!form.formState.isValid}>
+                Filtreazǎ
+              </Button>
+              <Button
+                type={'button'}
+                variant={'destructive'}
+                onClick={() => {
+                  setFilter({});
+                  form.reset();
+                  setOpen(false);
+                }}>
+                Reseteazǎ
+              </Button>
+            </div>
+          </form>
+        </Form>
       </PopoverContent>
     </Popover>
   );

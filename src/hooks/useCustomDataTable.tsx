@@ -23,7 +23,6 @@ export const useCustomDataTable = <TData,>({ columns, data = [], filters }: Cust
       .map(([k, v]) => ({ id: k, value: v }));
   }, [filters]);
 
-  console.log(columnFilters);
   const table = useReactTable<TData>({
     columns,
     data,
