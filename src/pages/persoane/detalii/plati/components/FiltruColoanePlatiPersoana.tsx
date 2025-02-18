@@ -14,9 +14,9 @@ import {
 } from '@/components/ui/select.tsx';
 import { IoFilterOutline } from 'react-icons/io5';
 import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
-import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { PlataPersoanaFilter } from '@/pages/persoane/detalii/plati/ListaPlatiPersoana.tsx';
+import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
 
 type Props = {
   currentFilter: PlataPersoanaFilter;
@@ -29,7 +29,7 @@ export type PlataPersoanaFilterForm = {
   sumaPanaLa?: number;
 };
 
-export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
+export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ currentFilter, setFilter }) => {
   const [open, setOpen] = useState(false);
   const [openPentru, setOpenPentru] = useState(false);
   const [keyPentru, setKeyPentru] = React.useState(+new Date());
@@ -37,9 +37,9 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
   const form = useForm<PlataPersoanaFilterForm>({
     mode: 'onChange',
     defaultValues: {
-      pentru: undefined,
-      sumaDeLa: undefined,
-      sumaPanaLa: undefined,
+      pentru: currentFilter.pentru ?? ('' as unknown as undefined),
+      sumaDeLa: currentFilter.suma?.[0] ?? ('' as unknown as undefined),
+      sumaPanaLa: currentFilter.suma?.[1] ?? ('' as unknown as undefined),
     },
   });
 
@@ -58,7 +58,7 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
       <PopoverTrigger asChild>
         <Button variant="outline">
           <IoFilterOutline />
-          Filtru
+          Filtre
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
@@ -69,6 +69,7 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
             <FormField
               control={form.control}
               name="pentru"
+              defaultValue={undefined}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Pentru</FormLabel>
@@ -76,7 +77,7 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
                     <Select
                       key={keyPentru}
                       onValueChange={field.onChange}
-                      defaultValue={undefined}
+                      value={field.value}
                       open={openPentru}
                       onOpenChange={(o) => setOpenPentru(o)}>
                       <SelectTrigger className="w-[180px]">
@@ -100,7 +101,7 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
                           size="sm"
                           onClick={(e) => {
                             e.stopPropagation();
-                            form.setValue('pentru', undefined);
+                            form.setValue('pentru', '' as unknown as undefined);
                             setKeyPentru(+new Date());
                             setOpenPentru(false);
                           }}>
@@ -127,7 +128,7 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
                       placeholder="0 lei..."
                       type="number"
                       onChange={(event) => {
-                        field.onChange(event.target.value ? parseInt(event.target.value) : undefined);
+                        field.onChange(parseInt(event.target.value));
                       }}
                     />
                   </FormControl>
@@ -149,7 +150,7 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ setFilter }) => {
                       placeholder="100 lei..."
                       type="number"
                       onChange={(event) => {
-                        field.onChange(event.target.value ? parseInt(event.target.value) : undefined);
+                        field.onChange(parseInt(event.target.value));
                       }}
                     />
                   </FormControl>

@@ -46,7 +46,7 @@ export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) =
         <FormField
           control={form.control}
           name="suma"
-          defaultValue={0}
+          defaultValue={undefined}
           render={({ field }) => (
             <FormItem>
               <FormLabel>Suma</FormLabel>
@@ -56,7 +56,7 @@ export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) =
                   placeholder="1000 lei..."
                   type="number"
                   onChange={(event) => {
-                    field.onChange(parseInt(event.target.value));
+                    field.onChange(event.target.value ? parseInt(event.target.value) : undefined);
                   }}
                 />
               </FormControl>

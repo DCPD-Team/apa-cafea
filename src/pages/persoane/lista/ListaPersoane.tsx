@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ButonAdaugaModificaPersoana } from '@/pages/persoane/lista/components/ButonAdaugaModificaPersoana.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
@@ -71,6 +71,10 @@ export const ListaPersoane: React.FC = () => {
   );
 
   const { table } = useCustomDataTable({ columns, data: persoane, filters: filters });
+
+  useEffect(() => {
+    console.log('in componenta', filters);
+  }, [filters]);
 
   return (
     <Card>
