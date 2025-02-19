@@ -1,63 +1,159 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover.tsx';
 import { Button } from '@/components/ui/button.tsx';
-import { Label } from '@/components/ui/label.tsx';
 import { Input } from '@/components/ui/input.tsx';
-import { Table } from '@tanstack/react-table';
-import { Cheltuiala } from '@/fake-api/fakePaymentApi';
+import { useForm } from 'react-hook-form';
+import { CheltuialaFilter } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
+import { IoFilterOutline } from 'react-icons/io5';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx';
 
 type Props = {
-  table: Table<Cheltuiala>;
+  currentFilter: CheltuialaFilter;
+  setFilter: (filters: CheltuialaFilter) => void;
 };
 
-export const FiltruColoaneCheltuieli: React.FC<Props> = ({ table }) => {
+type CheltuialaFilterForm = {
+  sumaDeLa?: number;
+  sumaPanaLa?: number;
+  dataStart?: string;
+  dataEnd?: string;
+};
+
+export const FiltruColoaneCheltuieli: React.FC<Props> = ({ currentFilter, setFilter }) => {
+  const [open, setOpen] = useState(false);
+
+  const form = useForm<CheltuialaFilterForm>({
+    mode: 'onChange',
+    defaultValues: {
+      sumaDeLa: currentFilter.suma?.[0] ?? ('' as unknown as undefined),
+      sumaPanaLa: currentFilter.suma?.[1] ?? ('' as unknown as undefined),
+      dataStart: currentFilter.data?.[0] ?? ('' as unknown as undefined),
+      dataEnd: currentFilter.data?.[1] ?? ('' as unknown as undefined),
+    },
+  });
+
+  const onSubmit = (data: CheltuialaFilterForm) => {
+    setFilter({
+      suma: [data.sumaDeLa, data.sumaPanaLa],
+      data: [data.dataStart, data.dataEnd],
+    });
+    setOpen(false);
+  };
+
   return (
-    <Popover onOpenChange={(open) => (open ? table.resetColumnFilters() : null)}>
+    <Popover
+      open={open}
+      onOpenChange={(o) => setOpen(o)}>
       <PopoverTrigger asChild>
-        <Button variant="outline">Filtru</Button>
+        <Button variant="outline">
+          <IoFilterOutline />
+          Filtre
+        </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
-        <div className="grid gap-4">
-          <div className="space-y-2">
-            <h4 className="font-medium leading-none">Filtru cheltuieli</h4>
-          </div>
-          <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="descriere">Descriere</Label>
-            <Input
-              id="descriere"
-              className="col-span-2 h-8"
-              type="text"
-              onChange={(value) => {
-                table?.getColumn('descriere')?.setFilterValue(value.target.value);
-              }}
-              placeholder={`Search...`}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8">
+            <FormField
+              control={form.control}
+              name="sumaDeLa"
+              defaultValue={undefined}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sumǎ de la:</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="0 lei..."
+                      type="number"
+                      onChange={(event) => {
+                        field.onChange(parseInt(event.target.value));
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="descriere">Suma de la</Label>
-            <Input
-              id="suma"
-              className="col-span-2 h-8"
-              type="number"
-              onChange={(value) =>
-                table?.getColumn('suma')?.setFilterValue((old: [number, number]) => [value.target.value, old?.[1]])
-              }
-              placeholder={`Min`}
+
+            <FormField
+              control={form.control}
+              name="sumaPanaLa"
+              defaultValue={undefined}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Sumǎ pânǎ la:</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="100 lei..."
+                      type="number"
+                      onChange={(event) => {
+                        field.onChange(parseInt(event.target.value));
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-          <div className="grid grid-cols-3 items-center gap-4">
-            <Label htmlFor="descriere">Suma pana la</Label>
-            <Input
-              id="suma"
-              className="col-span-2 h-8"
-              type="number"
-              onChange={(value) =>
-                table?.getColumn('suma')?.setFilterValue((old: [number, number]) => [old?.[0], value.target.value])
-              }
-              placeholder={`Max...`}
+
+            <FormField
+              control={form.control}
+              name="dataStart"
+              defaultValue={undefined}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Datǎ de la:</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="date"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </div>
-        </div>
+
+            <FormField
+              control={form.control}
+              name="dataEnd"
+              defaultValue={undefined}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Datǎ pânǎ la:</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="date"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <div className={'flex items-center gap-2'}>
+              <Button
+                type="submit"
+                disabled={!form.formState.isValid}>
+                Filtreazǎ
+              </Button>
+              <Button
+                type={'button'}
+                variant={'destructive'}
+                onClick={() => {
+                  setFilter({});
+                  form.reset();
+                  setOpen(false);
+                }}>
+                Reseteazǎ
+              </Button>
+            </div>
+          </form>
+        </Form>
       </PopoverContent>
     </Popover>
   );
