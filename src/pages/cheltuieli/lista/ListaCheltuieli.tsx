@@ -114,6 +114,8 @@ export const ListaCheltuieli: React.FC = () => {
             table={table}
             isFetching={isFetching}
             isLoading={isLoading || !cheltuieli || cheltuieli.length === 0}
+            cols={7}
+            rows={15}
           />
         </div>
       </CardContent>

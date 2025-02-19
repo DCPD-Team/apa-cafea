@@ -7,7 +7,6 @@ import { ColumnDef } from '@tanstack/react-table';
 import { twMerge } from 'tailwind-merge';
 import { Badge } from '@/components/ui/badge.tsx';
 import { useGetDateSituatie } from '@/pages/situatie/hooks/useGetDateSituatie.tsx';
-import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { NavLink } from 'react-router-dom';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
@@ -127,15 +126,6 @@ export const TabelSituatie: React.FC = () => {
 
   const { table } = useCustomDataTable({ columns, data: situatii, filters: columnFilters });
 
-  if (queryPersoane.isLoading || queryPlati.isLoading || !situatii) {
-    return (
-      <SkeletonTable
-        numberOfColumns={15}
-        numberOfRows={12}
-      />
-    );
-  }
-
   return (
     <div className={'flex flex-col gap-3'}>
       <div className="flex items-center justify-between">
@@ -150,8 +140,10 @@ export const TabelSituatie: React.FC = () => {
       </div>
       <TabelCustom
         isFetching={queryPersoane.isFetching || queryPlati.isFetching}
-        isLoading={queryPersoane.isLoading || queryPlati.isFetching}
+        isLoading={queryPersoane.isLoading || queryPlati.isLoading || !situatii}
         table={table}
+        cols={15}
+        rows={12}
       />
     </div>
   );
