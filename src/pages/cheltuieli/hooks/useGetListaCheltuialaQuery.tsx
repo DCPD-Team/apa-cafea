@@ -12,8 +12,9 @@ export const useGetListaCheltuialaQuery = ({
   compareFn?: (a: Cheltuiala, b: Cheltuiala) => number;
 }) => {
   return useQuery({
-    queryKey: ['cheltuieli'],
+    queryKey: ['cheltuieli', pentru, an],
     queryFn: async () => {
+
       const { error: e, data } = await supabaseClient
         .from('expenses')
         .select()
@@ -24,7 +25,6 @@ export const useGetListaCheltuialaQuery = ({
       if (e) {
         throw e;
       }
-
       return data;
     },
     select: (data) => (compareFn ? data.sort(compareFn) : data),
