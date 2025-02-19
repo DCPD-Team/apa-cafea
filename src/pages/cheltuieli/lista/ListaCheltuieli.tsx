@@ -49,9 +49,16 @@ export const ListaCheltuieli: React.FC = () => {
         },
       },
       {
+        header: () => 'What',
+        accessorKey: 'what_for',
+        meta: {
+          filterVariant: 'range',
+        },
+      },
+      {
         header: () => 'Dată cheltuială',
         accessorKey: 'created_at',
-        cell: ({row}) => formatDate(new Date(row.original.created_at), 'dd-MM-yyyy'),
+        cell: ({ row }) => formatDate(new Date(row.original.created_at), 'dd-MM-yyyy'),
         filterFn: (row, columnId, filterValue) => {
           if (!!filterValue[0] && !!filterValue[1]) {
             return (

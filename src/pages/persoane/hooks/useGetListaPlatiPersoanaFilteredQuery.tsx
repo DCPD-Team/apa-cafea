@@ -4,7 +4,7 @@ import { supabaseClient } from '@/App.tsx';
 
 export const useGetListaPlatiPersoanaFilteredQuery = ({ an, pentru }: { an: number; pentru: ApaSauCafea }) => {
   return useQuery({
-    queryKey: ['plati'],
+    queryKey: ['plati', pentru, an],
     queryFn: async () => {
       const { error, data } = await supabaseClient
         .from('payments')
