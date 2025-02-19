@@ -10,6 +10,7 @@ import { SumarCheltuieli } from '@/pages/cheltuieli/lista/components/SumarCheltu
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { FiltreCheltuiala } from '@/pages/cheltuieli/lista/components/FiltreCheltuiala.tsx';
 import { FiltruColoaneCheltuieli } from '@/pages/cheltuieli/lista/components/FiltruColoaneCheltuieli.tsx';
+import { formatDate } from 'date-fns';
 
 export type FiltreCheltuialaType = {
   an: number;
@@ -42,29 +43,29 @@ export const ListaCheltuieli: React.FC = () => {
       },
       {
         header: () => 'Sumă',
-        accessorKey: 'suma',
+        accessorKey: 'sum',
         meta: {
           filterVariant: 'range',
         },
       },
       {
         header: () => 'Dată cheltuială',
-        accessorKey: 'data',
-        cell: (data) => data.getValue()?.toString().slice(0, -14),
+        accessorKey: 'created_at',
+        cell: ({row}) => formatDate(new Date(row.original.created_at), 'dd-MM-yyyy'),
         filterFn: (row, columnId, filterValue) => {
           if (!!filterValue[0] && !!filterValue[1]) {
             return (
-              new Date(row.original.data) > new Date(filterValue[0]) &&
-              new Date(row.original.data) < new Date(filterValue[1])
+              new Date(row.original.created_at) > new Date(filterValue[0]) &&
+              new Date(row.original.created_at) < new Date(filterValue[1])
             );
           }
 
           if (filterValue[0]) {
-            return new Date(row.original.data) > new Date(filterValue[0]);
+            return new Date(row.original.created_at) > new Date(filterValue[0]);
           }
 
           if (filterValue[1]) {
-            return new Date(row.original.data) < new Date(filterValue[1]);
+            return new Date(row.original.created_at) < new Date(filterValue[1]);
           }
 
           return filterValue;
@@ -72,7 +73,7 @@ export const ListaCheltuieli: React.FC = () => {
       },
       {
         header: () => 'Descriere',
-        accessorKey: 'descriere',
+        accessorKey: 'description',
         sortingFn: 'alphanumeric',
         filterFn: 'includesString',
       },

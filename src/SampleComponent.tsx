@@ -2,48 +2,32 @@ import { FC, useEffect } from 'react';
 import { Button } from '@/components/ui/button.tsx';
 import { FaCoffee } from 'react-icons/fa';
 import { FaGlassWater } from 'react-icons/fa6';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { FakePaymentApi, FakePersonApi, Person } from '@/fake-api/fakePaymentApi.ts';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
+import { useQueryClient } from '@tanstack/react-query';
+import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
+import { useGetListaPlatiQuery } from '@/pages/persoane/hooks/useGetListaPlatiQuery.tsx';
 
 export const SampleComponent: FC = () => {
-  const {
-    data: persoane,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ['persoane'],
-    queryFn: () => {
-      return FakePersonApi.getAll();
-    },
-  });
+  const { data: persoane, isLoading, isError, error } = useGetListaPersoanaQuery({});
 
-  const { data: plati } = useQuery({
-    queryKey: ['plati'],
-    queryFn: () => {
-      return FakePaymentApi.getAll();
-    },
-    enabled: !!persoane,
-  });
+  const { data: plati } = useGetListaPlatiQuery();
 
   const queryClient = useQueryClient();
 
-  const { mutate, isPending } = useMutation<FakeApiResponse, FakeApiResponse, { id: string }>({
-    mutationFn: (args) => {
-      return FakePersonApi.update(args.id, {} as unknown as Omit<Person, 'id'>);
-    },
-    onError: (response) => {
-      //toast
-    },
-    onSuccess: (response) => {
-      //toast + close
-      queryClient.invalidateQueries({
-        queryKey: ['plati'],
-      });
-    },
-    onSettled: (response) => {},
-  });
+  // const { mutate, isPending } = useMutation<FakeApiResponse, FakeApiResponse, { id: string }>({
+  //   mutationFn: (args) => {
+  //     return FakePersonApi.update(args.id, {} as unknown as Omit<Person, 'id'>);
+  //   },
+  //   onError: (response) => {
+  //     //toast
+  //   },
+  //   onSuccess: (response) => {
+  //     //toast + close
+  //     queryClient.invalidateQueries({
+  //       queryKey: ['plati'],
+  //     });
+  //   },
+  //   onSettled: (response) => {},
+  // });
 
   useEffect(() => {
     console.log('plati', plati);
@@ -59,7 +43,7 @@ export const SampleComponent: FC = () => {
         </div>
         <h1 className={'text-2xl font-bold'}>Banii de apa si cafea</h1>
         <div className={'flex flex-row gap-2'}>
-          <Button onClick={() => mutate({ id: '123' })}>Platesc</Button>
+          {/*<Button onClick={() => mutate({ id: '123' })}>Platesc</Button>*/}
           <Button
             variant={'outline'}
             disabled>
@@ -84,7 +68,7 @@ export const SampleComponent: FC = () => {
             <h1>Plati</h1>
             {plati?.map((x) => (
               <div key={x.id}>
-                {x.id} {x.suma} {x.pentru}
+                {/*{x.id} {x.suma} {x.pentru}*/}
               </div>
             ))}
           </div>

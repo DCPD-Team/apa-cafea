@@ -1,24 +1,19 @@
 import { useMemo } from 'react';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
-import { useQuery } from '@tanstack/react-query';
-import { ApaSauCafea, FakePaymentApi } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
 import { LocPodiumType, PodiumType } from '@/pages/leaderboard/components/Podium.tsx';
+import { useGetListaPlatiQuery } from '@/pages/persoane/hooks/useGetListaPlatiQuery.tsx';
 
 export const useCalculeazaLeaderboard = ({ pentru }: { pentru: ApaSauCafea }) => {
   const { data: persoane } = useGetListaPersoanaQuery({});
 
-  const { data: platiApi } = useQuery({
-    queryKey: ['plati'],
-    queryFn: () => {
-      return FakePaymentApi.getAll();
-    },
-  });
+  const { data: platiApi } = useGetListaPlatiQuery();
 
   const plati = useMemo(() => {
     if (!platiApi) {
       return [];
     }
-    return platiApi.filter((plata) => plata.pentru === pentru);
+    return platiApi.filter((plata) => plata.what_for === pentru);
   }, [platiApi, pentru]);
 
   return useMemo(() => {
@@ -27,7 +22,7 @@ export const useCalculeazaLeaderboard = ({ pentru }: { pentru: ApaSauCafea }) =>
 
     const groupedPayments: Record<string, number> = plati.reduce(
       (acc, payment) => {
-        acc[payment.userId] += payment.suma;
+        acc[payment.person_id] += payment.sum;
         return acc;
       },
       persoane.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {} as Record<string, number>)
@@ -40,7 +35,7 @@ export const useCalculeazaLeaderboard = ({ pentru }: { pentru: ApaSauCafea }) =>
       return [
         ...acc,
         {
-          nume: persoana.nume,
+          nume: persoana.first_name,
           valoare,
         },
       ];

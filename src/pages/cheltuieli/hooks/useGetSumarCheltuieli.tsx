@@ -23,30 +23,30 @@ export const useGetSumarCheltuieli = ({ an, pentru }: { an: number; pentru: ApaS
 
   return useMemo(() => {
     if (!plati || !cheltuieli) {
-      return { totalDisponibil: 0, totalCheltuit: 0 };
+      return { totalDisponibil: 0, totalCheltuit: 0 } ;
     }
 
     if (pentru === 'apa') {
-      const filtredPaymentsApa = plati.filter((plata) => plata.pentru === 'apa');
-      const filtredExpensesApa = cheltuieli.filter((cheltuiala) => cheltuiala.pentru === 'apa');
+      const filtredPaymentsApa = plati.filter((plata) => plata.what_for === 'apa');
+      const filtredExpensesApa = cheltuieli.filter((cheltuiala) => cheltuiala.what_for === 'apa');
 
       const totalPaymentsApa =
-        filtredPaymentsApa.length > 0 ? filtredPaymentsApa.reduce((acc, plata) => acc + plata.suma, 0) : 0;
+        filtredPaymentsApa.length > 0 ? filtredPaymentsApa.reduce((acc, plata) => acc + plata.sum, 0) : 0;
       const totalExpensesApa =
-        filtredExpensesApa.length > 0 ? filtredExpensesApa.reduce((acc, expense) => acc + expense.suma, 0) : 0;
+        filtredExpensesApa.length > 0 ? filtredExpensesApa.reduce((acc, expense) => acc + expense.sum, 0) : 0;
 
       return {
         totalDisponibil: totalPaymentsApa,
         totalCheltuit: totalExpensesApa,
       } as TotalPlati;
     } else {
-      const filtredPaymentsCafea = plati.filter((plata) => plata.pentru === 'cafea');
-      const filtredExpensesCafea = cheltuieli.filter((cheltuiala) => cheltuiala.pentru === 'cafea');
+      const filtredPaymentsCafea = plati.filter((plata) => plata.what_for === 'cafea');
+      const filtredExpensesCafea = cheltuieli.filter((cheltuiala) => cheltuiala.what_for === 'cafea');
 
       const totalPaymentsCafea =
-        filtredPaymentsCafea.length > 0 ? filtredPaymentsCafea.reduce((acc, plata) => acc + plata.suma, 0) : 0;
+        filtredPaymentsCafea.length > 0 ? filtredPaymentsCafea.reduce((acc, plata) => acc + plata.sum, 0) : 0;
       const totalExpensesCafea =
-        filtredExpensesCafea.length > 0 ? filtredExpensesCafea.reduce((acc, expense) => acc + expense.suma, 0) : 0;
+        filtredExpensesCafea.length > 0 ? filtredExpensesCafea.reduce((acc, expense) => acc + expense.sum, 0) : 0;
 
       return {
         totalDisponibil: totalPaymentsCafea,

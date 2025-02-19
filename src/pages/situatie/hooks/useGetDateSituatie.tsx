@@ -1,16 +1,11 @@
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
-import { compareByName, FakePaymentApi } from '@/fake-api/fakePaymentApi.ts';
-import { useQuery } from '@tanstack/react-query';
+import { compareByName } from '@/fake-api/fakePaymentApi.ts';
+import { useGetListaPlatiQuery } from '@/pages/persoane/hooks/useGetListaPlatiQuery.tsx';
 
 export const useGetDateSituatie = () => {
   const queryPersoane = useGetListaPersoanaQuery({ compareFn: compareByName });
 
-  const queryPlati = useQuery({
-    queryKey: ['plati'],
-    queryFn: () => {
-      return FakePaymentApi.getAll();
-    },
-  });
+  const queryPlati = useGetListaPlatiQuery();
   return {
     queryPersoane,
     queryPlati,

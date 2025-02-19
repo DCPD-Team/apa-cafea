@@ -9,12 +9,75 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      expenses: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          sum: number
+          updated_at: string | null
+          what_for: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          sum: number
+          updated_at?: string | null
+          what_for: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          sum?: number
+          updated_at?: string | null
+          what_for?: string
+        }
+        Relationships: []
+      }
+      payments: {
+        Row: {
+          created_at: string
+          id: string
+          person_id: string
+          sum: number
+          updated_at: string | null
+          what_for: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          person_id: string
+          sum: number
+          updated_at?: string | null
+          what_for: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          person_id?: string
+          sum?: number
+          updated_at?: string | null
+          what_for?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "persons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       persons: {
         Row: {
           coffee: boolean
           created_at: string
           first_name: string
           id: string
+          inactivation_date: string | null
           last_name: string
           updated_at: string
           water: boolean
@@ -24,6 +87,7 @@ export type Database = {
           created_at?: string
           first_name: string
           id?: string
+          inactivation_date?: string | null
           last_name: string
           updated_at?: string
           water?: boolean
@@ -33,6 +97,7 @@ export type Database = {
           created_at?: string
           first_name?: string
           id?: string
+          inactivation_date?: string | null
           last_name?: string
           updated_at?: string
           water?: boolean
