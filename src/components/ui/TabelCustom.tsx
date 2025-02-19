@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table.tsx';
 import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
-import { Person } from '@/fake-api/fakePaymentApi.ts';
 import { flexRender, HeaderGroup, Row, Table as TableTS } from '@tanstack/react-table';
 import { FaArrowDown, FaArrowUp } from 'react-icons/fa';
 import { PagingFooterTabel } from '@/components/ui/PagingFooterTabel.tsx';
@@ -11,14 +10,16 @@ type Props<TData> = {
   table: TableTS<TData>;
   isLoading?: boolean;
   isFetching: boolean;
+  cols?: number;
+  rows?: number;
 };
 
-export const TabelCustom = <TData,>({ table, isLoading, isFetching }: Props<TData>) => {
+export const TabelCustom = <TData,>({ table, isLoading, isFetching, cols, rows }: Props<TData>) => {
   if (isLoading) {
     return (
       <SkeletonTable
-        numberOfColumns={7}
-        numberOfRows={13}
+        numberOfColumns={cols ?? 5}
+        numberOfRows={rows ?? 10}
       />
     );
   }
@@ -27,7 +28,7 @@ export const TabelCustom = <TData,>({ table, isLoading, isFetching }: Props<TDat
     <div className={'flex flex-col gap-3'}>
       <Table className="w-full table-auto">
         <TableHeader>
-          {table.getHeaderGroups().map((headerGroup: HeaderGroup<Person>) => (
+          {table.getHeaderGroups().map((headerGroup: HeaderGroup<TData>) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
@@ -58,7 +59,7 @@ export const TabelCustom = <TData,>({ table, isLoading, isFetching }: Props<TDat
         <TableBody>
           <LoadingBarTable
             isFetching={isFetching}
-            colSpan={7}
+            colSpan={cols ?? 7}
           />
 
           {table.getRowModel().rows.map((row: Row<TData>) => {

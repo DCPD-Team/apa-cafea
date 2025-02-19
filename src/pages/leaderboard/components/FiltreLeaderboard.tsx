@@ -19,24 +19,26 @@ type Props = {
 
 export const FiltreLeaderboard: React.FC<Props> = ({ filtre, setFiltre }) => {
   return (
-    <Select
-      value={filtre.pentru}
-      onValueChange={(value) => setFiltre((prevState) => ({ ...prevState, pentru: value as ApaSauCafea }))}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Pentru</SelectLabel>
-          {Object.entries(apaCafeaEnum).map(([key, value]) => (
-            <SelectItem
-              key={key}
-              value={key}>
-              {value}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <div className={'flex flex-col items-center justify-center'}>
+      <Select
+        value={filtre.pentru}
+        onValueChange={(value) => setFiltre((prevState) => ({ ...prevState, pentru: value as ApaSauCafea }))}>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Pentru</SelectLabel>
+            {Object.entries(apaCafeaEnum).map(([key, value]) => (
+              <SelectItem
+                key={key}
+                value={key}>
+                {value}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </div>
   );
 };

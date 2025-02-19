@@ -22,11 +22,11 @@ type Props = {
 };
 
 type PersonFilterForm = Omit<PersonFilter, 'participaApa' | 'participaCafea'> & {
-  participaApa: string;
-  participaCafea: string;
+  participaApa?: string;
+  participaCafea?: string;
 };
 
-export const FiltruColoanePersoane: React.FC<Props> = ({ setFilter }) => {
+export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilter }) => {
   const [open, setOpen] = useState(false);
   const [openApa, setOpenApa] = useState(false);
   const [openCafea, setOpenCafea] = useState(false);
@@ -36,9 +36,11 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ setFilter }) => {
   const form = useForm<PersonFilterForm>({
     mode: 'onChange',
     defaultValues: {
-      nume: '',
-      prenume: '',
-      participaCafea: '',
+      nume: currentFilter.nume ?? '',
+      prenume: currentFilter.prenume ?? '',
+      participaApa: currentFilter.participaApa === true ? 'true' : currentFilter.participaApa === false ? 'false' : '',
+      participaCafea:
+        currentFilter.participaCafea === true ? 'true' : currentFilter.participaCafea === false ? 'false' : '',
     },
   });
 
@@ -58,7 +60,7 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ setFilter }) => {
       <PopoverTrigger asChild>
         <Button variant="outline">
           <IoFilterOutline />
-          Filtru
+          Filtre
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-80">
@@ -75,8 +77,8 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ setFilter }) => {
                   <FormLabel>Nume</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Nume"
                       {...field}
+                      placeholder="Nume"
                     />
                   </FormControl>
                   <FormMessage />
@@ -112,6 +114,7 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ setFilter }) => {
                     <Select
                       key={keyApa}
                       onValueChange={field.onChange}
+                      value={field.value}
                       defaultValue={undefined}
                       open={openApa}
                       onOpenChange={(o) => setOpenApa(o)}>
@@ -156,6 +159,7 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ setFilter }) => {
                       key={keyCafea}
                       onValueChange={field.onChange}
                       defaultValue={undefined}
+                      value={field.value}
                       open={openCafea}
                       onOpenChange={(o) => setOpenCafea(o)}>
                       <SelectTrigger>

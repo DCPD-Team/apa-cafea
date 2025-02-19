@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetListaPlatiPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPlatiPersoanaQuery.tsx';
-import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
 import { ColumnDef } from '@tanstack/react-table';
 import { Payment } from '@/fake-api/fakePaymentApi.ts';
 import { ActiuniPlatiPersoana } from '@/pages/persoane/detalii/plati/components/ActiuniPlatiPersoana.tsx';
@@ -51,21 +50,14 @@ export const TabelPlatiPersoana: React.FC<Props> = ({ filters }) => {
 
   const { table } = useCustomDataTable({ columns, data: plati, filters: filters });
 
-  if (isLoading || !plati) {
-    return (
-      <SkeletonTable
-        numberOfColumns={5}
-        numberOfRows={5}
-      />
-    );
-  }
-
   return (
     <>
       <TabelCustom
         table={table}
         isFetching={isFetching}
-        isLoading={isLoading}
+        isLoading={isLoading || !plati}
+        cols={5}
+        rows={5}
       />
     </>
   );

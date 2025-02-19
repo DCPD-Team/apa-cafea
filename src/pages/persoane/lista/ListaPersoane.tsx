@@ -91,6 +91,8 @@ export const ListaPersoane: React.FC = () => {
           table={table}
           isLoading={isLoading}
           isFetching={isLoading}
+          cols={7}
+          rows={13}
         />
       </CardContent>
     </Card>

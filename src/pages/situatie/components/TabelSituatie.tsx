@@ -6,13 +6,12 @@ import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
 import { ColumnDef } from '@tanstack/react-table';
 import { twMerge } from 'tailwind-merge';
 import { Badge } from '@/components/ui/badge.tsx';
-import { FiltruColoaneSituatie } from '@/pages/situatie/components/FiltruColoaneSituatie.tsx';
 import { useGetDateSituatie } from '@/pages/situatie/hooks/useGetDateSituatie.tsx';
-import { SkeletonTable } from '@/components/ui/SkeletonTable.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { NavLink } from 'react-router-dom';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
+import { FiltruColoaneSituatie } from '@/pages/situatie/components/FiltruColoaneSituatie.tsx';
 
 export const LunileAnului = {
   IANUARIE: 'Ianuarie',
@@ -44,6 +43,11 @@ export type FiltreSituatieType = {
   pentru: ApaSauCafea;
 };
 
+export type SituatieFilter = {
+  fullName?: string;
+  laZi?: boolean;
+};
+
 const getMonthCellColor = (value: number, luna: Luna, an: number) => {
   const lunaCurenta = new Date().getMonth();
   const anCurent = new Date().getFullYear();
@@ -69,6 +73,7 @@ const getMonthCellColor = (value: number, luna: Luna, an: number) => {
 };
 
 export const TabelSituatie: React.FC = () => {
+  const [columnFilters, setColumnFilters] = useState<SituatieFilter>({});
   const [filtre, setFiltre] = useState<FiltreSituatieType>({ an: 2025, pentru: 'cafea' });
   const { queryPersoane, queryPlati } = useGetDateSituatie();
   const situatii = useCalculeazaSituatie({ ...filtre, persoane: queryPersoane.data, platiApi: queryPlati.data });
@@ -119,16 +124,7 @@ export const TabelSituatie: React.FC = () => {
     },
   ];
 
-  const { table } = useCustomDataTable({ columns, data: situatii });
-
-  if (queryPersoane.isLoading || queryPlati.isLoading || !situatii) {
-    return (
-      <SkeletonTable
-        numberOfColumns={15}
-        numberOfRows={12}
-      />
-    );
-  }
+  const { table } = useCustomDataTable({ columns, data: situatii, filters: columnFilters });
 
   return (
     <div className={'flex flex-col gap-3'}>
@@ -137,12 +133,17 @@ export const TabelSituatie: React.FC = () => {
           filtre={filtre}
           setFiltre={setFiltre}
         />
-        <FiltruColoaneSituatie table={table} />
+        <FiltruColoaneSituatie
+          currentFilter={columnFilters}
+          setFilter={setColumnFilters}
+        />
       </div>
       <TabelCustom
         isFetching={queryPersoane.isFetching || queryPlati.isFetching}
-        isLoading={queryPersoane.isLoading || queryPlati.isFetching}
+        isLoading={queryPersoane.isLoading || queryPlati.isLoading || !situatii}
         table={table}
+        cols={15}
+        rows={12}
       />
     </div>
   );
