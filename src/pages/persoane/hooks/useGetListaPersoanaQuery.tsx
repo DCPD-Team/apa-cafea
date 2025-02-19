@@ -5,11 +5,10 @@ import { supabaseClient } from '@/App.tsx';
 export const useGetListaPersoanaQuery = ({ compareFn }: { compareFn?: (a: Person, b: Person) => number }) => {
   return useQuery({
     queryKey: ['persoane'],
-    // placeholderData:[],
     queryFn: async () => {
-      const { data: persons } = await supabaseClient.from('persons').select();
+      const { data: persons } = await supabaseClient.from('persons').select().is('inactivation_date', null);
       return persons;
     },
-    // select: (data) => (compareFn ? data?.sort(compareFn) : data),
+    select: (data) => (compareFn ? data?.sort(compareFn) : data),
   });
 };

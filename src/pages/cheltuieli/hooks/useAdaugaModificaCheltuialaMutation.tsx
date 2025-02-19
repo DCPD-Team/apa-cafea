@@ -1,8 +1,9 @@
-import { Cheltuiala, FakeCheltuialaApi } from '@/fake-api/fakePaymentApi.ts';
+import { Cheltuiala } from '@/fake-api/fakePaymentApi.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
 import { AdaugaModificaCheltuiala } from '@/pages/cheltuieli/lista/components/FormularAdaugaModificaCheltuiala.tsx';
+import { supabaseClient } from '@/App.tsx';
+import { PostgrestError } from '@supabase/supabase-js';
 
 export const useAdaugaModificaCheltuialaMutation = ({
   cheltuiala,
@@ -14,16 +15,24 @@ export const useAdaugaModificaCheltuialaMutation = ({
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  return useMutation<FakeApiResponse, FakeApiResponse, AdaugaModificaCheltuiala>({
-    mutationFn: (data) => {
-      if (!cheltuiala) {
-        return FakeCheltuialaApi.add({ ...data, data: new Date().toISOString() });
-      } else {
-        const { id, ...restCheltuiala } = cheltuiala;
-        return FakeCheltuialaApi.update(cheltuiala.id, { ...restCheltuiala, ...data });
+  return useMutation<void, PostgrestError | null, AdaugaModificaCheltuiala>({
+    mutationFn: async (data) => {
+      const paylod = !cheltuiala ? { ...data } : { ...data, id: cheltuiala.id };
+
+      const { error: e } = await supabaseClient.from('expenses').upsert(paylod);
+
+      if (e) {
+        throw e;
       }
     },
-    onSuccess: (response) => {
+    onError: (response) => {
+      toast({
+        variant: 'default',
+        title: 'Eroare! Nu a fost adaugata cheltuiala',
+        description: response?.message
+      });
+    },
+    onSuccess: () => {
       //toast + close
       queryClient.invalidateQueries({
         queryKey: ['cheltuieli'],
@@ -33,7 +42,6 @@ export const useAdaugaModificaCheltuialaMutation = ({
       toast({
         variant: 'default',
         title: 'Cheltuiala a fost adaugata!',
-        description: response.message,
       });
     },
   });

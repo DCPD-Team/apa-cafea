@@ -7,6 +7,7 @@ import { ActiuniPlatiPersoana } from '@/pages/persoane/detalii/plati/components/
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { PlataPersoanaFilter } from '@/pages/persoane/detalii/plati/ListaPlatiPersoana.tsx';
+import { formatDate } from 'date-fns';
 
 type Props = {
   filters: PlataPersoanaFilter;
@@ -14,7 +15,7 @@ type Props = {
 
 export const TabelPlatiPersoana: React.FC<Props> = ({ filters }) => {
   const { id } = useParams();
-  const { isLoading, isFetching, data: plati } = useGetListaPlatiPersoanaQuery({ id });
+  const { isLoading, isFetching, data: plati } = useGetListaPlatiPersoanaQuery({ id: id ?? '' });
 
   const columns = useMemo<ColumnDef<Payment>[]>(
     () => [
@@ -27,17 +28,17 @@ export const TabelPlatiPersoana: React.FC<Props> = ({ filters }) => {
       },
       {
         header: () => 'Suma',
-        accessorKey: 'suma',
+        accessorKey: 'sum',
         filterFn: 'inNumberRange',
       },
       {
         header: () => 'Apa/Cafea',
-        accessorKey: 'pentru',
+        accessorKey: 'what_for',
       },
       {
         header: 'Dată',
-        accessorKey: 'data',
-        accessorFn: (originalRow) => originalRow.data.slice(0, -14),
+        accessorKey: 'created_at',
+        accessorFn: (originalRow) => formatDate(new Date(originalRow.created_at), 'dd-MM-yyyy'),
       },
       {
         header: () => 'Actiuni',

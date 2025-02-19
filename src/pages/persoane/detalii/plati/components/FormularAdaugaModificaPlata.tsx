@@ -22,7 +22,7 @@ type Props = {
   plata?: Payment;
 };
 
-export type AdaugaModificaPlata = Omit<Payment, 'id' | 'data' | 'userId'>;
+export type AdaugaModificaPlata = Omit<Payment, 'id' | 'created_at' | 'person_id' | 'updated_at'>;
 
 export const apaCafeaEnum: Record<ApaSauCafea, string> = {
   apa: 'Apa',
@@ -32,7 +32,7 @@ export const apaCafeaEnum: Record<ApaSauCafea, string> = {
 export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) => {
   const { id: userId } = useParams();
   const form = useFormAdaugaModificaPlata({ defaultValues: plata });
-  const { mutate, isPending } = useAdaugaModificaPlataMutation({ plata, userId, close });
+  const { mutate, isPending } = useAdaugaModificaPlataMutation({ plata, userId: userId ?? '', close });
 
   const onSubmit = (data: AdaugaModificaPlata) => {
     mutate(data);
@@ -45,7 +45,7 @@ export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) =
         className="space-y-8">
         <FormField
           control={form.control}
-          name="suma"
+          name="sum"
           defaultValue={undefined}
           render={({ field }) => (
             <FormItem>
@@ -67,7 +67,7 @@ export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) =
 
         <FormField
           control={form.control}
-          name="pentru"
+          name="what_for"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Pentru</FormLabel>

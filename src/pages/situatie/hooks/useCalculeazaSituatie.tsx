@@ -10,8 +10,8 @@ export const useCalculeazaSituatie = ({
   an,
   pentru,
 }: {
-  persoane: Person[] | undefined;
-  platiApi: Payment[] | undefined;
+  persoane: Person[] | undefined | null;
+  platiApi: Payment[] | undefined | null;
   an: number;
   pentru: ApaSauCafea;
 }): SituatiePersoana[] => {
@@ -19,7 +19,7 @@ export const useCalculeazaSituatie = ({
     if (!platiApi) {
       return [];
     }
-    return platiApi.filter((plata) => new Date(plata.data).getFullYear() === an && plata.pentru === pentru);
+    return platiApi.filter((plata) => new Date(plata.created_at).getFullYear() === an && plata.what_for === pentru);
   }, [platiApi, an, pentru]);
 
   return useMemo(() => {
@@ -28,7 +28,7 @@ export const useCalculeazaSituatie = ({
 
     const groupedPayments: Record<string, number> = plati.reduce(
       (acc, payment) => {
-        acc[payment.userId] += payment.suma;
+        acc[payment.person_id] += payment.sum;
         return acc;
       },
       persoane.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {} as Record<string, number>)

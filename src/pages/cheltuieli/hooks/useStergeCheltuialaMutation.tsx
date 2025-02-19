@@ -1,31 +1,34 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
-import { FakeCheltuialaApi } from '@/fake-api/fakePaymentApi.ts';
+import { supabaseClient } from '@/App.tsx';
+import { PostgrestError } from '@supabase/supabase-js';
 
 export const useStergeCheltuialaMutation = () => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  return useMutation<FakeApiResponse, FakeApiResponse, string>({
-    mutationFn: (id) => {
-      return FakeCheltuialaApi.delete(id);
+  return useMutation<void, PostgrestError | null, string>({
+    mutationFn: async (id) => {
+      const { error } = await supabaseClient.from('expenses').delete().eq('id', id);
+
+      if (error) {
+        throw error;
+      }
     },
     onError: (response) => {
       toast({
         variant: 'destructive',
         title: 'Error!',
-        description: response.message,
+        description: response?.message,
       });
     },
-    onSuccess: (response) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['cheltuieli'],
       });
       toast({
         variant: 'default',
         title: 'Success!',
-        description: response.message,
       });
     },
   });

@@ -11,7 +11,7 @@ type Props = {
 };
 
 export const ActiuniPlatiPersoana: React.FC<Props> = ({ payment }) => {
-  const { isPending, mutate } = useStergePlataPersoanaMutation({ userId: payment.userId });
+  const { isPending, mutate } = useStergePlataPersoanaMutation({ userId: payment.person_id });
   return (
     <div className="flex gap-1">
       <Button

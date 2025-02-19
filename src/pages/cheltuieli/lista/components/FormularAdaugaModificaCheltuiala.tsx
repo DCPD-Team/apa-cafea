@@ -23,7 +23,7 @@ type Props = {
   cheltuiala?: Cheltuiala;
 };
 
-export type AdaugaModificaCheltuiala = Omit<Cheltuiala, 'id' | 'data'>;
+export type AdaugaModificaCheltuiala = Omit<Cheltuiala, 'id' | 'created_at' | 'updated_at'>;
 
 export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
   const { close, cheltuiala } = props;
@@ -41,7 +41,7 @@ export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
         className="space-y-8">
         <FormField
           control={form.control}
-          name="suma"
+          name="sum"
           defaultValue={0}
           render={({ field }) => (
             <FormItem>
@@ -63,7 +63,7 @@ export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
 
         <FormField
           control={form.control}
-          name="pentru"
+          name="what_for"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Pentru</FormLabel>
@@ -95,7 +95,7 @@ export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
 
         <FormField
           control={form.control}
-          name="descriere"
+          name="description"
           defaultValue=""
           render={({ field }) => (
             <FormItem>

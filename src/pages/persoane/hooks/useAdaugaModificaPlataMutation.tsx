@@ -1,8 +1,9 @@
-import { FakePaymentApi, Payment } from '@/fake-api/fakePaymentApi.ts';
+import { Payment } from '@/fake-api/fakePaymentApi.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
-import { FakeApiResponse } from '@/fake-api/core/fakeApi.ts';
 import { AdaugaModificaPlata } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
+import { supabaseClient } from '@/App.tsx';
+import { PostgrestError } from '@supabase/supabase-js';
 
 export const useAdaugaModificaPlataMutation = ({
   plata,
@@ -10,23 +11,30 @@ export const useAdaugaModificaPlataMutation = ({
   close,
 }: {
   plata?: Payment;
-  userId?: string;
+  userId: string;
   close: () => void;
 }) => {
   const queryClient = useQueryClient();
   const { toast } = useToast();
 
-  return useMutation<FakeApiResponse, FakeApiResponse, AdaugaModificaPlata>({
-    mutationFn: (data) => {
-      if (!plata) {
-        return FakePaymentApi.add({ ...data, data: new Date().toISOString(), userId: userId as string });
-      } else {
-        const { id, ...restPlata } = plata;
-        return FakePaymentApi.update(plata.id, { ...restPlata, ...data });
+  return useMutation<void, PostgrestError | null, AdaugaModificaPlata>({
+    mutationFn: async (data) => {
+      const payload = !plata ? { ...data, person_id: userId } : { ...data, person_id: userId, id: plata?.id };
+
+      const { error } = await supabaseClient.from('payments').upsert(payload);
+
+      if (error) {
+        throw error;
       }
     },
-    onSuccess: (response) => {
-      //toast + close
+    onError: (response) => {
+      toast({
+        variant: 'default',
+        title: 'Error!',
+        description: response?.message,
+      });
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['platiPersoana', userId],
       });
@@ -35,7 +43,6 @@ export const useAdaugaModificaPlataMutation = ({
       toast({
         variant: 'default',
         title: 'Plata a fost adaugata!',
-        description: response.message,
       });
     },
   });
