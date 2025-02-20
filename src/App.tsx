@@ -9,6 +9,7 @@ import { createClient, Session } from '@supabase/supabase-js';
 import { Database } from '../database.types.ts';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeMinimal, ThemeSupa } from '@supabase/auth-ui-shared';
+import { Login } from '@/pages/autentificare/Login.tsx';
 
 // TODO: env
 export const supabaseClient = createClient<Database>(
@@ -28,13 +29,6 @@ const queryClient = new QueryClient({
   },
 });
 
-async function signInWithEmail() {
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: 'valid.email@supabase.io',
-    password: 'example-password',
-  });
-}
-
 export const App: FC = () => {
   const [session, setSession] = useState<Session | null>(null);
 
@@ -53,20 +47,14 @@ export const App: FC = () => {
   }, []);
 
   if (!session) {
-    return (
-      <Auth
-        supabaseClient={supabaseClient}
-        appearance={{ theme: ThemeMinimal }}
-      />
-    );
-  } else {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-        <ToastProvider duration={3000}></ToastProvider>
-        <Toaster />
-      </QueryClientProvider>
-    );
+    return <Login />;
   }
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ToastProvider duration={3000}></ToastProvider>
+      <Toaster />
+    </QueryClientProvider>
+  );
 };
