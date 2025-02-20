@@ -15,4 +15,5 @@ export default defineConfig({
     open: 'http://localhost:4000',
     port: 4000,
   },
+  base: '/apa-cafea/',
 });
