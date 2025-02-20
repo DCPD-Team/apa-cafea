@@ -121,7 +121,7 @@ export const ListaCheltuieli: React.FC = () => {
           <TabelCustom
             table={table}
             isFetching={isFetching}
-            isLoading={isLoading || !cheltuieli || cheltuieli.length === 0}
+            isLoading={isLoading || !cheltuieli }
             cols={7}
             rows={15}
           />

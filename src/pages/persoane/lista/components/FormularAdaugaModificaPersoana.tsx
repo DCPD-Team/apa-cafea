@@ -31,7 +31,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
         className="space-y-8">
         <FormField
           control={form.control}
-          name="last_name"
+          name="first_name"
           defaultValue=""
           render={({ field }) => (
             <FormItem>
@@ -49,7 +49,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
 
         <FormField
           control={form.control}
-          name="first_name"
+          name="last_name"
           defaultValue=""
           render={({ field }) => (
             <FormItem>
