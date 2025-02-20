@@ -25,17 +25,17 @@ export const FiltruColoaneCheltuieli: React.FC<Props> = ({ currentFilter, setFil
   const form = useForm<CheltuialaFilterForm>({
     mode: 'onChange',
     defaultValues: {
-      sumaDeLa: currentFilter.suma?.[0] ?? ('' as unknown as undefined),
-      sumaPanaLa: currentFilter.suma?.[1] ?? ('' as unknown as undefined),
-      dataStart: currentFilter.data?.[0] ?? ('' as unknown as undefined),
-      dataEnd: currentFilter.data?.[1] ?? ('' as unknown as undefined),
+      sumaDeLa: currentFilter.sum?.[0] ?? ('' as unknown as undefined),
+      sumaPanaLa: currentFilter.sum?.[1] ?? ('' as unknown as undefined),
+      dataStart: currentFilter.created_at?.[0] ?? ('' as unknown as undefined),
+      dataEnd: currentFilter.created_at?.[1] ?? ('' as unknown as undefined),
     },
   });
 
   const onSubmit = (data: CheltuialaFilterForm) => {
     setFilter({
-      suma: [data.sumaDeLa, data.sumaPanaLa],
-      data: [data.dataStart, data.dataEnd],
+      sum: [data.sumaDeLa, data.sumaPanaLa],
+      created_at: [data.dataStart, data.dataEnd],
     });
     setOpen(false);
   };

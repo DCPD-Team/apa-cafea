@@ -18,8 +18,8 @@ export type FiltreCheltuialaType = {
 };
 
 export type CheltuialaFilter = {
-  suma?: [number | undefined, number | undefined];
-  data?: [string | undefined, string | undefined];
+  sum?: [number | undefined, number | undefined];
+  created_at?: [string | undefined, string | undefined];
 };
 
 export const ListaCheltuieli: React.FC = () => {
@@ -121,7 +121,7 @@ export const ListaCheltuieli: React.FC = () => {
           <TabelCustom
             table={table}
             isFetching={isFetching}
-            isLoading={isLoading || !cheltuieli }
+            isLoading={isLoading || !cheltuieli}
           />
         </div>
       </CardContent>

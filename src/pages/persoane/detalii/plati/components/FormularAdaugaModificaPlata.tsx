@@ -75,7 +75,7 @@ export const FormularAdaugaModificaPlata: React.FC<Props> = ({ plata, close }) =
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}>
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger>
                     <SelectValue placeholder="Selectează pentru ce plătești" />
                   </SelectTrigger>
                   <SelectContent>
