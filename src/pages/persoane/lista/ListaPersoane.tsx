@@ -11,12 +11,7 @@ import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { formatDate } from 'date-fns';
 
-export type PersonFilter = {
-  nume?: string;
-  prenume?: string;
-  participaApa?: boolean;
-  participaCafea?: boolean;
-};
+export type PersonFilter = Partial<Pick<Person, 'first_name' | 'last_name' | 'water' | 'coffee'>>;
 
 export const ListaPersoane: React.FC = () => {
   const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
@@ -70,6 +65,7 @@ export const ListaPersoane: React.FC = () => {
     []
   );
 
+  console.log(filters);
   const { table } = useCustomDataTable({ columns, data: persoane, filters: filters });
 
   return (

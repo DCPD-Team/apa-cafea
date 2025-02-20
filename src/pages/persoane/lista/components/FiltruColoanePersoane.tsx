@@ -21,7 +21,7 @@ type Props = {
   setFilter: (filters: PersonFilter) => void;
 };
 
-type PersonFilterForm = Omit<PersonFilter, 'participaApa' | 'participaCafea'> & {
+type PersonFilterForm = Omit<PersonFilter, 'water' | 'coffee'> & {
   participaApa?: string;
   participaCafea?: string;
 };
@@ -36,19 +36,18 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilte
   const form = useForm<PersonFilterForm>({
     mode: 'onChange',
     defaultValues: {
-      nume: currentFilter.nume ?? '',
-      prenume: currentFilter.prenume ?? '',
-      participaApa: currentFilter.participaApa === true ? 'true' : currentFilter.participaApa === false ? 'false' : '',
-      participaCafea:
-        currentFilter.participaCafea === true ? 'true' : currentFilter.participaCafea === false ? 'false' : '',
+      last_name: currentFilter.last_name ?? '',
+      first_name: currentFilter.first_name ?? '',
+      participaApa: currentFilter.water === true ? 'true' : currentFilter.water === false ? 'false' : '',
+      participaCafea: currentFilter.coffee === true ? 'true' : currentFilter.coffee === false ? 'false' : '',
     },
   });
 
   const onSubmit = (data: PersonFilterForm) => {
     setFilter({
       ...data,
-      participaApa: data.participaApa === 'true' ? true : data.participaApa === 'false' ? false : undefined,
-      participaCafea: data.participaCafea === 'true' ? true : data.participaCafea === 'false' ? false : undefined,
+      water: data.participaApa === 'true' ? true : data.participaApa === 'false' ? false : undefined,
+      coffee: data.participaCafea === 'true' ? true : data.participaCafea === 'false' ? false : undefined,
     });
     setOpen(false);
   };
@@ -70,7 +69,7 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilte
             className="space-y-8">
             <FormField
               control={form.control}
-              name="nume"
+              name="last_name"
               defaultValue={''}
               render={({ field }) => (
                 <FormItem>
@@ -88,7 +87,7 @@ export const FiltruColoanePersoane: React.FC<Props> = ({ currentFilter, setFilte
 
             <FormField
               control={form.control}
-              name="prenume"
+              name="first_name"
               defaultValue={''}
               render={({ field }) => (
                 <FormItem>

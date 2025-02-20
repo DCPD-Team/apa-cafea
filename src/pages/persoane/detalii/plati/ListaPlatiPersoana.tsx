@@ -6,8 +6,8 @@ import { FiltruColoanePlatiPersoana } from '@/pages/persoane/detalii/plati/compo
 import { ApaSauCafea } from '@/types/types.ts';
 
 export type PlataPersoanaFilter = {
-  pentru?: ApaSauCafea;
-  suma?: [number | undefined, number | undefined];
+  what_for?: ApaSauCafea;
+  sum?: [number | undefined, number | undefined];
 };
 
 export const ListaPlatiPersoana: React.FC = () => {

@@ -71,7 +71,7 @@ export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}>
-                  <SelectTrigger className="w-[180px]">
+                  <SelectTrigger>
                     <SelectValue placeholder="Selectează pentru ce plătești" />
                   </SelectTrigger>
                   <SelectContent>

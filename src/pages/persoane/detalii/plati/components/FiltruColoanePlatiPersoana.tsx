@@ -37,16 +37,16 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ currentFilter, set
   const form = useForm<PlataPersoanaFilterForm>({
     mode: 'onChange',
     defaultValues: {
-      pentru: currentFilter.pentru ?? ('' as unknown as undefined),
-      sumaDeLa: currentFilter.suma?.[0] ?? ('' as unknown as undefined),
-      sumaPanaLa: currentFilter.suma?.[1] ?? ('' as unknown as undefined),
+      pentru: currentFilter.what_for ?? ('' as unknown as undefined),
+      sumaDeLa: currentFilter.sum?.[0] ?? ('' as unknown as undefined),
+      sumaPanaLa: currentFilter.sum?.[1] ?? ('' as unknown as undefined),
     },
   });
 
   const onSubmit = (data: PlataPersoanaFilterForm) => {
     setFilter({
-      pentru: data.pentru,
-      suma: [data.sumaDeLa, data.sumaPanaLa],
+      what_for: data.pentru,
+      sum: [data.sumaDeLa, data.sumaPanaLa],
     });
     setOpen(false);
   };
@@ -80,7 +80,7 @@ export const FiltruColoanePlatiPersoana: React.FC<Props> = ({ currentFilter, set
                       value={field.value}
                       open={openPentru}
                       onOpenChange={(o) => setOpenPentru(o)}>
-                      <SelectTrigger className="w-[180px]">
+                      <SelectTrigger>
                         <SelectValue placeholder="Selectează pentru ce plătești" />
                       </SelectTrigger>
                       <SelectContent>
