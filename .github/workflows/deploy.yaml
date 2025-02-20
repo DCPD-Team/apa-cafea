@@ -28,8 +28,11 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
 
+      - name: Clear npm cache
+        run: npm cache clean --force
+        
       - name: Install dependencies
-        uses: bahmutov/npm-install@v2
+        uses: bahmutov/npm-install@v1
 
       - name: Build project
         run: npm run build
