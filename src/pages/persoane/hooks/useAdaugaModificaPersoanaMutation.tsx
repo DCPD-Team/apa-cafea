@@ -18,8 +18,7 @@ export const useAdaugaModificaPersoanaMutation = ({ persoana, close }: { persoan
         throw error;
       }
     },
-    onSuccess: (response) => {
-      //toast + close
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['persoane'],
       });
@@ -28,7 +27,6 @@ export const useAdaugaModificaPersoanaMutation = ({ persoana, close }: { persoan
       toast({
         variant: 'default',
         title: 'Persoana a fost adaugata!',
-        // description: response.message,
       });
     },
   });
