@@ -2,7 +2,7 @@ import { Cheltuiala } from '@/types/types.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
 import { AdaugaModificaCheltuiala } from '@/pages/cheltuieli/lista/components/FormularAdaugaModificaCheltuiala.tsx';
-import { supabaseClient } from '@/App.tsx';
+import { supabaseClient } from '@/supabase/supabase.ts';
 import { PostgrestError } from '@supabase/supabase-js';
 
 export const useAdaugaModificaCheltuialaMutation = ({
@@ -29,7 +29,7 @@ export const useAdaugaModificaCheltuialaMutation = ({
       toast({
         variant: 'default',
         title: 'Eroare! Nu a fost adaugata cheltuiala',
-        description: response?.message
+        description: response?.message,
       });
     },
     onSuccess: () => {

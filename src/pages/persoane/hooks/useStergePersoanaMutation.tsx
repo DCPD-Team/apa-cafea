@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
 import { useNavigate } from 'react-router-dom';
-import { supabaseClient } from '@/App.tsx';
+import { supabaseClient } from '@/supabase/supabase.ts';
 import { PostgrestError } from '@supabase/supabase-js';
 import { Person } from '@/types/types.ts';
 

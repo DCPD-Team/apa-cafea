@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ApaSauCafea, Payment } from '@/types/types.ts';
-import { supabaseClient } from '@/App.tsx';
+import { supabaseClient } from '@/supabase/supabase.ts';
 
 export const useGetListaPlatiPersoanaFilteredQuery = ({ an, pentru }: { an: number; pentru: ApaSauCafea }) => {
   return useQuery<Payment[]>({

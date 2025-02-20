@@ -2,8 +2,8 @@ import { Payment } from '@/types/types.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
 import { AdaugaModificaPlata } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
-import { supabaseClient } from '@/App.tsx';
 import { PostgrestError } from '@supabase/supabase-js';
+import { supabaseClient } from '@/supabase/supabase.ts';
 
 export const useAdaugaModificaPlataMutation = ({
   plata,

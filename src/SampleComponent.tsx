@@ -66,11 +66,7 @@ export const SampleComponent: FC = () => {
           </div>
           <div className={'flex flex-col gap-1'}>
             <h1>Plati</h1>
-            {plati?.map((x) => (
-              <div key={x.id}>
-                {/*{x.id} {x.suma} {x.pentru}*/}
-              </div>
-            ))}
+            {plati?.map((x) => <div key={x.id}>{/*{x.id} {x.suma} {x.pentru}*/}</div>)}
           </div>
         </div>
       </div>

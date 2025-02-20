@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { ApaSauCafea, Cheltuiala } from '@/types/types.ts';
-import { supabaseClient } from '@/App.tsx';
+import { supabaseClient } from '@/supabase/supabase.ts';
 
 export const useGetListaCheltuialaQuery = ({
   an,
@@ -14,7 +14,6 @@ export const useGetListaCheltuialaQuery = ({
   return useQuery({
     queryKey: ['cheltuieli', pentru, an],
     queryFn: async () => {
-
       const { error: e, data } = await supabaseClient
         .from('expenses')
         .select()

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
-import { supabaseClient } from '@/App.tsx';
+import { supabaseClient } from '@/supabase/supabase.ts';
 import { PostgrestError } from '@supabase/supabase-js';
 
 export const useStergePlataPersoanaMutation = ({ userId }: { userId?: string }) => {

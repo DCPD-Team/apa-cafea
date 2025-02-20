@@ -9,8 +9,6 @@ type Props = {
 export const SumarCheltuieli: React.FC<Props> = ({ filtre }) => {
   const { totalCheltuit, totalDisponibil } = useGetSumarCheltuieli(filtre);
 
-
-
   return (
     <div className="grid grid-cols-2 gap-3">
       {filtre.pentru === 'apa' ? (
@@ -38,7 +36,7 @@ export const SumarCheltuieli: React.FC<Props> = ({ filtre }) => {
       )}
     </div>
 
-// TODO:    // <div className="flex gap-2">
+    // TODO:    // <div className="flex gap-2">
     //   <Badge className={'p-2'}>Total: {total}</Badge>
     //   <Badge
     //     className={'p-2'}
