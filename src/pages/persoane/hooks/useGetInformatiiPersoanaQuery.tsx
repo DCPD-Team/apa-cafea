@@ -5,7 +5,6 @@ export const useGetInformatiiPersoanaQuery = ({ id }: { id?: string }) => {
   return useQuery({
     enabled: !!id,
     queryKey: ['persoane', id],
-    // placeholderData:[],
     queryFn: async () => {
       if (id) {
         const { data: persons } = await supabaseClient.from('persons').select().eq('id', id).limit(1).single();

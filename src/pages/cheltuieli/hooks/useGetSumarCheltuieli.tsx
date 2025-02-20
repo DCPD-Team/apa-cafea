@@ -9,11 +9,7 @@ export type TotalPlati = {
 };
 
 export const useGetSumarCheltuieli = ({ an, pentru }: { an: number; pentru: ApaSauCafea }) => {
-  const platiFiltered = useGetListaPlatiPersoanaFilteredQuery({ an: an, pentru: pentru });
-
-  const plati = useMemo(() => {
-    return platiFiltered.data;
-  }, [platiFiltered, an, pentru]);
+  const { data: plati } = useGetListaPlatiPersoanaFilteredQuery({ an: an, pentru: pentru });
 
   const cheltuieliFiltered = useGetListaCheltuialaQuery({ an: an, pentru: pentru, compareFn: compareByDataCheltuiala });
 
@@ -23,7 +19,7 @@ export const useGetSumarCheltuieli = ({ an, pentru }: { an: number; pentru: ApaS
 
   return useMemo(() => {
     if (!plati || !cheltuieli) {
-      return { totalDisponibil: 0, totalCheltuit: 0 } ;
+      return { totalDisponibil: 0, totalCheltuit: 0 };
     }
 
     if (pentru === 'apa') {

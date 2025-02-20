@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea, Payment } from '@/fake-api/fakePaymentApi.ts';
 import { supabaseClient } from '@/App.tsx';
 
 export const useGetListaPlatiPersoanaFilteredQuery = ({ an, pentru }: { an: number; pentru: ApaSauCafea }) => {
-  return useQuery({
+  return useQuery<Payment[]>({
     queryKey: ['plati', pentru, an],
     queryFn: async () => {
       const { error, data } = await supabaseClient

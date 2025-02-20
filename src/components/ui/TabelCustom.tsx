@@ -14,12 +14,12 @@ type Props<TData> = {
   rows?: number;
 };
 
-export const TabelCustom = <TData,>({ table, isLoading, isFetching, cols, rows }: Props<TData>) => {
+export const TabelCustom = <TData,>({ table, isLoading, isFetching, cols = 5, rows = 10 }: Props<TData>) => {
   if (isLoading) {
     return (
       <SkeletonTable
-        numberOfColumns={cols ?? 5}
-        numberOfRows={rows ?? 10}
+        numberOfColumns={cols}
+        numberOfRows={rows}
       />
     );
   }
