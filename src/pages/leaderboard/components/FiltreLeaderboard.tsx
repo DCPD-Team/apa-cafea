@@ -8,7 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/types/types.ts';
 import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
 import { FiltreLeaderboardType } from '@/pages/leaderboard/Leaderboard.tsx';
 

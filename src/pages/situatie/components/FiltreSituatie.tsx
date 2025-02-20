@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select.tsx';
 import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
 import { FiltreSituatieType } from '@/pages/situatie/components/TabelSituatie.tsx';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/types/types.ts';
 
 type Props = {
   filtre: FiltreSituatieType;

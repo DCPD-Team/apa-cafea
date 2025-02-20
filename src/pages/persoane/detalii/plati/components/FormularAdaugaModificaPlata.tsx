@@ -1,5 +1,5 @@
 import React from 'react';
-import { ApaSauCafea, Payment } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea, Payment } from '@/types/types.ts';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';

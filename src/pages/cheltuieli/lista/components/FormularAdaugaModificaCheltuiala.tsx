@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cheltuiala } from '@/fake-api/fakePaymentApi.ts';
+import { Cheltuiala } from '@/types/types.ts';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Button } from '@/components/ui/button.tsx';
 import { Input } from '@/components/ui/input.tsx';

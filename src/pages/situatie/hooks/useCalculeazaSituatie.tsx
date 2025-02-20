@@ -1,6 +1,6 @@
 import { Luna, LunileAnului, SituatiePersoana } from '@/pages/situatie/components/TabelSituatie.tsx';
 import { useMemo } from 'react';
-import { ApaSauCafea, Payment, Person } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea, Payment, Person } from '@/types/types.ts';
 
 export const PE_LUNA = 40;
 

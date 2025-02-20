@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Payment } from '@/fake-api/fakePaymentApi.ts';
+import { Payment } from '@/types/types.ts';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { IoMdAddCircleOutline } from 'react-icons/io';

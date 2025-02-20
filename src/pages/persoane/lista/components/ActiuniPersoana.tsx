@@ -1,5 +1,5 @@
 import React from 'react';
-import { Person } from '@/fake-api/fakePaymentApi.ts';
+import { Person } from '@/types/types.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { FaInfo, FaTrash } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';

@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from '@/components/ui/select.tsx';
 import { IoFilterOutline } from 'react-icons/io5';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/types/types.ts';
 import { Input } from '@/components/ui/input.tsx';
 import { PlataPersoanaFilter } from '@/pages/persoane/detalii/plati/ListaPlatiPersoana.tsx';
 import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';

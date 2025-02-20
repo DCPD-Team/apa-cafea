@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
-import { Person } from '@/fake-api/fakePaymentApi.ts';
+import { Person } from '@/types/types.ts';
 import { AdaugaModificaPersoana } from '@/pages/persoane/lista/components/FormularAdaugaModificaPersoana.tsx';
 import { supabaseClient } from '@/App.tsx';
 import { PostgrestError } from '@supabase/supabase-js';

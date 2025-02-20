@@ -7,13 +7,6 @@ export type Payment = Database['public']['Tables']['payments']['Row'];
 export type Person = Database['public']['Tables']['persons']['Row'];
 
 export type Cheltuiala = Database['public']['Tables']['expenses']['Row'];
-// export type Cheltuiala = {
-//   id: string;
-//   descriere: string;
-//   suma: number;
-//   data: string;
-//   pentru: ApaSauCafea;
-// };
 
 export const compareByName = (a: Person, b: Person): number =>
   a.last_name.toLowerCase().localeCompare(b.last_name.toLowerCase());

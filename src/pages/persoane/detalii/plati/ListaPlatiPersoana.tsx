@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.t
 import { ButonAdaugaModificaPlata } from '@/pages/persoane/detalii/plati/components/ButonAdaugaModificaPlata.tsx';
 import { TabelPlatiPersoana } from '@/pages/persoane/detalii/plati/components/TabelPlatiPersoana.tsx';
 import { FiltruColoanePlatiPersoana } from '@/pages/persoane/detalii/plati/components/FiltruColoanePlatiPersoana.tsx';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/types/types.ts';
 
 export type PlataPersoanaFilter = {
   pentru?: ApaSauCafea;

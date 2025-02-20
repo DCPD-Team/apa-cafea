@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Podium } from '@/pages/leaderboard/components/Podium.tsx';
 import { useCalculeazaLeaderboard } from '@/pages/leaderboard/hooks/useCalculeazaLeaderboard.tsx';
 import { FiltreLeaderboard } from '@/pages/leaderboard/components/FiltreLeaderboard.tsx';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/types/types.ts';
 import { Loader2 } from 'lucide-react';
 
 export type FiltreLeaderboardType = {

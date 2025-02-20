@@ -1,4 +1,4 @@
-import { Payment } from '@/fake-api/fakePaymentApi.ts';
+import { Payment } from '@/types/types.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
 import { AdaugaModificaPlata } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';

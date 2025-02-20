@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cheltuiala } from '@/fake-api/fakePaymentApi.ts';
+import { Cheltuiala } from '@/types/types.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { FaTrash } from 'react-icons/fa';
 import { Loader2 } from 'lucide-react';

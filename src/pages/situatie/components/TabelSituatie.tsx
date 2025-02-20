@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useCalculeazaSituatie } from '@/pages/situatie/hooks/useCalculeazaSituatie.tsx';
 import { FaInfo } from 'react-icons/fa';
 import { FiltreSituatie } from '@/pages/situatie/components/FiltreSituatie.tsx';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/types/types.ts';
 import { ColumnDef } from '@tanstack/react-table';
 import { twMerge } from 'tailwind-merge';
 import { Badge } from '@/components/ui/badge.tsx';

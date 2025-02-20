@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { ApaSauCafea, Cheltuiala } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea, Cheltuiala } from '@/types/types.ts';
 import { supabaseClient } from '@/App.tsx';
 
 export const useGetListaCheltuialaQuery = ({

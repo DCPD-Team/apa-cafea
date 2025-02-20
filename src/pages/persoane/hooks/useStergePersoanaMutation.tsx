@@ -3,7 +3,7 @@ import { useToast } from '@/hooks/use-toast.ts';
 import { useNavigate } from 'react-router-dom';
 import { supabaseClient } from '@/App.tsx';
 import { PostgrestError } from '@supabase/supabase-js';
-import { Person } from '@/fake-api/fakePaymentApi.ts';
+import { Person } from '@/types/types.ts';
 
 export const useStergePersoanaMutation = ({ shouldRedirect }: { shouldRedirect?: boolean }) => {
   const queryClient = useQueryClient();

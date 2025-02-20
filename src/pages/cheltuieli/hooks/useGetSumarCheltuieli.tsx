@@ -1,4 +1,4 @@
-import { ApaSauCafea, compareByDataCheltuiala } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea, compareByDataCheltuiala } from '@/types/types.ts';
 import { useMemo } from 'react';
 import { useGetListaCheltuialaQuery } from '@/pages/cheltuieli/hooks/useGetListaCheltuialaQuery.tsx';
 import { useGetListaPlatiPersoanaFilteredQuery } from '@/pages/persoane/hooks/useGetListaPlatiPersoanaFilteredQuery.tsx';

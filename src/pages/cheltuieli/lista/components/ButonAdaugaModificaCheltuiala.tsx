@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import React, { useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
-import { Cheltuiala } from '@/fake-api/fakePaymentApi.ts';
+import { Cheltuiala } from '@/types/types.ts';
 import { FaEdit } from 'react-icons/fa';
 import { FormularAdaugaModificaCheltuiala } from '@/pages/cheltuieli/lista/components/FormularAdaugaModificaCheltuiala.tsx';
 

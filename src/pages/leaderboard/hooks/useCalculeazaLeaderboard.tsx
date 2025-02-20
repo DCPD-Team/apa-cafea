@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
-import { ApaSauCafea } from '@/fake-api/fakePaymentApi.ts';
+import { ApaSauCafea } from '@/types/types.ts';
 import { LocPodiumType, PodiumType } from '@/pages/leaderboard/components/Podium.tsx';
 import { useGetListaPlatiQuery } from '@/pages/persoane/hooks/useGetListaPlatiQuery.tsx';
 

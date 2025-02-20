@@ -1,4 +1,4 @@
-import { Cheltuiala } from '@/fake-api/fakePaymentApi.ts';
+import { Cheltuiala } from '@/types/types.ts';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
 import { AdaugaModificaCheltuiala } from '@/pages/cheltuieli/lista/components/FormularAdaugaModificaCheltuiala.tsx';

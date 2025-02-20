@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { Person } from '@/fake-api/fakePaymentApi.ts';
+import { Person } from '@/types/types.ts';
 import { supabaseClient } from '@/App.tsx';
 
 export const useGetListaPersoanaQuery = ({ compareFn }: { compareFn?: (a: Person, b: Person) => number }) => {

@@ -10,7 +10,7 @@ import {
 import React, { useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FormularAdaugaModificaPersoana } from '@/pages/persoane/lista/components/FormularAdaugaModificaPersoana.tsx';
-import { Person } from '@/fake-api/fakePaymentApi.ts';
+import { Person } from '@/types/types.ts';
 import { FaEdit } from 'react-icons/fa';
 
 type Props = {
