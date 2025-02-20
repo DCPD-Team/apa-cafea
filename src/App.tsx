@@ -6,10 +6,11 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from '@/components/ui/toaster.tsx';
 import { ToastProvider } from '@/components/ui/toast.tsx';
 import { Session } from '@supabase/supabase-js';
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeMinimal, ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabaseClient } from './supabase/supabase.ts';
+import { Login } from '@/pages/autentificare/Login.tsx';
+import { jwtDecode, JwtPayload } from 'jwt-decode';
 
+type JwtCustomPayload = JwtPayload & { user_role?: string[] };
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -21,13 +22,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
-async function signInWithEmail() {
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: 'valid.email@supabase.io',
-    password: 'example-password',
-  });
-}
 
 export const App: FC = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -47,20 +41,22 @@ export const App: FC = () => {
   }, []);
 
   if (!session) {
-    return (
-      <Auth
-        supabaseClient={supabaseClient}
-        appearance={{ theme: ThemeMinimal }}
-      />
-    );
-  } else {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-        <ReactQueryDevtools initialIsOpen={false} />
-        <ToastProvider duration={3000}></ToastProvider>
-        <Toaster />
-      </QueryClientProvider>
-    );
+    return <Login />;
   }
+  const a = supabaseClient.auth.onAuthStateChange(async (event, session) => {
+    if (session) {
+      const jwt = jwtDecode<JwtCustomPayload>(session.access_token);
+      const userRole = jwt.user_role;
+      console.log(jwt);
+    }
+  });
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+      <ReactQueryDevtools initialIsOpen={false} />
+      <ToastProvider duration={3000}></ToastProvider>
+      <Toaster />
+    </QueryClientProvider>
+  );
 };

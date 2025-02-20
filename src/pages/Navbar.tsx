@@ -1,6 +1,9 @@
 import React from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
+import { supabaseClient } from '@/supabase/supabase.ts';
+import { Button } from '@/components/ui/button.tsx';
+import { LuLogOut } from 'react-icons/lu';
 
 export const Navbar: React.FC = () => {
   const { state } = useLocation();
@@ -11,27 +14,36 @@ export const Navbar: React.FC = () => {
 
   return (
     <div className={'container mx-auto flex flex-col gap-3'}>
-      <div className="pt-5">
-        <NavLink
-          to="/persoana"
-          className={({ isActive }) => getStyles(isActive)}>
-          Persoane
-        </NavLink>
-        <NavLink
-          to="/situatie"
-          className={({ isActive }) => getStyles(isActive)}>
-          Situatie
-        </NavLink>
-        <NavLink
-          to="/leaderboard"
-          className={({ isActive }) => getStyles(isActive)}>
-          Leaderboard
-        </NavLink>
-        <NavLink
-          to="/cheltuiala"
-          className={({ isActive }) => getStyles(isActive)}>
-          Cheltuieli
-        </NavLink>
+      <div className="flex items-center justify-between pt-5">
+        <div>
+          <NavLink
+            to="/persoana"
+            className={({ isActive }) => getStyles(isActive)}>
+            Persoane
+          </NavLink>
+          <NavLink
+            to="/situatie"
+            className={({ isActive }) => getStyles(isActive)}>
+            Situatie
+          </NavLink>
+          <NavLink
+            to="/leaderboard"
+            className={({ isActive }) => getStyles(isActive)}>
+            Leaderboard
+          </NavLink>
+          <NavLink
+            to="/cheltuiala"
+            className={({ isActive }) => getStyles(isActive)}>
+            Cheltuieli
+          </NavLink>
+        </div>
+        <Button
+          variant={'outline'}
+          onClick={() => {
+            supabaseClient.auth.signOut();
+          }}>
+          <LuLogOut className={'size-5'} /> Logout
+        </Button>
       </div>
       <Outlet />
     </div>
