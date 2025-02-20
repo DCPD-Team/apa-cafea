@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouteObject } from 'react-router-dom';
+import { createBrowserRouter, createHashRouter, Navigate, RouteObject } from 'react-router-dom';
 import { Situatie } from '@/pages/situatie/Situatie.tsx';
 import { Leaderboard } from '@/pages/leaderboard/Leaderboard.tsx';
 import { Navbar } from '@/pages/Navbar.tsx';
@@ -56,4 +56,4 @@ export const AppRoutes: RouteObject[] = [
   },
 ];
 
-export const router = createBrowserRouter(AppRoutes);
+export const router = createHashRouter(AppRoutes);
