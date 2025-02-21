@@ -1,37 +1,39 @@
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils.ts';
+import { Button } from '@/components/ui/button.tsx';
+import { Card, CardContent } from '@/components/ui/card.tsx';
+import { Input } from '@/components/ui/input.tsx';
 import { FaGithub } from 'react-icons/fa';
-import { supabaseClient } from '@/supabase/supabase.ts';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx';
 import React from 'react';
+import { AuthTypes } from '@/pages/autentificare/Login.tsx';
+import { useAuthenticateMutation } from '@/pages/autentificare/hooks/useAuthenticateMutation.tsx';
+import { useOAuthMutation } from '@/pages/autentificare/hooks/useOAuthMutation.tsx';
 
-type LoginForm = {
-  username: string;
+export type LoginForm = {
+  email: string;
   password: string;
 };
 
-// @ts-ignore
-const redirectTo = import.meta.env.VITE_SUPABASE_REDIRECT_URL;
+type Props = {
+  type: AuthTypes;
+  setType: (type: AuthTypes) => void;
+};
 
-export const LoginForm: React.FC = () => {
+export const AuthenticationForm: React.FC<Props> = ({ type, setType }) => {
+  const { mutate } = useAuthenticateMutation({ type });
+  const { mutate: oauthMutate } = useOAuthMutation();
+
   const formSchema = z.object({
-    username: z.string().min(0, 'Adresa email este obligatorie'),
+    email: z.string().min(0, 'Adresa email este obligatorie'),
     password: z.string().min(3, 'Parola este obligatorie'),
   });
   const form = useForm<LoginForm>({
     mode: 'onChange',
     resolver: zodResolver(formSchema),
   });
-
-  const handleSubmit = (data: LoginForm) => {
-    console.log(data);
-    supabaseClient.auth.signInWithPassword({ email: data.username, password: data.password });
-  };
 
   return (
     <div className={cn('flex flex-col gap-6')}>
@@ -40,15 +42,20 @@ export const LoginForm: React.FC = () => {
           <Form {...form}>
             <form
               className="h-[500px] p-6 pb-10 md:p-8"
-              onSubmit={form.handleSubmit(handleSubmit)}>
+              onSubmit={form.handleSubmit((data: LoginForm) => {
+                mutate(data);
+              })}>
               <div className="flex flex-col items-center text-center">
-                <h1 className="text-2xl font-bold">Spor la cafeluta!</h1>
-                <p className="text-balance text-muted-foreground">Login to Apa si Cafea</p>
+                <h1 className="text-2xl font-bold">Spor la cafeluțǎ!</h1>
+                <p className="text-balance text-muted-foreground">
+                  {type === 'SIGN IN' ? 'Bine ai venit în comunitatea ' : 'Alǎturǎ-te comunitǎții '}
+                  <span className={'italic'}>Apǎ şi Cafea ☕</span>
+                </p>
               </div>
               <div className={'mt-5 flex flex-col gap-4'}>
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="email"
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Email</FormLabel>
@@ -68,7 +75,7 @@ export const LoginForm: React.FC = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Parola</FormLabel>
+                      <FormLabel>Parolǎ</FormLabel>
                       <FormControl>
                         <Input
                           {...field}
@@ -84,24 +91,28 @@ export const LoginForm: React.FC = () => {
                 <Button
                   type="submit"
                   className="w-full">
-                  Login
+                  {type === 'SIGN IN' ? 'Autentificare' : 'Înregistrare'}
                 </Button>
                 <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                  <span className="relative z-10 bg-background px-2 text-muted-foreground">Or continue with</span>
+                  <span className="relative z-10 bg-background px-2 text-muted-foreground">sau continuǎ cu</span>
                 </div>
                 <Button
-                  onClick={() => {
-                    // @ts-ignore
-                    supabaseClient.auth.signInWithOAuth({
-                      provider: 'github',
-                      options: { redirectTo: redirectTo },
-                    });
-                  }}
+                  onClick={() => oauthMutate()}
                   type="button"
                   variant="outline"
                   className="w-full">
                   <FaGithub />
-                  <span>Login with GitHub</span>
+                  <span>GitHub</span>
+                </Button>
+              </div>
+              <div className="mt-5 text-center text-sm">
+                {type === 'SIGN IN' ? 'Nu ai cont încǎ?' : 'Ai cont deja?'}
+                <Button
+                  variant={'link'}
+                  type={'button'}
+                  onClick={() => setType(type === 'SIGN IN' ? 'SIGN UP' : 'SIGN IN')}
+                  className="p-1 underline">
+                  {type === 'SIGN IN' ? 'Înregistreazǎ-te' : 'Autentificǎ-te'}
                 </Button>
               </div>
             </form>

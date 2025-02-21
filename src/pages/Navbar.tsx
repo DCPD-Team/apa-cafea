@@ -33,7 +33,7 @@ export const Navbar: React.FC = () => {
           <NavLink
             to="/situatie"
             className={({ isActive }) => getStyles(isActive)}>
-            Situatie
+            Situație
           </NavLink>
           <NavLink
             to="/leaderboard"

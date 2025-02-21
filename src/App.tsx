@@ -8,9 +8,7 @@ import { ToastProvider } from '@/components/ui/toast.tsx';
 import { Session } from '@supabase/supabase-js';
 import { supabaseClient } from './supabase/supabase.ts';
 import { Login } from '@/pages/autentificare/Login.tsx';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
 
-type JwtCustomPayload = JwtPayload & { user_role?: string[] };
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -41,15 +39,13 @@ export const App: FC = () => {
   }, []);
 
   if (!session) {
-    return <Login />;
+    return (
+      <QueryClientProvider client={queryClient}>
+        <Login />;<ToastProvider duration={3000}></ToastProvider>
+        <Toaster />
+      </QueryClientProvider>
+    );
   }
-  const a = supabaseClient.auth.onAuthStateChange(async (event, session) => {
-    if (session) {
-      const jwt = jwtDecode<JwtCustomPayload>(session.access_token);
-      const userRole = jwt.user_role;
-      console.log(jwt);
-    }
-  });
 
   return (
     <QueryClientProvider client={queryClient}>
