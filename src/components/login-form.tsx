@@ -15,6 +15,9 @@ type LoginForm = {
   password: string;
 };
 
+// @ts-ignore
+const redirectTo = import.meta.env.VITE_SUPABASE_REDIRECT_URL;
+
 export const LoginForm: React.FC = () => {
   const formSchema = z.object({
     username: z.string().min(0, 'Adresa email este obligatorie'),
@@ -88,7 +91,11 @@ export const LoginForm: React.FC = () => {
                 </div>
                 <Button
                   onClick={() => {
-                    supabaseClient.auth.signInWithOAuth({ provider: 'github' });
+                    // @ts-ignore
+                    supabaseClient.auth.signInWithOAuth({
+                      provider: 'github',
+                      options: { redirectTo: redirectTo },
+                    });
                   }}
                   type="button"
                   variant="outline"

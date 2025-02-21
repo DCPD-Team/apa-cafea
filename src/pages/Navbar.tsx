@@ -1,15 +1,24 @@
 import React from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { twMerge } from 'tailwind-merge';
 import { supabaseClient } from '@/supabase/supabase.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { LuLogOut } from 'react-icons/lu';
 
 export const Navbar: React.FC = () => {
-  const { state } = useLocation();
-
   const getStyles = (isActive: boolean) => {
     return twMerge('px-6 py-2 rounded-md text-lg font-bold bg-slate-100', isActive ? 'bg-blue-500 text-white' : '');
+  };
+
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+    if (!error) {
+      navigate('/');
+    } else {
+      console.error('Error signing out:', error.message);
+    }
   };
 
   return (
@@ -40,7 +49,7 @@ export const Navbar: React.FC = () => {
         <Button
           variant={'outline'}
           onClick={() => {
-            supabaseClient.auth.signOut();
+            handleSignOut();
           }}>
           <LuLogOut className={'size-5'} /> Logout
         </Button>
