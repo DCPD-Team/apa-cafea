@@ -1,13 +1,13 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RouterProvider } from 'react-router-dom';
 import { router } from '@/AppRouter.tsx';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from '@/components/ui/toaster.tsx';
 import { ToastProvider } from '@/components/ui/toast.tsx';
-import { Session } from '@supabase/supabase-js';
-import { supabaseClient } from './supabase/supabase.ts';
 import { Login } from '@/pages/autentificare/Login.tsx';
+import { useAuth } from '@/hooks/useAuth';
+import CoffeeSplash from './components/CoffeeSplash';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,37 +22,21 @@ const queryClient = new QueryClient({
 });
 
 export const App: FC = () => {
-  const [session, setSession] = useState<Session | null>(null);
-
-  useEffect(() => {
-    supabaseClient.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    const {
-      data: { subscription },
-    } = supabaseClient.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (!session) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <Login />;<ToastProvider duration={3000}></ToastProvider>
-        <Toaster />
-      </QueryClientProvider>
-    );
-  }
+  const { session, isLoading } = useAuth();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      {!isLoading ? (
+        <CoffeeSplash />
+      ) : (
+        <>
+          {session ? <RouterProvider router={router} /> : <Login />}
+        </>
+      )}
       <ReactQueryDevtools initialIsOpen={false} />
-      <ToastProvider duration={3000}></ToastProvider>
-      <Toaster />
+      <ToastProvider duration={3000}>
+        <Toaster />
+      </ToastProvider>
     </QueryClientProvider>
   );
 };
