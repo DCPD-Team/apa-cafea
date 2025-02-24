@@ -30,6 +30,10 @@ export const useStergePersoanaMutation = ({ shouldRedirect }: { shouldRedirect?:
       });
     },
     onSuccess: () => {
+      toast({
+        variant: 'default',
+        title: 'Persoana a fost ştearsǎ!',
+      });
       queryClient.invalidateQueries({
         queryKey: ['persoane'],
       });

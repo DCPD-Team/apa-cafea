@@ -27,11 +27,11 @@ export const useAdaugaModificaPlataMutation = ({
         throw error;
       }
     },
-    onError: (response) => {
+    onError: () => {
       toast({
         variant: 'default',
         title: 'Error!',
-        description: response?.message,
+        description: plata ? 'Plata nu a putut fi modificatǎ' : 'Plata nu a putut fi adaugatǎ',
       });
     },
     onSuccess: () => {
@@ -42,7 +42,7 @@ export const useAdaugaModificaPlataMutation = ({
       close();
       toast({
         variant: 'default',
-        title: 'Plata a fost adaugata!',
+        title: plata ? 'Plata a fost modificatǎ!' : 'Plata a fost adǎugatǎ!',
       });
     },
   });
