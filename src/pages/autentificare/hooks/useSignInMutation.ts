@@ -1,21 +1,15 @@
-import { useMutation } from '@tanstack/react-query';
 import { useToast } from '@/hooks/use-toast.ts';
+import { useMutation } from '@tanstack/react-query';
 import { PostgrestError } from '@supabase/supabase-js';
 import { supabaseClient } from '@/supabase/supabase.ts';
-import { LoginForm } from '@/pages/autentificare/components/authentication-form.tsx';
-import { AuthTypes } from '@/pages/autentificare/Login.tsx';
+import { LoginForm } from '@/pages/autentificare/Authentification.tsx';
 
-export const useAuthenticateMutation = ({ type }: { type: AuthTypes }) => {
+export const useSignInMutation = () => {
   const { toast } = useToast();
 
   return useMutation<void, PostgrestError | null, LoginForm>({
     mutationFn: async (data) => {
-      const { error } = await (type === 'SIGN IN'
-        ? supabaseClient.auth.signInWithPassword({ email: data.email, password: data.password })
-        : supabaseClient.auth.signUp({
-            email: data.email,
-            password: data.password,
-          }));
+      const { error } = await supabaseClient.auth.signInWithPassword({ email: data.email, password: data.password });
 
       if (error) {
         throw error;
