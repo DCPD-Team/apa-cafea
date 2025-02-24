@@ -1,0 +1,9 @@
+node_modules
+build
+.idea
+.vscode
+src/clients
+Dockerfile
+ci-cd
+public
+package-lock.json
