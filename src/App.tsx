@@ -5,7 +5,7 @@ import { router } from '@/AppRouter.tsx';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { Toaster } from '@/components/ui/toaster.tsx';
 import { ToastProvider } from '@/components/ui/toast.tsx';
-import { Login } from '@/pages/autentificare/Login.tsx';
+import { Authentification } from '@/pages/autentificare/Authentification.tsx';
 import { useAuth } from '@/hooks/useAuth';
 import CoffeeSplash from './components/CoffeeSplash';
 
@@ -32,7 +32,7 @@ export const App: FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isLoading || showSplash ? <CoffeeSplash /> : <>{session ? <RouterProvider router={router} /> : <Login />}</>}
+      {isLoading || showSplash ? <CoffeeSplash /> : <>{session ? <RouterProvider router={router} /> : <Authentification />}</>}
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastProvider duration={3000}>
         <Toaster />
