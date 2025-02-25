@@ -2,7 +2,15 @@ import { Database } from '../../database.types.ts';
 
 export type ApaSauCafea = 'apa' | 'cafea';
 
+export type Months = Database['public']['Tables']['months']['Row'];
+
+export type MonthlyPrices = Database['public']['Tables']['monthly_prices']['Row'];
+
+export type MonthlyPayments = Database['public']['Tables']['monthly_payments']['Row'];
+
 export type Payment = Database['public']['Tables']['payments']['Row'];
+
+export type Contribution = Database['public']['Tables']['wallet_payments']['Row'];
 
 export type Person = Database['public']['Tables']['persons']['Row'];
 
