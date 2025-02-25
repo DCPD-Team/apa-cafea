@@ -64,10 +64,11 @@ export const TabelCustom = <TData,>({ table, isLoading, isFetching, cols = 5, ro
 
           {table.getRowModel().rows.map((row: Row<TData>) => {
             return (
-              <TableRow key={row.id}>
+              <TableRow key={row.id} >
                 {row.getVisibleCells().map((cell) => {
                   return (
                     <TableCell
+                      onClick={()=> console.log(cell.column.id)}
                       className="font-medium"
                       key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
