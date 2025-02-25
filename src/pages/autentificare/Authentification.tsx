@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { SignUpForm } from '@/pages/autentificare/components/signUpForm.tsx';
 import { SignInForm } from '@/pages/autentificare/components/signInForm.tsx';
 import { cn } from '@/lib/utils.ts';
 import { Card, CardContent } from '@/components/ui/card.tsx';
 import { Button } from '@/components/ui/button.tsx';
+import CoffeeBeanRain from '@/components/CoffeeBeanRain.tsx';
 
 export type LoginForm = {
   email: string;
@@ -26,7 +27,7 @@ export const Authentification: React.FC = () => {
         <Card className="overflow-hidden">
           <CardContent className="grid p-0 md:grid-cols-2">
             <motion.div
-              className={cn('relative h-[500px] p-6 pb-10 md:p-8', !showSignIn && 'md:order-2')}
+              className={cn('relative h-[500px] p-6 pb-10 md:p-8', !showSignIn ? 'border-l md:order-2' : 'border-r')}
               layout
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
               <AnimatePresence mode="wait">
@@ -75,14 +76,10 @@ export const Authentification: React.FC = () => {
             </motion.div>
 
             <motion.div
-              className="relative hidden bg-muted md:block"
+              className="relative hidden md:block"
               layout
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
-              <img
-                src="https://esquirescoffee.co.uk/wp-content/uploads/2020/02/tabitha-turner-KWZ-rg9o76A-unsplash.jpg"
-                alt="Coffee Background"
-                className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-              />
+              <CoffeeBeanRain />
             </motion.div>
           </CardContent>
         </Card>
