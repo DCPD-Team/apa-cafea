@@ -11,6 +11,7 @@ import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { FiltreCheltuiala } from '@/pages/cheltuieli/lista/components/FiltreCheltuiala.tsx';
 import { FiltruColoaneCheltuieli } from '@/pages/cheltuieli/lista/components/FiltruColoaneCheltuieli.tsx';
 import { formatDate } from 'date-fns';
+import { useAuth } from '@/hooks/useAuth.tsx';
 
 export type FiltreCheltuialaType = {
   an: number;
@@ -25,6 +26,7 @@ export type CheltuialaFilter = {
 export const ListaCheltuieli: React.FC = () => {
   const [columnFilters, setColumnFilters] = useState<CheltuialaFilter>({});
   const [filtre, setFiltre] = useState<FiltreCheltuialaType>({ an: 2025, pentru: 'cafea' });
+  const { user } = useAuth();
 
   const {
     isLoading,
@@ -105,7 +107,7 @@ export const ListaCheltuieli: React.FC = () => {
               currentFilter={columnFilters}
               setFilter={setColumnFilters}
             />
-            <ButonAdaugaModificaCheltuiala />
+            {user?.appRole?.includes('moderator') && <ButonAdaugaModificaCheltuiala />}
           </div>
         </div>
       </CardHeader>

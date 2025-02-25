@@ -25,11 +25,11 @@ export const useAdaugaModificaCheltuialaMutation = ({
         throw e;
       }
     },
-    onError: (response) => {
+    onError: () => {
       toast({
-        variant: 'default',
-        title: 'Eroare! Nu a fost adaugata cheltuiala',
-        description: response?.message,
+        variant: 'destructive',
+        title: 'Eroare!',
+        description: cheltuiala ? 'Cheltuiala nu a putut fi modificatǎ!' : 'Cheltuiala nu a putut fi adǎugatǎ!',
       });
     },
     onSuccess: () => {
@@ -41,7 +41,7 @@ export const useAdaugaModificaCheltuialaMutation = ({
       close();
       toast({
         variant: 'default',
-        title: 'Cheltuiala a fost adaugata!',
+        title: cheltuiala ? 'Cheltuiala a fost modificatǎ!' : 'Cheltuiala a fost adǎugatǎ!',
       });
     },
   });

@@ -4,6 +4,7 @@ import { ButonAdaugaModificaPlata } from '@/pages/persoane/detalii/plati/compone
 import { TabelPlatiPersoana } from '@/pages/persoane/detalii/plati/components/TabelPlatiPersoana.tsx';
 import { FiltruColoanePlatiPersoana } from '@/pages/persoane/detalii/plati/components/FiltruColoanePlatiPersoana.tsx';
 import { ApaSauCafea } from '@/types/types.ts';
+import { useAuth } from '@/hooks/useAuth.tsx';
 
 export type PlataPersoanaFilter = {
   what_for?: ApaSauCafea;
@@ -12,6 +13,7 @@ export type PlataPersoanaFilter = {
 
 export const ListaPlatiPersoana: React.FC = () => {
   const [filters, setFilters] = useState<PlataPersoanaFilter>({});
+  const { user } = useAuth();
 
   return (
     <Card>
@@ -24,7 +26,7 @@ export const ListaPlatiPersoana: React.FC = () => {
               setFilter={setFilters}
             />
 
-            <ButonAdaugaModificaPlata />
+            {user?.appRole?.includes('moderator') && <ButonAdaugaModificaPlata />}
           </div>
         </div>
       </CardHeader>

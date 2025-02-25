@@ -10,12 +10,14 @@ import { FiltruColoanePersoane } from '@/pages/persoane/lista/components/FiltruC
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { formatDate } from 'date-fns';
+import { useAuth } from '@/hooks/useAuth.tsx';
 
 export type PersonFilter = Partial<Pick<Person, 'first_name' | 'last_name' | 'water' | 'coffee'>>;
 
 export const ListaPersoane: React.FC = () => {
   const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
   const [filters, setFilters] = useState<PersonFilter>({});
+  const { user } = useAuth();
 
   const columns = useMemo<ColumnDef<Person>[]>(
     () => [
@@ -65,7 +67,6 @@ export const ListaPersoane: React.FC = () => {
     []
   );
 
-  console.log(filters);
   const { table } = useCustomDataTable({ columns, data: persoane, filters: filters });
 
   return (
@@ -78,7 +79,9 @@ export const ListaPersoane: React.FC = () => {
               currentFilter={filters}
               setFilter={setFilters}
             />
-            <ButonAdaugaModificaPersoana />
+            {(user?.appRole?.includes('admin') || user?.appRole?.includes('moderator')) && (
+              <ButonAdaugaModificaPersoana />
+            )}
           </div>
         </div>
       </CardHeader>

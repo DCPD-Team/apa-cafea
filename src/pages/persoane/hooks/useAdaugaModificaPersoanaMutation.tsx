@@ -26,7 +26,14 @@ export const useAdaugaModificaPersoanaMutation = ({ persoana, close }: { persoan
       close();
       toast({
         variant: 'default',
-        title: 'Persoana a fost adaugata!',
+        title: persoana ? 'Persoana a fost modificatǎ!' : 'Persoana a fost adǎugatǎ!',
+      });
+    },
+    onError: (response) => {
+      toast({
+        variant: 'destructive',
+        title: 'Eroare',
+        description: 'Persoana nu a putut fi adǎugatǎ!',
       });
     },
   });
