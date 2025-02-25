@@ -7,9 +7,12 @@ import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { useSignInMutation } from '@/pages/autentificare/hooks/useSignInMutation.ts';
 import { LoginForm } from '@/pages/autentificare/Authentification.tsx';
+import { useOAuthMutation } from '@/pages/autentificare/hooks/useOAuthMutation.tsx';
+import { FaGithub } from 'react-icons/fa';
 
 export const SignInForm: React.FC = () => {
   const { mutate } = useSignInMutation();
+  const { mutate: oauthMutate } = useOAuthMutation();
 
   const formSchema = z.object({
     email: z.string().min(0, 'Adresa email este obligatorie'),
@@ -73,6 +76,17 @@ export const SignInForm: React.FC = () => {
             type="submit"
             className="w-full">
             {'Autentificare'}
+          </Button>
+          <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
+            <span className="relative z-10 bg-background px-2 text-muted-foreground">sau continuǎ cu</span>
+          </div>
+          <Button
+            onClick={() => oauthMutate()}
+            type="button"
+            variant="outline"
+            className="w-full">
+            <FaGithub />
+            <span>GitHub</span>
           </Button>
         </div>
       </form>
