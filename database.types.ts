@@ -51,57 +51,9 @@ export type Database = {
         }
         Relationships: []
       }
-      inactive_month: {
-        Row: {
-          created_at: string
-          id: string
-          inactive: boolean | null
-          month_id: string | null
-          person_id: string | null
-          what_for_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          inactive?: boolean | null
-          month_id?: string | null
-          person_id?: string | null
-          what_for_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          inactive?: boolean | null
-          month_id?: string | null
-          person_id?: string | null
-          what_for_id?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "inactive_month_month_id_fkey"
-            columns: ["month_id"]
-            isOneToOne: false
-            referencedRelation: "months"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "inactive_month_person_id_fkey"
-            columns: ["person_id"]
-            isOneToOne: false
-            referencedRelation: "persons"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "inactive_month_what_for_id_fkey"
-            columns: ["what_for_id"]
-            isOneToOne: false
-            referencedRelation: "expense_type"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       monthly_payments: {
         Row: {
+          active: boolean | null
           created_at: string
           expense_type_id: string
           id: string
@@ -110,6 +62,7 @@ export type Database = {
           person_id: string
         }
         Insert: {
+          active?: boolean | null
           created_at?: string
           expense_type_id: string
           id?: string
@@ -118,6 +71,7 @@ export type Database = {
           person_id: string
         }
         Update: {
+          active?: boolean | null
           created_at?: string
           expense_type_id?: string
           id?: string
@@ -151,36 +105,36 @@ export type Database = {
       }
       monthly_prices: {
         Row: {
+          expense_type_id: string | null
           id: string
           month_id: string | null
           price_value: number | null
-          what_for_id: string | null
         }
         Insert: {
+          expense_type_id?: string | null
           id?: string
           month_id?: string | null
           price_value?: number | null
-          what_for_id?: string | null
         }
         Update: {
+          expense_type_id?: string | null
           id?: string
           month_id?: string | null
           price_value?: number | null
-          what_for_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "monthly_prices_expense_type_id_fkey"
+            columns: ["expense_type_id"]
+            isOneToOne: false
+            referencedRelation: "expense_type"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "monthly_prices_month_id_fkey"
             columns: ["month_id"]
             isOneToOne: false
             referencedRelation: "months"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "monthly_prices_what_for_id_fkey"
-            columns: ["what_for_id"]
-            isOneToOne: false
-            referencedRelation: "expense_type"
             referencedColumns: ["id"]
           },
         ]
@@ -307,26 +261,33 @@ export type Database = {
       wallet_payments: {
         Row: {
           created_at: string
+          expense_type_id: string
           id: string
           payment: number
           person_id: string
-          what_for_id: string
         }
         Insert: {
           created_at?: string
+          expense_type_id: string
           id?: string
           payment: number
           person_id: string
-          what_for_id: string
         }
         Update: {
           created_at?: string
+          expense_type_id?: string
           id?: string
           payment?: number
           person_id?: string
-          what_for_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "wallet_payments_expense_type_id_fkey"
+            columns: ["expense_type_id"]
+            isOneToOne: false
+            referencedRelation: "expense_type"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "wallet_payments_personId_fkey"
             columns: ["person_id"]
@@ -334,18 +295,56 @@ export type Database = {
             referencedRelation: "persons"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "wallet_payments_what_for_id_fkey"
-            columns: ["what_for_id"]
-            isOneToOne: false
-            referencedRelation: "expense_type"
-            referencedColumns: ["id"]
-          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      remaining_balance_view: {
+        Row: {
+          expense_type_id: string | null
+          person_id: string | null
+          remaining_balance: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_payments_expense_type_id_fkey"
+            columns: ["expense_type_id"]
+            isOneToOne: false
+            referencedRelation: "expense_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wallet_payments_personId_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "persons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      wallet_sums_view: {
+        Row: {
+          expense_type_id: string | null
+          person_id: string | null
+          total_value: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_payments_expense_type_id_fkey"
+            columns: ["expense_type_id"]
+            isOneToOne: false
+            referencedRelation: "expense_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "wallet_payments_personId_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "persons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Functions: {
       authorize: {

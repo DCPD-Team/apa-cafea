@@ -10,6 +10,8 @@ export const useGetMonthlyPaymentsPerson = ({ personId, whatForId }: { personId:
         .select()
         .eq('person_id', personId)
         .eq('expense_type_id', whatForId);
+
+      console.log(monthly_payments);
       return monthly_payments;
     },
   });
