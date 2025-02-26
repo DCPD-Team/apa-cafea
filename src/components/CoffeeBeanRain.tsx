@@ -38,6 +38,9 @@ export default function CoffeeBeanRain() {
         <React.Fragment key={`group-${groupIndex}`}>
           {group.map((bean) => (
             <motion.div
+              drag={true}
+              whileHover={{ scale: 1.1 }}
+              dragMomentum={true}
               key={`bean-${groupIndex}-${bean.id}`}
               className="absolute"
               style={{
