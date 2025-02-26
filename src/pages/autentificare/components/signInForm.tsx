@@ -15,10 +15,14 @@ export const SignInForm: React.FC = () => {
   const { mutate: oauthMutate } = useOAuthMutation();
 
   const formSchema = z.object({
-    email: z.string().min(0, 'Adresa email este obligatorie'),
-    password: z.string().min(3, 'Parola este obligatorie'),
+    email: z.string().email('Acest email nu este valid.'),
+    password: z.string().nonempty('Parola este obligatorie.'),
   });
   const form = useForm<LoginForm>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
     mode: 'onChange',
     resolver: zodResolver(formSchema),
   });
