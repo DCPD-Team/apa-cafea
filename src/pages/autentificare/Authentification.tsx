@@ -27,7 +27,7 @@ export const Authentification: React.FC = () => {
         <Card className="overflow-hidden">
           <CardContent className="grid p-0 md:grid-cols-2">
             <motion.div
-              className={cn('relative h-[500px] p-6 pb-10 md:p-8', !showSignIn ? 'border-l md:order-2' : 'border-r')}
+              className={cn('relative h-[550px] p-6 pb-10 md:p-8', !showSignIn ? 'border-l md:order-2' : 'border-r')}
               layout
               transition={{ type: 'spring', stiffness: 300, damping: 30 }}>
               <AnimatePresence mode="wait">
