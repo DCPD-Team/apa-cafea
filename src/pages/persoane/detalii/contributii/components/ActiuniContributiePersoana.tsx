@@ -5,12 +5,8 @@ import { FaTrash } from 'react-icons/fa';
 import { Loader2 } from 'lucide-react';
 import { ButonAdaugaModificaPlata } from '@/pages/persoane/detalii/plati/components/ButonAdaugaModificaPlata.tsx';
 import { useAuth } from '@/hooks/useAuth.tsx';
-import {
-  useStergeContributiePersoanaMutation,
-} from '@/pages/persoane/detalii/contributii/hooks/useStergeContributiePersoanaMutation.tsx';
-import {
-  ButonAdaugaModificaContributie
-} from '@/pages/persoane/detalii/contributii/components/ButonAdaugaModificaContributie.tsx';
+import { useStergeContributiePersoanaMutation } from '@/pages/persoane/detalii/contributii/hooks/useStergeContributiePersoanaMutation.tsx';
+import { ButonAdaugaModificaContributie } from '@/pages/persoane/detalii/contributii/components/ButonAdaugaModificaContributie.tsx';
 
 type Props = {
   contributie: Contribution;

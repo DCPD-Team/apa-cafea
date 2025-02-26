@@ -1,12 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
-import { useGetMonths } from '@/hooks/useGetMonths.tsx';
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { Months } from '@/types/types.ts';
+import { MonthlyPayments } from '@/types/types.ts';
 import { useGetMonthlyPaymentsPerson } from '@/pages/persoane/detalii/plati_lunare/hooks/useGetMonthlyPaymentsPerson.tsx';
-import { useGetInactiveMonthsPerson } from '@/pages/persoane/detalii/plati_lunare/hooks/useGetInactiveMonthsPerson.tsx';
-import { useGetMonthlySituationPerson } from '@/pages/persoane/detalii/plati_lunare/hooks/useGetMonthlySituationPerson.tsx';
+import { Luna, LunileAnului } from '@/pages/situatie/components/TabelSituatie.tsx';
+import { ActiuniPlataLunara } from '@/pages/persoane/detalii/plati_lunare/components/ActiuniPlataLunara.tsx';
 
 export const ListaPlatiLunarePersoana: React.FC<{ personId: string; whatForId: string }> = ({
   personId,
@@ -15,24 +14,53 @@ export const ListaPlatiLunarePersoana: React.FC<{ personId: string; whatForId: s
   personId: string;
   whatForId: string;
 }) => {
-  // const queryMonthlyPayments = useGetMonthlyPaymentsPerson({ personId, whatForId });
-  // const queryInactiveMonths = useGetInactiveMonthsPerson({ personId, whatForId });
-  //
-  // const queryMonths = useGetMonths();
+  const { data } = useGetMonthlyPaymentsPerson({ personId, whatForId });
 
-  const tableData = useGetMonthlySituationPerson({ personId, whatForId });
+  const excludeSet = new Set(data?.map((x) => x.month_id));
+  const celelalteluni = Object.keys(LunileAnului).filter((x) => !excludeSet.has(x));
 
-  const columns: ColumnDef<Months>[] = [
+  const fakeData = useMemo(() => {
+    return celelalteluni.map(
+      (x) =>
+        ({
+          active: null,
+          paid: null,
+          month_id: x,
+        }) as MonthlyPayments
+    );
+  }, [celelalteluni]);
+
+  const newData = [...(data ?? []), ...fakeData];
+
+  const columns: ColumnDef<MonthlyPayments>[] = [
     {
-      id: 'id',
-      header: 'Lună',
-      accessorFn: (row) => `${row.name}`,
+      header: 'Luna',
+      accessorKey: 'month_id',
+      cell: ({ row }) => <> {row.original.month_id}</>,
+    },
+    {
+      header: 'Activ',
+      accessorKey: 'active',
+      cell: ({ row }) => <> {row.original.active ? 'Activ' : row.original.active === false ? 'Inactiv' : '-'}</>,
+    },
+    {
+      header: 'Paid',
+      accessorKey: 'paid',
+      cell: ({ row }) => <> {row.original.paid ? 'Achitat' : '-'}</>,
+    },
+    {
+      header: 'Acțiuni',
+      accessorKey: 'month',
+      cell: ({ row }) => (
+        <ActiuniPlataLunara
+          whatForId={whatForId}
+          statusLuna={row.original}
+        />
+      ),
     },
   ];
 
-  //data trebuie compus
-
-  const { table } = useCustomDataTable({ columns, data: tableData?.map((x) => x.month) });
+  const { table } = useCustomDataTable({ columns: columns, data: newData });
 
   return (
     <div className={'flex flex-col gap-3'}>

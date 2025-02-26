@@ -14,12 +14,8 @@ import {
   SelectValue,
 } from '@/components/ui/select.tsx';
 import { useParams } from 'react-router-dom';
-import {
-  useFormAdaugaModificaContributie,
-} from '@/pages/persoane/detalii/contributii/hooks/useFormAdaugaModificaContributie.tsx';
-import {
-  useAdaugaModificaContributieMutation,
-} from '@/pages/persoane/detalii/contributii/hooks/useAdaugaModificaContributieMutation.tsx';
+import { useFormAdaugaModificaContributie } from '@/pages/persoane/detalii/contributii/hooks/useFormAdaugaModificaContributie.tsx';
+import { useAdaugaModificaContributieMutation } from '@/pages/persoane/detalii/contributii/hooks/useAdaugaModificaContributieMutation.tsx';
 
 type Props = {
   close: () => void;
@@ -75,7 +71,7 @@ export const FormularAdaugaModificaContributie: React.FC<Props> = ({ contributie
 
         <FormField
           control={form.control}
-          name="what_for_id"
+          name="expense_type_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Pentru</FormLabel>

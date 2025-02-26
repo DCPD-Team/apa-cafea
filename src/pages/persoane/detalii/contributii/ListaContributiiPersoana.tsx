@@ -3,15 +3,11 @@ import { ApaSauCafea } from '@/types/types.ts';
 import { useAuth } from '@/hooks/useAuth.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { TabelContributiiPersoana } from '@/pages/persoane/detalii/contributii/components/TabelContributiiPersoana.tsx';
-import {
-  FiltruColoaneContributiePersoana,
-} from '@/pages/persoane/detalii/contributii/components/FiltruColoaneContributiePersoana.tsx';
-import {
-  ButonAdaugaModificaContributie,
-} from '@/pages/persoane/detalii/contributii/components/ButonAdaugaModificaContributie.tsx';
+import { FiltruColoaneContributiePersoana } from '@/pages/persoane/detalii/contributii/components/FiltruColoaneContributiePersoana.tsx';
+import { ButonAdaugaModificaContributie } from '@/pages/persoane/detalii/contributii/components/ButonAdaugaModificaContributie.tsx';
 
 export type ContributiiPersoanaFilter = {
-  what_for_id?: ApaSauCafea;
+  expense_type_id?: ApaSauCafea;
   payment?: [number | undefined, number | undefined];
 };
 
@@ -20,7 +16,6 @@ export const ListaContributiiPersoana: React.FC = () => {
   const { user } = useAuth();
 
   return (
-
     <Card>
       <CardHeader>
         <div className={'flex items-center justify-between'}>

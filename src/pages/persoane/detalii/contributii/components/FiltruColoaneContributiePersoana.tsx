@@ -37,7 +37,7 @@ export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilte
   const form = useForm<ContributiePersoanaFilterForm>({
     mode: 'onChange',
     defaultValues: {
-      pentru: currentFilter.what_for_id ?? ('' as unknown as undefined),
+      pentru: currentFilter.expense_type_id ?? ('' as unknown as undefined),
       sumaDeLa: currentFilter.payment?.[0] ?? ('' as unknown as undefined),
       sumaPanaLa: currentFilter.payment?.[1] ?? ('' as unknown as undefined),
     },
@@ -45,7 +45,7 @@ export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilte
 
   const onSubmit = (data: ContributiePersoanaFilterForm) => {
     setFilter({
-      what_for_id: data.pentru,
+      expense_type_id: data.pentru,
       payment: [data.sumaDeLa, data.sumaPanaLa],
     });
     setOpen(false);

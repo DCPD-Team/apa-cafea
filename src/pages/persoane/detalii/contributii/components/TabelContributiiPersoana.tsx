@@ -5,12 +5,8 @@ import { Contribution } from '@/types/types.ts';
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { formatDate } from 'date-fns';
-import {
-  useGetListaContributiiPersoanaQuery,
-} from '@/pages/persoane/detalii/contributii/hooks/useGetListaContributiiPersoanaQuery.tsx';
-import {
-  ActiuniContributiePersoana,
-} from '@/pages/persoane/detalii/contributii/components/ActiuniContributiePersoana.tsx';
+import { useGetListaContributiiPersoanaQuery } from '@/pages/persoane/detalii/contributii/hooks/useGetListaContributiiPersoanaQuery.tsx';
+import { ActiuniContributiePersoana } from '@/pages/persoane/detalii/contributii/components/ActiuniContributiePersoana.tsx';
 import { ContributiiPersoanaFilter } from '@/pages/persoane/detalii/contributii/ListaContributiiPersoana.tsx';
 
 type Props = {
@@ -37,7 +33,7 @@ export const TabelContributiiPersoana: React.FC<Props> = ({ filters }) => {
       },
       {
         header: () => 'Apa/Cafea',
-        accessorKey: 'what_for_id',
+        accessorKey: 'expense_type_id',
       },
       {
         header: 'Dată',
@@ -50,7 +46,7 @@ export const TabelContributiiPersoana: React.FC<Props> = ({ filters }) => {
         cell: ({ row }) => <ActiuniContributiePersoana contributie={row.original} />,
       },
     ],
-    [],
+    []
   );
 
   const { table } = useCustomDataTable({ columns, data: plati, filters: filters });
