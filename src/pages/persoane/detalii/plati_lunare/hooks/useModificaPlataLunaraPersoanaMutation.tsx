@@ -8,12 +8,12 @@ import { MonthlyPayments } from '@/types/types.ts';
 export const useModificaPlataLunaraPersoanaMutation = ({
   plataLunara,
   personId,
-  whatForId,
+  expenseTypeId,
   close,
 }: {
   plataLunara: MonthlyPayments;
   personId: string;
-  whatForId: string;
+  expenseTypeId: string;
   close: () => void;
 }) => {
   const queryClient = useQueryClient();
@@ -30,7 +30,7 @@ export const useModificaPlataLunaraPersoanaMutation = ({
             ...data,
             month_id: plataLunara.month_id,
             person_id: personId,
-            expense_type_id: whatForId,
+            expense_type_id: expenseTypeId,
           };
 
       const { error } = await supabaseClient.from('monthly_payments').upsert(payload);
@@ -46,9 +46,12 @@ export const useModificaPlataLunaraPersoanaMutation = ({
         description: 'Situatia lunară nu a putut fi modificatǎ',
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ['luni'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['balance', personId],
       });
 
       close();

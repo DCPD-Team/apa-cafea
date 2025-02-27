@@ -7,10 +7,10 @@ import { FormularModificaPlataLunaraPersoana } from '@/pages/persoane/detalii/pl
 
 type Props = {
   statusLuna: MonthlyPayments;
-  whatForId: string;
+  expenseTypeId: string;
 };
 
-export const ActiuniPlataLunara: React.FC<Props> = ({ statusLuna, whatForId }) => {
+export const ActiuniPlataLunara: React.FC<Props> = ({ statusLuna, expenseTypeId }) => {
   const [open, setOpen] = useState(false);
 
   return (
@@ -29,7 +29,7 @@ export const ActiuniPlataLunara: React.FC<Props> = ({ statusLuna, whatForId }) =
         <FormularModificaPlataLunaraPersoana
           close={() => setOpen(false)}
           statusLunar={statusLuna}
-          whatForId={whatForId}
+          expenseTypeId={expenseTypeId}
         />
       </DialogContent>
     </Dialog>
