@@ -1,75 +1,35 @@
-import React, { useMemo } from 'react';
-import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
-import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
-import { ColumnDef } from '@tanstack/react-table';
-import { MonthlyPayments } from '@/types/types.ts';
-import { useGetMonthlyPaymentsPerson } from '@/pages/persoane/detalii/plati_lunare/hooks/useGetMonthlyPaymentsPerson.tsx';
-import { Luna, LunileAnului } from '@/pages/situatie/components/TabelSituatie.tsx';
-import { ActiuniPlataLunara } from '@/pages/persoane/detalii/plati_lunare/components/ActiuniPlataLunara.tsx';
+import React from 'react';
+import { useAuth } from '@/hooks/useAuth.tsx';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
+import { TabelPlatiLunarePersoana } from '@/pages/persoane/detalii/plati_lunare/components/TabelPlatiLunarePersoana.tsx'; // export type ContributiiPersoanaFilter = {
 
-export const ListaPlatiLunarePersoana: React.FC<{ personId: string; whatForId: string }> = ({
-  personId,
-  whatForId,
-}: {
-  personId: string;
-  whatForId: string;
-}) => {
-  const { data } = useGetMonthlyPaymentsPerson({ personId, whatForId });
+// export type ContributiiPersoanaFilter = {
+//   expense_type_id?: ApaSauCafea;
+//   payment?: [number | undefined, number | undefined];
+// };
 
-  const excludeSet = new Set(data?.map((x) => x.month_id));
-  const celelalteluni = Object.keys(LunileAnului).filter((x) => !excludeSet.has(x));
-
-  const fakeData = useMemo(() => {
-    return celelalteluni.map(
-      (x) =>
-        ({
-          active: null,
-          paid: null,
-          month_id: x,
-        }) as MonthlyPayments
-    );
-  }, [celelalteluni]);
-
-  const newData = [...(data ?? []), ...fakeData];
-
-  const columns: ColumnDef<MonthlyPayments>[] = [
-    {
-      header: 'Luna',
-      accessorKey: 'month_id',
-      cell: ({ row }) => <> {row.original.month_id}</>,
-    },
-    {
-      header: 'Activ',
-      accessorKey: 'active',
-      cell: ({ row }) => <> {row.original.active ? 'Activ' : row.original.active === false ? 'Inactiv' : '-'}</>,
-    },
-    {
-      header: 'Paid',
-      accessorKey: 'paid',
-      cell: ({ row }) => <> {row.original.paid ? 'Achitat' : '-'}</>,
-    },
-    {
-      header: 'Acțiuni',
-      accessorKey: 'month',
-      cell: ({ row }) => (
-        <ActiuniPlataLunara
-          whatForId={whatForId}
-          statusLuna={row.original}
-        />
-      ),
-    },
-  ];
-
-  const { table } = useCustomDataTable({ columns: columns, data: newData });
+export const ListaPlatiLunarePersoana: React.FC = () => {
+  // const [filters, setFilters] = useState<ContributiiPersoanaFilter>({});
+  const { user } = useAuth();
 
   return (
-    <div className={'flex flex-col gap-3'}>
-      <TabelCustom
-        isFetching={false}
-        table={table}
-        cols={15}
-        rows={12}
-      />
-    </div>
+    <Card>
+      <CardHeader>
+        <div className={'flex items-center justify-between'}>
+          <CardTitle>Plăți lunare persoană</CardTitle>
+          {/*<div className="flex items-center justify-between gap-2">*/}
+          {/*  <FiltruColoaneContributiePersoana*/}
+          {/*    currentFilter={filters}*/}
+          {/*    setFilter={setFilters}*/}
+          {/*  />*/}
+
+          {/*  {user?.appRole?.includes('moderator') && <ButonAdaugaModificaContributie />}*/}
+          {/*</div>*/}
+        </div>
+      </CardHeader>
+      <CardContent>
+        <TabelPlatiLunarePersoana expenseTypeId={'apa'} />
+      </CardContent>
+    </Card>
   );
 };

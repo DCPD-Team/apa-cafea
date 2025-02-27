@@ -10,7 +10,7 @@ export type MonthlyPayments = Database['public']['Tables']['monthly_payments']['
 
 export type Payment = Database['public']['Tables']['payments']['Row'];
 
-export type Contribution = Database['public']['Tables']['wallet_payments']['Row'];
+export type Contribution = Database['public']['Tables']['contributions']['Row'];
 
 export type Person = Database['public']['Tables']['persons']['Row'];
 

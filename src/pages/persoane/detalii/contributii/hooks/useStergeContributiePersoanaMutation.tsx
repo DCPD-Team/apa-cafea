@@ -9,7 +9,7 @@ export const useStergeContributiePersoanaMutation = ({ id }: { id?: string }) =>
 
   return useMutation<void, PostgrestError | null, string>({
     mutationFn: async (id) => {
-      const { error } = await supabaseClient.from('wallet_payments').delete().eq('id', id);
+      const { error } = await supabaseClient.from('contributions').delete().eq('id', id);
 
       if (error) {
         throw error;

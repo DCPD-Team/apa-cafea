@@ -27,7 +27,7 @@ export const useAdaugaModificaContributieMutation = ({
             id: contributie?.id,
           };
 
-      const { error } = await supabaseClient.from('wallet_payments').upsert(payload);
+      const { error } = await supabaseClient.from('contributions').upsert(payload);
 
       if (error) {
         throw error;
@@ -43,6 +43,9 @@ export const useAdaugaModificaContributieMutation = ({
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['contributiiPersoana', personId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['balance', personId],
       });
 
       close();
