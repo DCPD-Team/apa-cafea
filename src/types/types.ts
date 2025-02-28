@@ -4,6 +4,8 @@ export type ApaSauCafea = 'apa' | 'cafea';
 
 export type Months = Database['public']['Tables']['months']['Row'];
 
+export type ExpenseType = Database['public']['Tables']['expense_type']['Row'];
+
 export type MonthlyPrices = Database['public']['Tables']['monthly_prices']['Row'];
 
 export type MonthlyPayments = Database['public']['Tables']['monthly_payments']['Row'];

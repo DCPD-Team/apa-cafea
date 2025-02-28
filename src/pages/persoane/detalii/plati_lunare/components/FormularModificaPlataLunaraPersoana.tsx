@@ -11,6 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox.tsx';
 type Props = {
   close: () => void;
   statusLunar: MonthlyPayments;
+  targetYear: number;
   expenseTypeId: string;
 };
 
@@ -19,7 +20,12 @@ export type ModificaPlataLunara = {
   paid: boolean;
 };
 
-export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({ statusLunar, expenseTypeId, close }) => {
+export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({
+  statusLunar,
+  expenseTypeId,
+  targetYear,
+  close,
+}) => {
   const { id: userId } = useParams();
   const form = useFormModificaPlataLunaraPersoana({
     defaultValues: { paid: !!statusLunar.paid, active: !!statusLunar.active },
@@ -27,6 +33,7 @@ export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({ statusLun
   const { mutate, isPending } = useModificaPlataLunaraPersoanaMutation({
     plataLunara: statusLunar,
     personId: userId ?? '',
+    targetYear,
     expenseTypeId,
     close,
   });

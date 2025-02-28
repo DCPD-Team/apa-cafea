@@ -12,7 +12,10 @@ export const useGetYearsOfPayments = () => {
   return useQuery<Return, PostgrestError | null>({
     queryKey: ['years'],
     queryFn: async () => {
-      const data = await supabaseClient.rpc('get_distinct_years');
+      const { error, data } = await supabaseClient.rpc('get_distinct_years');
+      if (error) {
+        throw error;
+      }
       return data;
     },
   });
