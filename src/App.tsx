@@ -32,7 +32,11 @@ export const App: FC = () => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isLoading || showSplash ? <CoffeeSplash /> : <>{session ? <RouterProvider router={router} /> : <Authentification />}</>}
+      {isLoading || showSplash ? (
+        <CoffeeSplash />
+      ) : (
+        <>{session ? <RouterProvider router={router} /> : <Authentification />}</>
+      )}
       <ReactQueryDevtools initialIsOpen={false} />
       <ToastProvider duration={3000}>
         <Toaster />
