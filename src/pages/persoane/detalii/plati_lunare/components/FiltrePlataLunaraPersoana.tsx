@@ -19,7 +19,10 @@ type Props = {
 
 export const FiltrePlataLunaraPersoana: React.FC<Props> = ({ filtre, setFiltre }) => {
   const { data: expenseTypes } = useGetExpenseTypes();
-  const data = useGetYearsOfPayments();
+  const { data: yearsData } = useGetYearsOfPayments();
+  const yearsArray: string[] = (yearsData ?? []) as string[];
+
+  console.log(yearsArray);
 
   if (!expenseTypes) {
     return null;
@@ -55,7 +58,7 @@ export const FiltrePlataLunaraPersoana: React.FC<Props> = ({ filtre, setFiltre }
         <SelectContent>
           <SelectGroup>
             <SelectLabel>An</SelectLabel>
-            {years?.map((value) => (
+            {yearsArray.map((value) => (
               <SelectItem
                 key={value}
                 value={value.toString()}>

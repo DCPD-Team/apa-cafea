@@ -8,38 +8,39 @@ import { LunileAnului } from '@/pages/situatie/components/TabelSituatie.tsx';
 import { ActiuniPlataLunara } from '@/pages/persoane/detalii/plati_lunare/components/ActiuniPlataLunara.tsx';
 import { useParams } from 'react-router-dom';
 import { FiltrePlataLunaraPersoana } from '@/pages/persoane/detalii/plati_lunare/components/FiltrePlataLunaraPersoana.tsx';
-import { useGetYearsOfPayments } from '@/pages/persoane/hooks/useGetYearsOfPayments.tsx';
 
 export type FiltrePlataLunaraPersoanaType = {
   an: number;
   expenseTypeId: string;
 };
 
-export const TabelPlatiLunarePersoana: React.FC<{ expenseTypeId: string }> = ({
-  expenseTypeId,
-}: {
-  expenseTypeId: string;
-}) => {
+export const TabelPlatiLunarePersoana: React.FC = () => {
   const { id: personId } = useParams();
-  const { data } = useGetMonthlyPaymentsPerson({ personId: personId ?? '', expenseTypeId: expenseTypeId });
   const [filtre, setFiltre] = useState<FiltrePlataLunaraPersoanaType>({ an: 2025, expenseTypeId: 'cafea' });
-  const { data: years } = useGetYearsOfPayments();
+  const { data } = useGetMonthlyPaymentsPerson({
+    personId: personId ?? '',
+    expenseTypeId: filtre.expenseTypeId,
+  });
 
-  const excludeSet = new Set(data?.map((x) => x.month_id));
+  const excludeSet = new Set(data?.filter((x) => x.target_year === filtre.an).map((x) => x.month_id));
   const celelalteluni = Object.keys(LunileAnului).filter((x) => !excludeSet.has(x));
+  console.log(celelalteluni);
+  const fakeData = useMemo(
+    () =>
+      celelalteluni.map(
+        (x) =>
+          ({
+            active: null,
+            paid: null,
+            month_id: x,
+            target_year: filtre.an,
+            expense_type_id: filtre.expenseTypeId,
+          }) as MonthlyPayments
+      ),
+    [celelalteluni]
+  );
 
-  const fakeData = useMemo(() => {
-    return celelalteluni.map(
-      (x) =>
-        ({
-          active: null,
-          paid: null,
-          month_id: x,
-        }) as MonthlyPayments
-    );
-  }, [celelalteluni]);
-
-  const newData = [...(data ?? []), ...fakeData];
+  const newData = [...(data?.filter((value) => value.target_year === filtre.an) ?? []), ...fakeData];
 
   const columns: ColumnDef<MonthlyPayments>[] = [
     {
@@ -62,7 +63,8 @@ export const TabelPlatiLunarePersoana: React.FC<{ expenseTypeId: string }> = ({
       accessorKey: 'month',
       cell: ({ row }) => (
         <ActiuniPlataLunara
-          expenseTypeId={expenseTypeId}
+          expenseTypeId={filtre.expenseTypeId}
+          targetYear={filtre.an}
           statusLuna={row.original}
         />
       ),

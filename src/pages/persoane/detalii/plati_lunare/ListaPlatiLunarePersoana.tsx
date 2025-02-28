@@ -28,7 +28,7 @@ export const ListaPlatiLunarePersoana: React.FC = () => {
         </div>
       </CardHeader>
       <CardContent>
-        <TabelPlatiLunarePersoana expenseTypeId={'apa'} />
+        <TabelPlatiLunarePersoana />
       </CardContent>
     </Card>
   );
