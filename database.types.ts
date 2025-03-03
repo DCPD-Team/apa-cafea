@@ -328,6 +328,30 @@ export type Database = {
           },
         ]
       }
+      remaining_balance_view_new: {
+        Row: {
+          expense_type_id: string | null
+          person_id: string | null
+          remaining_balance: number | null
+          year: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contributions_expense_type_id_fkey"
+            columns: ["expense_type_id"]
+            isOneToOne: false
+            referencedRelation: "expense_type"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contributions_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "persons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       wallet_sums_view: {
         Row: {
           expense_type_id: string | null
