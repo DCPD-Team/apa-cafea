@@ -378,7 +378,8 @@ const NotFound: React.FC = () => {
               className="rounded-lg bg-amber-700 px-5 py-2 text-white shadow-md transition-colors hover:bg-amber-800"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              onClick={() => (window.location.href = 'apa-cafea/')}>
+              // @ts-ignore
+              onClick={() => (window.location.href = import.meta.env.VITE_SUPABASE_REDIRECT_URL)}>
               Return Home
             </motion.button>
 
