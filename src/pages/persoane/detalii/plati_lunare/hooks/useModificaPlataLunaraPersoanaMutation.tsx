@@ -4,7 +4,6 @@ import { PostgrestError } from '@supabase/supabase-js';
 import { supabaseClient } from '@/supabase/supabase.ts';
 import { ModificaPlataLunara } from '@/pages/persoane/detalii/plati_lunare/components/FormularModificaPlataLunaraPersoana.tsx';
 import { MonthlyPayments } from '@/types/types.ts';
-import { useGetRemainingBalancePersoana } from '@/pages/persoane/detalii/informatii/hooks/useGetRemainingBalancePersoana.tsx';
 
 export const useModificaPlataLunaraPersoanaMutation = ({
   plataLunara,
@@ -37,7 +36,6 @@ export const useModificaPlataLunaraPersoanaMutation = ({
             target_year: targetYear,
           };
 
-      //TODO: if aici, sa se faca acest upsert in care se trece din not paid in paid doar daca exista balance suficient in cont
       const { error } = await supabaseClient.from('monthly_payments').upsert(payload);
 
       if (error) {
