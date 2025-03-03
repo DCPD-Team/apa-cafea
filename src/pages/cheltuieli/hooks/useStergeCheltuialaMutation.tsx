@@ -26,6 +26,12 @@ export const useStergeCheltuialaMutation = () => {
       queryClient.invalidateQueries({
         queryKey: ['cheltuieli'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['luni'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['expenses'],
+      });
       toast({
         variant: 'default',
         title: 'Success!',

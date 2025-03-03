@@ -18,6 +18,7 @@ export const useAdaugaModificaCheltuialaMutation = ({
   return useMutation<void, PostgrestError | null, AdaugaModificaCheltuiala>({
     mutationFn: async (data) => {
       const paylod = !cheltuiala ? { ...data } : { ...data, id: cheltuiala.id };
+      console.log('payload frte', paylod);
 
       const { error: e } = await supabaseClient.from('expenses').upsert(paylod);
 
@@ -36,6 +37,12 @@ export const useAdaugaModificaCheltuialaMutation = ({
       //toast + close
       queryClient.invalidateQueries({
         queryKey: ['cheltuieli'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['luni', cheltuiala?.year, cheltuiala?.expense_type_id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['expenses', cheltuiala?.year, cheltuiala?.expense_type_id],
       });
 
       close();

@@ -5,7 +5,8 @@ import { AdaugaModificaCheltuiala } from '@/pages/cheltuieli/lista/components/Fo
 
 const formSchema = z.object({
   sum: z.number().min(0, 'Suma trebuie să fie mai mare ca 0'),
-  what_for: z.enum(['apa', 'cafea']),
+  year: z.string(),
+  expense_type_id: z.enum(['apa', 'cafea']),
   description: z.string().min(1, 'Descierea este obligatorie'),
 });
 

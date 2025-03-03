@@ -1,23 +1,23 @@
 import { useQuery } from '@tanstack/react-query';
-import { ApaSauCafea, Cheltuiala } from '@/types/types.ts';
+import { Cheltuiala } from '@/types/types.ts';
 import { supabaseClient } from '@/supabase/supabase.ts';
 
 export const useGetListaCheltuialaQuery = ({
   an,
-  pentru,
+  expenseTypeId,
   compareFn,
 }: {
   an: number;
-  pentru: ApaSauCafea;
+  expenseTypeId: string;
   compareFn?: (a: Cheltuiala, b: Cheltuiala) => number;
 }) => {
   return useQuery({
-    queryKey: ['cheltuieli', pentru, an],
+    queryKey: ['cheltuieli', expenseTypeId, an],
     queryFn: async () => {
       const { error: e, data } = await supabaseClient
         .from('expenses')
         .select()
-        .like('what_for', pentru)
+        .like('expense_type_id', expenseTypeId)
         .gte('created_at', `${an}-01-01T00:00:00Z`)
         .lt('created_at', `${an + 1}-01-01T00:00:00Z`);
 

@@ -8,9 +8,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
-import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
-import { ApaSauCafea } from '@/types/types.ts';
 import { FiltreCheltuialaType } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
+import { useGetExpenseTypes } from '@/pages/persoane/hooks/useGetExpenseTypes.tsx';
 
 type Props = {
   filtre: FiltreCheltuialaType;
@@ -18,22 +17,23 @@ type Props = {
 };
 
 export const FiltreCheltuiala: React.FC<Props> = ({ filtre, setFiltre }) => {
+  const { data: expenses } = useGetExpenseTypes();
   return (
     <div className="flex flex-row gap-2">
       <Select
-        value={filtre.pentru}
-        onValueChange={(value) => setFiltre((prevState) => ({ ...prevState, pentru: value as ApaSauCafea }))}>
+        value={filtre.expenseTypeId}
+        onValueChange={(value) => setFiltre((prevState) => ({ ...prevState, expenseTypeId: value }))}>
         <SelectTrigger className="w-[180px]">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Pentru</SelectLabel>
-            {Object.entries(apaCafeaEnum).map(([key, value]) => (
+            {expenses?.map((item) => (
               <SelectItem
-                key={key}
-                value={key}>
-                {value}
+                key={item.id}
+                value={item.id}>
+                {item.id}
               </SelectItem>
             ))}
           </SelectGroup>
