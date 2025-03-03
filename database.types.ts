@@ -67,28 +67,39 @@ export type Database = {
         Row: {
           created_at: string
           description: string
+          expense_type_id: string
           id: string
           sum: number
           updated_at: string | null
-          what_for: string
+          year: number | null
         }
         Insert: {
           created_at?: string
           description: string
+          expense_type_id: string
           id?: string
           sum: number
           updated_at?: string | null
-          what_for: string
+          year?: number | null
         }
         Update: {
           created_at?: string
           description?: string
+          expense_type_id?: string
           id?: string
           sum?: number
           updated_at?: string | null
-          what_for?: string
+          year?: number | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "expenses_expense_type_id_fkey"
+            columns: ["expense_type_id"]
+            isOneToOne: false
+            referencedRelation: "expense_type"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       monthly_payments: {
         Row: {
@@ -333,7 +344,6 @@ export type Database = {
           expense_type_id: string | null
           person_id: string | null
           remaining_balance: number | null
-          year: number | null
         }
         Relationships: [
           {

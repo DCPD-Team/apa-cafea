@@ -1,53 +1,38 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useGetSumarCheltuieli } from '@/pages/cheltuieli/hooks/useGetSumarCheltuieli.tsx';
 import { FiltreCheltuialaType } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
+import { Loader } from 'lucide-react';
+import { Badge } from '@/components/ui/badge.tsx';
+import { Label } from '@/components/ui/label.tsx';
 
 type Props = {
   filtre: FiltreCheltuialaType;
 };
 
 export const SumarCheltuieli: React.FC<Props> = ({ filtre }) => {
-  const { totalCheltuit, totalDisponibil } = useGetSumarCheltuieli(filtre);
+  const { totalCheltuit, totalDisponibil, isLoading: isLoadingSumar } = useGetSumarCheltuieli(filtre);
 
-  return (
-    <div className="grid grid-cols-2 gap-3">
-      {filtre.pentru === 'apa' ? (
+  return useMemo(() => {
+    if (isLoadingSumar) {
+      return <Loader />;
+    }
+    return (
+      <div className="grid grid-cols-2 gap-3">
         <>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total disponibil apa</span>
-            <span className="text-xl font-bold">{totalDisponibil} RON</span>
-          </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total cheltuit apa</span>
-            <span className="text-xl font-bold">{totalCheltuit} RON</span>
-          </div>
+          <Badge className={'p-2'}>
+            <div className={'flex flex-col'}>
+              <Label>Total disponibil {filtre.expenseTypeId}</Label>
+              <span className="text-right text-lg font-bold">{totalDisponibil} RON</span>
+            </div>
+          </Badge>
+          <Badge className={'p-2'}>
+            <div className={'flex flex-col'}>
+              <Label>Total cheltuit {filtre.expenseTypeId}</Label>
+              <span className="text-right text-lg font-bold">{totalCheltuit} RON</span>
+            </div>
+          </Badge>
         </>
-      ) : (
-        <>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total disponibil cafea</span>
-            <span className="text-xl font-bold">{totalDisponibil} RON</span>
-          </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total cheltuit cafea</span>
-            <span className="text-xl font-bold">{totalCheltuit} RON</span>
-          </div>
-        </>
-      )}
-    </div>
-
-    // TODO:    // <div className="flex gap-2">
-    //   <Badge className={'p-2'}>Total: {total}</Badge>
-    //   <Badge
-    //     className={'p-2'}
-    //     variant="outline">
-    //     Cheltuit: {totalCheltuit}
-    //   </Badge>
-    //   <Badge
-    //     className={'p-2'}
-    //     variant={totalDisponibil > 0 ? 'success' : 'destructive'}>
-    //     Disponibil: {totalDisponibil}
-    //   </Badge>
-    // </div>
-  );
+      </div>
+    );
+  }, [isLoadingSumar, totalDisponibil, totalCheltuit]);
 };
