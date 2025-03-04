@@ -56,6 +56,9 @@ export const useModificaPlataLunaraPersoanaMutation = ({
       queryClient.invalidateQueries({
         queryKey: ['balance', personId],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['expenses', plataLunara.target_year, plataLunara.expense_type_id],
+      });
 
       close();
       toast({

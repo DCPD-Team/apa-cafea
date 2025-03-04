@@ -8,6 +8,7 @@ import { LunileAnului } from '@/pages/situatie/components/TabelSituatie.tsx';
 import { ActiuniPlataLunara } from '@/pages/persoane/detalii/plati_lunare/components/ActiuniPlataLunara.tsx';
 import { useParams } from 'react-router-dom';
 import { FiltrePlataLunaraPersoana } from '@/pages/persoane/detalii/plati_lunare/components/FiltrePlataLunaraPersoana.tsx';
+import { useAuth } from '@/hooks/useAuth.tsx';
 
 export type FiltrePlataLunaraPersoanaType = {
   an: number;
@@ -15,6 +16,7 @@ export type FiltrePlataLunaraPersoanaType = {
 };
 
 export const TabelPlatiLunarePersoana: React.FC = () => {
+  const { user } = useAuth();
   const { id: personId } = useParams();
   const [filtre, setFiltre] = useState<FiltrePlataLunaraPersoanaType>({ an: 2025, expenseTypeId: 'cafea' });
   const { data } = useGetMonthlyPaymentsPerson({
@@ -42,7 +44,7 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
 
   const newData = [...(data?.filter((value) => value.target_year === filtre.an) ?? []), ...fakeData];
 
-  const columns: ColumnDef<MonthlyPayments>[] = [
+  const baseColumns: ColumnDef<MonthlyPayments>[] = [
     {
       header: 'Luna',
       accessorKey: 'month_id',
@@ -58,6 +60,10 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
       accessorKey: 'paid',
       cell: ({ row }) => <> {row.original.paid ? 'Achitat' : '-'}</>,
     },
+  ];
+
+  const adminColums: ColumnDef<MonthlyPayments>[] = [
+    ...baseColumns,
     {
       header: 'Acțiuni',
       accessorKey: 'month',
@@ -71,10 +77,14 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
     },
   ];
 
-  const { table } = useCustomDataTable({ columns: columns, data: newData });
+  const { table } = useCustomDataTable({
+    columns: user?.appRole?.includes('moderator') ? adminColums : baseColumns,
+    data: newData,
+  });
 
   return (
     <div className={'flex flex-col gap-3'}>
+      {/*TODO FIX THE FLICKER -> DEPLASARE LA DREAPTA :(*/}
       <div className="flex items-center justify-between">
         <FiltrePlataLunaraPersoana
           filtre={filtre}
