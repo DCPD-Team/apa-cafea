@@ -1,4 +1,4 @@
-import { createBrowserRouter, createHashRouter, Navigate, RouteObject } from 'react-router-dom';
+import { createHashRouter, Navigate, RouteObject } from 'react-router-dom';
 import { Situatie } from '@/pages/situatie/Situatie.tsx';
 import { Leaderboard } from '@/pages/leaderboard/Leaderboard.tsx';
 import { Navbar } from '@/pages/Navbar.tsx';
