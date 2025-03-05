@@ -9,7 +9,6 @@ import { MonthlyPayments } from '@/types/types.ts';
 import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { useGetRemainingBalancePersoana } from '@/pages/persoane/detalii/informatii/hooks/useGetRemainingBalancePersoana.tsx';
 import { useGetMonthlyPrice } from '@/pages/persoane/detalii/plati_lunare/hooks/useGetMonthlyPrice.tsx';
-import { color } from 'framer-motion';
 
 type Props = {
   close: () => void;
@@ -41,7 +40,11 @@ export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({
     close,
   });
   const { data: balance } = useGetRemainingBalancePersoana({ personId: userId ?? '' });
-  const { data: monthPrice } = useGetMonthlyPrice({ monthId: statusLunar.month_id, year: targetYear });
+  const { data: monthPrice } = useGetMonthlyPrice({
+    monthId: statusLunar.month_id,
+    year: targetYear,
+    expenseTypeId: expenseTypeId,
+  });
 
   const onSubmit = (data: ModificaPlataLunara) => {
     mutate(data);
@@ -57,7 +60,7 @@ export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({
       monthPrice &&
       balance.find((x) => x.expense_type_id === expenseTypeId)?.remaining_balance >= monthPrice.price_value
     );
-  }, [monthPrice, balance, active]);
+  }, [monthPrice, balance, active, statusLunar.paid]);
 
   useEffect(() => {
     if (!active) form.setValue('paid', false, { shouldValidate: true });

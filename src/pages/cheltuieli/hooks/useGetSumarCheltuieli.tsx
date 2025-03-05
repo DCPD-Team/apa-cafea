@@ -13,10 +13,17 @@ export const useGetSumarCheltuieli = ({ an, expenseTypeId }: { an: number; expen
   );
 
   return useMemo(() => {
-    if (!payments || !expenses) {
-      return { totalDisponibil: 0, totalCheltuit: 0, isLoading: true };
+    if (payments) {
+      if (!expenses) {
+        return { totalDisponibil: payments, totalCheltuit: 0 };
+      }
+    } else {
+      if (expenses) {
+        return { totalDisponibil: 0, totalCheltuit: expenses };
+      } else {
+        return { totalDisponibil: 0, totalCheltuit: 0 };
+      }
     }
-
-    return { totalCheltuit: expenses, totalDisponibil: payments - expenses, isLoading: false };
+    return { totalCheltuit: expenses, totalDisponibil: payments - expenses };
   }, [expenses, payments, an, expenseTypeId]);
 };

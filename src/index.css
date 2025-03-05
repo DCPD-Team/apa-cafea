@@ -9,6 +9,7 @@
 
   html,
   body,
+
   #root {
     @apply h-full w-full bg-slate-50;
   }
@@ -141,4 +142,10 @@
   body {
     @apply bg-background text-foreground;
   }
+  body[data-scrolled-lock="1"] {
+    background: tomato;
+    margin-right: 0 !important;
+    overflow: hidden !important;
+    pointer-events: auto !important;
+  };
 }

@@ -2,9 +2,9 @@ import React from 'react';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { Loader2 } from 'lucide-react';
-import { useAdaugaModificaTipCheltuialaMutation } from '@/pages/admin/components/tip_cheltuieli/components/useAdaugaModificaTipCheltuialaMutation.tsx';
+import { useAdaugaModificaTipCheltuialaMutation } from '@/pages/admin/components/tip_cheltuieli/hooks/useAdaugaModificaTipCheltuialaMutation.tsx';
 import { ExpenseType } from '@/types/types.ts';
-import { useFormAdaugaModificaTipCheltuiala } from '@/pages/admin/components/tip_cheltuieli/components/useFormAdaugaModificaTipCheltuiala.tsx';
+import { useFormAdaugaModificaTipCheltuiala } from '@/pages/admin/components/tip_cheltuieli/hooks/useFormAdaugaModificaTipCheltuiala.tsx';
 import { Input } from '@/components/ui/input.tsx';
 
 export const FormularAdaugaModificaTipCheltuiala: React.FC<{ tipCheltuiala?: ExpenseType; close: () => void }> = ({

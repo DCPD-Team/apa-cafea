@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
-import { TabelTipCheltuieli } from '@/pages/admin/components/tip_cheltuieli/TabelTipCheltuieli.tsx';
+import { TabelTipCheltuieli } from '@/pages/admin/components/tip_cheltuieli/components/TabelTipCheltuieli.tsx';
 import { useAuth } from '@/hooks/useAuth.tsx';
 import { ButonAdaugaModificaTipCheltuiala } from '@/pages/admin/components/tip_cheltuieli/components/ButonAdaugaModificaTipCheltuiala.tsx';
 
