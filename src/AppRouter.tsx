@@ -5,6 +5,7 @@ import { Navbar } from '@/pages/Navbar.tsx';
 import { ListaPersoane } from '@/pages/persoane/lista/ListaPersoane.tsx';
 import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
 import { ListaCheltuieli } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
+import { AdminPanel } from '@/pages/admin/AdminPanel.tsx';
 import NotFound from '@/components/NotFound.tsx';
 
 export const AppRoutes: RouteObject[] = [
@@ -48,6 +49,10 @@ export const AppRoutes: RouteObject[] = [
             element: <ListaCheltuieli />,
           },
         ],
+      },
+      {
+        path: 'admin',
+        element: <AdminPanel />,
       },
     ],
   },

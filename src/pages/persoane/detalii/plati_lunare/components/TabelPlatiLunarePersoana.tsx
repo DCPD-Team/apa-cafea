@@ -19,7 +19,7 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
   const { user } = useAuth();
   const { id: personId } = useParams();
   const [filtre, setFiltre] = useState<FiltrePlataLunaraPersoanaType>({ an: 2025, expenseTypeId: 'cafea' });
-  const { data } = useGetMonthlyPaymentsPerson({
+  const { data, isFetching, isLoading } = useGetMonthlyPaymentsPerson({
     personId: personId ?? '',
     expenseTypeId: filtre.expenseTypeId,
   });
@@ -92,7 +92,8 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
         />
       </div>
       <TabelCustom
-        isFetching={false}
+        isFetching={isFetching}
+        isLoading={isLoading}
         table={table}
         cols={15}
         rows={12}

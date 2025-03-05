@@ -28,7 +28,7 @@ export const ActiuniPlataLunara: React.FC<Props> = ({ statusLuna, targetYear, ex
           <DialogTitle>{'Modifica status lunar persoana'} </DialogTitle>
         </DialogHeader>
         <FormularModificaPlataLunaraPersoana
-          close={() => setOpen(false)}
+          // close={() => setOpen(false)}
           statusLunar={statusLuna}
           expenseTypeId={expenseTypeId}
           targetYear={targetYear}

@@ -8,6 +8,7 @@ import { formatDate } from 'date-fns';
 import { useGetListaContributiiPersoanaQuery } from '@/pages/persoane/detalii/contributii/hooks/useGetListaContributiiPersoanaQuery.tsx';
 import { ActiuniContributiePersoana } from '@/pages/persoane/detalii/contributii/components/ActiuniContributiePersoana.tsx';
 import { ContributiiPersoanaFilter } from '@/pages/persoane/detalii/contributii/ListaContributiiPersoana.tsx';
+import { useGetExpenseTypes } from '@/pages/persoane/hooks/useGetExpenseTypes.tsx';
 
 type Props = {
   filters: ContributiiPersoanaFilter;
@@ -16,6 +17,10 @@ type Props = {
 export const TabelContributiiPersoana: React.FC<Props> = ({ filters }) => {
   const { id } = useParams();
   const { isLoading, isFetching, data: plati } = useGetListaContributiiPersoanaQuery({ personId: id ?? '' });
+  const { data: expenseTypes, isLoading: expenseIsLoading, isFetching: expenseIsFetching } = useGetExpenseTypes();
+  // const expenseTypeShow = expenseTypes?.map((item: ExpenseType) => {
+  //   return { id: item.id, name: item.name };
+  // });
 
   const columns = useMemo<ColumnDef<Contribution>[]>(
     () => [
@@ -32,8 +37,11 @@ export const TabelContributiiPersoana: React.FC<Props> = ({ filters }) => {
         filterFn: 'inNumberRange',
       },
       {
-        header: () => 'Apa/Cafea',
+        header: () => 'Pentru',
         accessorKey: 'expense_type_id',
+        cell: (originalRow) => {
+          return expenseTypes?.find((x) => x.id === originalRow.cell.row.original.expense_type_id).name;
+        },
       },
       {
         header: 'Dată',
@@ -55,8 +63,8 @@ export const TabelContributiiPersoana: React.FC<Props> = ({ filters }) => {
     <>
       <TabelCustom
         table={table}
-        isFetching={isFetching}
-        isLoading={isLoading || !plati}
+        isFetching={isFetching || expenseIsFetching}
+        isLoading={isLoading || !plati || expenseIsLoading}
         cols={5}
         rows={5}
       />
