@@ -16,6 +16,7 @@ import {
 import { useParams } from 'react-router-dom';
 import { useFormAdaugaModificaContributie } from '@/pages/persoane/detalii/contributii/hooks/useFormAdaugaModificaContributie.tsx';
 import { useAdaugaModificaContributieMutation } from '@/pages/persoane/detalii/contributii/hooks/useAdaugaModificaContributieMutation.tsx';
+import { useGetExpenseTypes } from '@/pages/persoane/hooks/useGetExpenseTypes.tsx';
 
 type Props = {
   close: () => void;
@@ -31,6 +32,7 @@ export const apaCafeaEnum: Record<ApaSauCafea, string> = {
 
 export const FormularAdaugaModificaContributie: React.FC<Props> = ({ contributie, close }) => {
   const { id: userId } = useParams();
+  const { data: expenseTypes, isLoading: expenseIsLoading, isFetching: expenseIsFetching } = useGetExpenseTypes();
   const form = useFormAdaugaModificaContributie({ defaultValues: contributie });
   const { mutate, isPending } = useAdaugaModificaContributieMutation({
     contributie: contributie,
@@ -85,11 +87,11 @@ export const FormularAdaugaModificaContributie: React.FC<Props> = ({ contributie
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Pentru</SelectLabel>
-                      {Object.entries(apaCafeaEnum).map(([key, value]) => (
+                      {expenseTypes?.map((expense) => (
                         <SelectItem
-                          key={key}
-                          value={key}>
-                          {value}
+                          key={expense.id}
+                          value={expense.id}>
+                          {expense.name}
                         </SelectItem>
                       ))}
                     </SelectGroup>

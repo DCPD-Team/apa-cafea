@@ -5,7 +5,7 @@ import { AdaugaModificaContributie } from '@/pages/persoane/detalii/contributii/
 
 const formSchema = z.object({
   payment: z.number().min(0, 'Suma trebuie să fie mai mare ca 0'),
-  expense_type_id: z.enum(['apa', 'cafea']),
+  expense_type_id: z.string(),
 });
 
 export const useFormAdaugaModificaContributie = ({ defaultValues }: { defaultValues?: AdaugaModificaContributie }) => {
