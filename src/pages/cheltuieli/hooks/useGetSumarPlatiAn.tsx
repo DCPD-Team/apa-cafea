@@ -3,7 +3,6 @@ import { useGetMonthlyPaymentsByYear } from '@/pages/persoane/detalii/plati_luna
 import { useMemo } from 'react';
 
 export const useGetSumarPlatiAn = ({ an, expenseTypeId }: { an: number; expenseTypeId: string }) => {
-  // const { id: personId } = useParams();
   const { data: monthlyPayments } = useGetMonthlyPaymentsByYear({
     expenseTypeId: expenseTypeId,
     an: an.toString(),
@@ -28,7 +27,6 @@ export const useGetSumarPlatiAn = ({ an, expenseTypeId }: { an: number; expenseT
         return price ? price.price_value : 0;
       });
 
-    console.log(pricesPaid);
     return pricesPaid.length > 0 ? pricesPaid.reduce((acc, value) => (acc ? acc : 0) + (value ? value : 0), 0) : 0;
   }, [monthlyPayments, prices]);
 };
