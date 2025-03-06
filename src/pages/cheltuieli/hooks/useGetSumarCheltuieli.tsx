@@ -3,8 +3,6 @@ import { useGetSumarPlatiAn } from '@/pages/cheltuieli/hooks/useGetSumarPlatiAn.
 import { useGetSumarCheltuieliAn } from '@/pages/cheltuieli/hooks/useGetSumarCheltuieliAn.tsx';
 
 export const useGetSumarCheltuieli = ({ an, expenseTypeId }: { an: number; expenseTypeId: string }) => {
-  //TODO nu se face invalidate as expected, de vazut -> vreau refresh la valori cand se face useAdaugaModificaCheltuialaMutation
-
   const payments = useGetSumarPlatiAn({ an: an, expenseTypeId: expenseTypeId });
 
   const expenses = useGetSumarCheltuieliAn({ an: an, expenseTypeId: expenseTypeId }).data?.reduce(

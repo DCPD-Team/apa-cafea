@@ -6,6 +6,7 @@ import { ListaPersoane } from '@/pages/persoane/lista/ListaPersoane.tsx';
 import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
 import { ListaCheltuieli } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
 import { AdminPanel } from '@/pages/admin/AdminPanel.tsx';
+import { CustomRouteGuard } from '@/components/CustomRouteGuard.tsx';
 
 export const AppRoutes: RouteObject[] = [
   {
@@ -51,7 +52,11 @@ export const AppRoutes: RouteObject[] = [
       },
       {
         path: 'admin',
-        element: <AdminPanel />,
+        element: (
+          <CustomRouteGuard>
+            <AdminPanel />
+          </CustomRouteGuard>
+        ),
       },
     ],
   },
