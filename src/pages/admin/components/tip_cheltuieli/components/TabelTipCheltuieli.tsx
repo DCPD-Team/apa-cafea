@@ -36,7 +36,7 @@ export const TabelTipCheltuieli: React.FC = () => {
       isFetching={isFetching}
       isLoading={isLoading}
       table={table}
-      cols={15}
+      cols={2}
       rows={12}
     />
   );

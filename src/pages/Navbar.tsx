@@ -27,7 +27,7 @@ export const Navbar: React.FC = () => {
   return (
     <div className={'container mx-auto flex flex-col gap-3'}>
       <div className="flex items-center justify-between pt-5">
-        <div>
+        <div className="flex justify-between">
           <NavLink
             to="/persoana"
             className={({ isActive }) => getStyles(isActive)}>

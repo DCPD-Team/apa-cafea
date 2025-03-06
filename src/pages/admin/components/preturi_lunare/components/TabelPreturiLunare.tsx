@@ -52,7 +52,7 @@ export const TabelPreturiLunare: React.FC = () => {
         isFetching={isFetching}
         isLoading={isLoading}
         table={table}
-        cols={15}
+        cols={3}
         rows={12}
       />
     </div>

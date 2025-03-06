@@ -37,7 +37,7 @@ export const ActiuniPersoana: React.FC<Props> = ({ persoana, areButonDetalii = t
           onClick={() => sterge(persoana)}
           disabled={isPending}>
           {isPending ? <Loader2 className="animate-spin" /> : <FaTrash />}
-          Sterge
+          Inactiveaza
         </Button>
       )}
     </div>
