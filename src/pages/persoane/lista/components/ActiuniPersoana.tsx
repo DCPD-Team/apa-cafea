@@ -15,7 +15,7 @@ type Props = {
 
 export const ActiuniPersoana: React.FC<Props> = ({ persoana, areButonDetalii = true }) => {
   const { isPending, mutate: sterge } = useStergePersoanaMutation({ shouldRedirect: !areButonDetalii });
-  const { user } = useAuth();
+  const { isAdmin, isModerator } = useAuth();
 
   return (
     <div className="flex gap-1">
@@ -27,11 +27,9 @@ export const ActiuniPersoana: React.FC<Props> = ({ persoana, areButonDetalii = t
         </Button>
       )}
 
-      {(user?.appRole?.includes('admin') || user?.appRole?.includes('moderator')) && (
-        <ButonAdaugaModificaPersoana persoana={persoana} />
-      )}
+      {(isAdmin || isModerator) && <ButonAdaugaModificaPersoana persoana={persoana} />}
 
-      {user?.appRole?.includes('admin') && (
+      {isAdmin && (
         <Button
           variant="destructive"
           onClick={() => sterge(persoana)}

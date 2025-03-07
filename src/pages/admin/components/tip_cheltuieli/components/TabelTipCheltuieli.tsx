@@ -24,6 +24,7 @@ export const TabelTipCheltuieli: React.FC = () => {
         <ActiuniTipCheltuiala
           id={info.row.original.id}
           name={info.row.original.name}
+          active={info.row.original.active}
         />
       ),
     },
