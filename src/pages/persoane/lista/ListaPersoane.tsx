@@ -15,9 +15,9 @@ import { useAuth } from '@/hooks/useAuth.tsx';
 export type PersonFilter = Partial<Pick<Person, 'first_name' | 'last_name' | 'water' | 'coffee'>>;
 
 export const ListaPersoane: React.FC = () => {
-  const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
+  const { isLoading, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
   const [filters, setFilters] = useState<PersonFilter>({});
-  const { user } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
 
   const columns = useMemo<ColumnDef<Person>[]>(
     () => [
@@ -79,9 +79,7 @@ export const ListaPersoane: React.FC = () => {
               currentFilter={filters}
               setFilter={setFilters}
             />
-            {(user?.appRole?.includes('admin') || user?.appRole?.includes('moderator')) && (
-              <ButonAdaugaModificaPersoana />
-            )}
+            {(isAdmin || isModerator) && <ButonAdaugaModificaPersoana />}
           </div>
         </div>
       </CardHeader>

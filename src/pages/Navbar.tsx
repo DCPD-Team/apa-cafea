@@ -5,6 +5,7 @@ import { supabaseClient } from '@/supabase/supabase.ts';
 import { Button } from '@/components/ui/button.tsx';
 import { LuLogOut } from 'react-icons/lu';
 import { useAuth } from '@/hooks/useAuth.tsx';
+import { ProfilAvatar } from '@/components/ProfilAvatar.tsx';
 
 export const Navbar: React.FC = () => {
   const { user } = useAuth();
@@ -27,6 +28,9 @@ export const Navbar: React.FC = () => {
   return (
     <div className={'container mx-auto flex flex-col gap-3'}>
       <div className="flex items-center justify-between pt-5">
+        <div>
+          <ProfilAvatar />
+        </div>
         <div className="flex justify-between">
           <NavLink
             to="/persoana"

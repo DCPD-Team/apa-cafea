@@ -1,4 +1,4 @@
-import React, { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import React, { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import { supabaseClient } from '../supabase/supabase';
 import { jwtDecode } from 'jwt-decode';
@@ -7,8 +7,10 @@ const AuthContext = createContext<{
   session: Session | null | undefined;
   user: AppUser | null | undefined;
   isLoading: boolean | null | undefined;
+  isModerator: boolean | null | undefined;
+  isAdmin: boolean | null | undefined;
   signOut: () => void;
-}>({ session: null, user: null, isLoading: null, signOut: () => {} });
+}>({ session: null, user: null, isLoading: null, isModerator: null, isAdmin: null, signOut: () => {} });
 
 type JwtCustomPayload = {
   user_roles: string[];
@@ -70,10 +72,15 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return () => subscription.unsubscribe();
   }, []);
 
+  const isModerator = useMemo(() => user?.appRole?.includes('moderator'), [user]);
+  const isAdmin = useMemo(() => user?.appRole?.includes('admin'), [user]);
+
   const value = {
     session,
     user,
     isLoading,
+    isModerator,
+    isAdmin,
     signOut: () => supabaseClient.auth.signOut(),
   };
 

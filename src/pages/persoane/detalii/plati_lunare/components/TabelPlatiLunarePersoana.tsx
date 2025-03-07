@@ -80,6 +80,7 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
   const { table } = useCustomDataTable({
     columns: user?.appRole?.includes('moderator') ? adminColums : baseColumns,
     data: newData,
+    disablePagination: true,
   });
 
   return (
@@ -97,6 +98,7 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
         table={table}
         cols={15}
         rows={12}
+        disablePagination={true}
       />
     </div>
   );

@@ -12,9 +12,17 @@ type Props<TData> = {
   isFetching: boolean;
   cols?: number;
   rows?: number;
+  disablePagination?: boolean;
 };
 
-export const TabelCustom = <TData,>({ table, isLoading, isFetching, cols = 5, rows = 10 }: Props<TData>) => {
+export const TabelCustom = <TData,>({
+  table,
+  isLoading,
+  isFetching,
+  cols = 5,
+  rows = 10,
+  disablePagination = false,
+}: Props<TData>) => {
   if (isLoading) {
     return (
       <SkeletonTable
@@ -79,7 +87,7 @@ export const TabelCustom = <TData,>({ table, isLoading, isFetching, cols = 5, ro
           })}
         </TableBody>
       </Table>
-      <PagingFooterTabel table={table} />
+      {!disablePagination && <PagingFooterTabel table={table} />}
     </div>
   );
 };

@@ -7,6 +7,8 @@ import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
 import { ListaCheltuieli } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
 import { AdminPanel } from '@/pages/admin/AdminPanel.tsx';
 import { CustomRouteGuard } from '@/components/CustomRouteGuard.tsx';
+import { ProfilPagina } from '@/pages/profil/ProfilPagina.tsx';
+import { ProfilRedirect } from '@/pages/profil/components/ProfilRedirect.tsx';
 
 export const AppRoutes: RouteObject[] = [
   {
@@ -29,6 +31,19 @@ export const AppRoutes: RouteObject[] = [
           {
             path: ':id',
             element: <Persoana />,
+          },
+        ],
+      },
+      {
+        path: 'profil',
+        children: [
+          {
+            index: true,
+            element: <ProfilRedirect />,
+          },
+          {
+            path: ':id',
+            element: <ProfilPagina />,
           },
         ],
       },
