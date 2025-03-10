@@ -406,6 +406,12 @@ export type Database = {
         Args: Record<PropertyKey, never>;
         Returns: Json;
       };
+      update_avatar: {
+        Args: {
+          new_avatar_path: string;
+        };
+        Returns: undefined;
+      };
     };
     Enums: {
       app_permission:

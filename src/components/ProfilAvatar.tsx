@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 export const ProfilAvatar: React.FC = () => {
   const { user } = useAuth();
-  const { data, isLoading, isFetching } = useGetAvatarPicture({ img: 'avatar/sad_coffee_bean.webp' });
+  const { data, isLoading, isFetching } = useGetAvatarPicture();
 
   const name = user?.email; // Gets the user’s name
   const isActive = true; // Checks if the flame should appear
   const navigate = useNavigate();
 
-  if (isFetching || isLoading) {
+  if (isFetching || isLoading || !data) {
     return null;
   }
   return (
@@ -27,7 +27,7 @@ export const ProfilAvatar: React.FC = () => {
             <img
               src={data}
               alt="User Avatar"
-              className="h-full w-full rounded-full border-2 border-gray-400 shadow-sm"
+              className="h-10 w-10 rounded-full border-2 border-gray-400 object-cover shadow-sm"
             />
           </TooltipTrigger>
           <TooltipContent className={'ml-2 rounded-full p-2'}>
@@ -35,7 +35,7 @@ export const ProfilAvatar: React.FC = () => {
               <img
                 src={data}
                 alt="User Avatar"
-                className="h-full w-full rounded-full border-2 border-gray-400 shadow-sm"
+                className="h-60 w-60 rounded-full border-2 border-gray-400 object-cover shadow-sm"
               />
             </div>
           </TooltipContent>
