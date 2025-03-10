@@ -3,16 +3,17 @@ import { supabaseClient } from '@/supabase/supabase.ts';
 
 export const useUploadAvatarPicture = () => {
   const queryClient = useQueryClient();
-  // upload->aceeasi tranzactie{iti ceva in ui asculti pentru succes dupa care-> face update pe tabela users cu path}.
 
   return useMutation({
-    mutationFn: async ({ file, userId }: { file: File; userId: string }) => {
+    mutationFn: async ({ file }: { file: File }) => {
       if (!file) throw new Error('No file provided');
 
-      const filePath = `avatar/${userId}/${file.name}`;
+      const uniqueFileName = `${Date.now()}-${file.name}`;
+      const filePath = `avatar/${uniqueFileName}`;
 
+      // Upload file to Supabase Storage
       const { error: uploadError } = await supabaseClient.storage
-        .from('pictures') // The bucket name
+        .from('pictures')
         .upload(filePath, file, { upsert: true });
 
       if (uploadError) {
@@ -20,17 +21,23 @@ export const useUploadAvatarPicture = () => {
         throw new Error('Failed to upload image');
       }
 
-      const { error: updateError } = await supabaseClient
-        .from('users')
-        .update({ picture_path: filePath }) // Store only the path
-        .eq('id', userId);
+      // Call the RPC function to update avatar_image in auth.users
+      const { error: rpcError } = await supabaseClient.rpc('update_avatar', {
+        new_avatar_path: filePath,
+      });
 
-      if (updateError) {
-        console.error('User update error:', updateError);
-        throw new Error('Failed to update user with avatar URL');
+      if (rpcError) {
+        console.error('RPC update error:', rpcError);
+
+        // Optional: Delete uploaded file if DB update fails
+        await supabaseClient.storage.from('pictures').remove([filePath]);
+
+        throw new Error('Failed to update user avatar');
       }
 
-      queryClient.invalidateQueries({ queryKey: ['user', userId] });
+      // Invalidate cache to trigger UI update
+      queryClient.invalidateQueries({ queryKey: ['user'] });
+      queryClient.invalidateQueries({ queryKey: ['avatar'] });
 
       return filePath;
     },
