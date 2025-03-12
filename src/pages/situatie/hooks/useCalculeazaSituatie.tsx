@@ -1,57 +1,55 @@
-import { Luna, LunileAnului, SituatiePersoana } from '@/pages/situatie/components/TabelSituatie.tsx';
+import { MonthlyPayments, Person } from '@/types/types.ts';
 import { useMemo } from 'react';
-import { ApaSauCafea, Payment, Person } from '@/types/types.ts';
+import { Luna, LunileAnului, SituatiePersoana } from '@/pages/situatie/components/TabelSituatie.tsx';
+import { useGetMonthlyPricesByYear } from '@/pages/persoane/detalii/plati_lunare/hooks/useGetMonthlyPricesByYear.tsx';
 
-export const PE_LUNA = 40;
+type PaymentData = {
+  total: number;
+  paidMonths: number;
+};
 
 export const useCalculeazaSituatie = ({
-  platiApi,
-  persoane,
   an,
-  pentru,
+  expenseTypeId,
+  persoane,
+  platiLunare,
 }: {
-  persoane: Person[] | undefined | null;
-  platiApi: Payment[] | undefined | null;
   an: number;
-  pentru: ApaSauCafea;
-}): SituatiePersoana[] => {
-  const plati = useMemo(() => {
-    if (!platiApi) {
-      return [];
-    }
-    return platiApi.filter((plata) => new Date(plata.created_at).getFullYear() === an && plata.what_for === pentru);
-  }, [platiApi, an, pentru]);
+  expenseTypeId: string;
+  persoane: Person[] | undefined | null;
+  platiLunare: MonthlyPayments[] | undefined | null;
+}) => {
+  const { data: monthlyPrices } = useGetMonthlyPricesByYear({ year: an });
 
   return useMemo(() => {
-    if (!plati) return [];
+    if (!platiLunare) return [];
     if (!persoane) return [];
 
-    const groupedPayments: Record<string, number> = plati.reduce(
+    const monthlyPricesFiltered = monthlyPrices?.filter((value) => value.expense_type_id === expenseTypeId);
+
+    const groupedPayments: Record<string, PaymentData> = platiLunare.reduce(
       (acc, payment) => {
-        acc[payment.person_id] += payment.sum;
+        if (!payment.paid) return acc;
+        const price =
+          !!monthlyPricesFiltered && monthlyPricesFiltered?.find((x) => x.month_id === payment.month_id)?.price_value;
+        acc[payment.person_id].total += price ? price : 0;
+        acc[payment.person_id].paidMonths += price ? 1 : 0;
         return acc;
       },
-      persoane.reduce((acc, curr) => ({ ...acc, [curr.id]: 0 }), {} as Record<string, number>)
+      persoane.reduce(
+        (acc, curr) => ({ ...acc, [curr.id]: { total: 0, paidMonths: 0 } }),
+        {} as Record<string, PaymentData>
+      )
     );
-
-    for (const userId in groupedPayments) {
-      groupedPayments[userId] = groupedPayments[userId] / PE_LUNA;
-    }
-
-    const getSumPerMonth = ({ monthIndex, paidMonths }: { monthIndex: number; paidMonths: number }): number => {
-      const index = monthIndex;
-
-      if (paidMonths >= index) {
-        if (paidMonths < index + 1) {
-          return (paidMonths - Math.floor(paidMonths)) * PE_LUNA;
-        }
-        return PE_LUNA;
-      }
-      return 0;
-    };
+    // console.log(groupedPayments);
 
     return Object.entries(groupedPayments).reduce((acc, [userId, paidMonths]) => {
       const persoana = persoane.find((persoana) => persoana.id === userId);
+      // console.log('paid months', paidMonths);
+      // console.log(persoana);
+      // console.log(platiLunare);
+
+      console.log(new Date().getMonth() + 1);
       if (!persoana) return acc;
 
       return [
@@ -60,12 +58,17 @@ export const useCalculeazaSituatie = ({
           nume: persoana.last_name,
           prenume: persoana.first_name,
           userId,
-          laZi: paidMonths >= new Date().getMonth() + 1,
+          laZi: paidMonths.paidMonths >= new Date().getMonth() + 1,
           luni: Object.keys(LunileAnului).reduce(
-            (acc, key, monthIndex) => {
+            (acc, key) => {
+              const paidMonth = platiLunare.find(
+                (x) => x.month_id === key && persoana.id === x.person_id && x.expense_type_id === expenseTypeId
+              )?.paid;
+
+              const priceValue = monthlyPricesFiltered?.find((x) => x.month_id === key)?.price_value;
               return {
                 ...acc,
-                [key]: getSumPerMonth({ monthIndex, paidMonths }),
+                [key]: paidMonth ? (priceValue ? priceValue : 0) : 0,
               };
             },
             {} as Record<Luna, number>
@@ -73,5 +76,5 @@ export const useCalculeazaSituatie = ({
         } satisfies SituatiePersoana,
       ];
     }, [] as SituatiePersoana[]);
-  }, [an, persoane, plati]);
+  }, [an, persoane, platiLunare, expenseTypeId]);
 };

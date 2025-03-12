@@ -70,14 +70,14 @@ export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-8">
+        className="flex flex-col space-y-8">
         <FormField
           control={form.control}
           name="active"
           defaultValue={undefined}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Activ/Inactiv</FormLabel>
+              <FormLabel>Activ/Inactiv </FormLabel>
               <FormControl>
                 <Checkbox
                   {...field}
@@ -98,7 +98,7 @@ export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({
             defaultValue={undefined}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Achitat/Neachitat</FormLabel>
+                <FormLabel>Achitat/Neachitat </FormLabel>
                 <FormControl>
                   <Checkbox
                     {...field}
@@ -112,7 +112,7 @@ export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({
             )}
           />
         ) : (
-          <span className={'text-sm text-destructive'}>Nu ai suficiente fonduri pentru a efectua o plată.</span>
+          <span className={'text-sm text-destructive'}>Nu poti efectua aceasta plată.</span>
         )}
 
         <Button
