@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import { Podium } from '@/pages/leaderboard/components/Podium.tsx';
 import { useCalculeazaLeaderboard } from '@/pages/leaderboard/hooks/useCalculeazaLeaderboard.tsx';
 import { FiltreLeaderboard } from '@/pages/leaderboard/components/FiltreLeaderboard.tsx';
-import { ApaSauCafea } from '@/types/types.ts';
 import { Loader2 } from 'lucide-react';
 
 export type FiltreLeaderboardType = {
-  pentru: ApaSauCafea;
+  expenseTypeId: string;
 };
 
 export const Leaderboard: React.FC = () => {
-  const [filtre, setFiltre] = useState<FiltreLeaderboardType>({ pentru: 'cafea' });
+  const [filtre, setFiltre] = useState<FiltreLeaderboardType>({ expenseTypeId: 'cafea' });
   const rezultat = useCalculeazaLeaderboard(filtre);
 
   if (!rezultat) {

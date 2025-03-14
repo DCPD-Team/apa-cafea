@@ -11,7 +11,7 @@ export const Navbar: React.FC = () => {
   const { user } = useAuth();
 
   const getStyles = (isActive: boolean) => {
-    return twMerge('px-6 py-2 rounded-md text-lg font-bold bg-slate-100', isActive ? 'bg-blue-500 text-white' : '');
+    return twMerge('px-6 py-2 rounded-md text-lg font-bold bg-slate-100', isActive ? 'bg-primary text-white' : '');
   };
 
   const navigate = useNavigate();
