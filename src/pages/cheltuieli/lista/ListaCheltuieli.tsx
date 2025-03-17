@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.t
 import { ButonAdaugaModificaCheltuiala } from '@/pages/cheltuieli/lista/components/ButonAdaugaModificaCheltuiala.tsx';
 import { ActiuniCheltuiala } from '@/pages/cheltuieli/lista/components/ActiuniCheltuiala.tsx';
 import { ColumnDef } from '@tanstack/react-table';
-import { ApaSauCafea, Cheltuiala, compareByDataCheltuiala } from '@/types/types.ts';
+import { Cheltuiala, compareByDataCheltuiala } from '@/types/types.ts';
 import { useGetListaCheltuialaQuery } from '@/pages/cheltuieli/hooks/useGetListaCheltuialaQuery.tsx';
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { SumarCheltuieli } from '@/pages/cheltuieli/lista/components/SumarCheltuieli.tsx';
@@ -15,7 +15,7 @@ import { useAuth } from '@/hooks/useAuth.tsx';
 
 export type FiltreCheltuialaType = {
   an: number;
-  pentru: ApaSauCafea;
+  expenseTypeId: string;
 };
 
 export type CheltuialaFilter = {
@@ -25,7 +25,7 @@ export type CheltuialaFilter = {
 
 export const ListaCheltuieli: React.FC = () => {
   const [columnFilters, setColumnFilters] = useState<CheltuialaFilter>({});
-  const [filtre, setFiltre] = useState<FiltreCheltuialaType>({ an: 2025, pentru: 'cafea' });
+  const [filtre, setFiltre] = useState<FiltreCheltuialaType>({ an: 2025, expenseTypeId: 'cafea' });
   const { user } = useAuth();
 
   const {

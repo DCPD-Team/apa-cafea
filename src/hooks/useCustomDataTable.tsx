@@ -13,9 +13,15 @@ export type CustomTableOptions<TData> = {
   data?: TData[] | null;
   columns: ColumnDef<TData>[];
   filters?: Record<string, any>;
+  disablePagination?: boolean;
 };
 
-export const useCustomDataTable = <TData,>({ columns, data = [], filters }: CustomTableOptions<TData>) => {
+export const useCustomDataTable = <TData,>({
+  columns,
+  data = [],
+  filters,
+  disablePagination,
+}: CustomTableOptions<TData>) => {
   const columnFilters: ColumnFilter[] = useMemo(() => {
     if (!filters) return [];
     return Object.entries(filters)
@@ -30,7 +36,8 @@ export const useCustomDataTable = <TData,>({ columns, data = [], filters }: Cust
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    manualPagination: false,
+    manualPagination: !!disablePagination,
+    rowCount: data?.length,
     autoResetPageIndex: false,
     state: {
       columnFilters,

@@ -8,9 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
-import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
+import { useGetExpenseTypes } from '@/pages/persoane/hooks/useGetExpenseTypes.tsx';
+import { useGetYearsOfPayments } from '@/pages/persoane/hooks/useGetYearsOfPayments.tsx';
 import { FiltreSituatieType } from '@/pages/situatie/components/TabelSituatie.tsx';
-import { ApaSauCafea } from '@/types/types.ts';
 
 type Props = {
   filtre: FiltreSituatieType;
@@ -18,22 +18,29 @@ type Props = {
 };
 
 export const FiltreSituatie: React.FC<Props> = ({ filtre, setFiltre }) => {
+  const { data: expenseTypes } = useGetExpenseTypes();
+  const { data: yearsData } = useGetYearsOfPayments();
+  const yearsArray: string[] = (yearsData ?? []) as string[];
+  if (!expenseTypes) {
+    return null;
+  }
+
   return (
     <div className="flex flex-row gap-2">
       <Select
-        value={filtre.pentru}
-        onValueChange={(value) => setFiltre((prevState) => ({ ...prevState, pentru: value as ApaSauCafea }))}>
+        value={filtre.expenseTypeId}
+        onValueChange={(value) => setFiltre((prevState) => ({ ...prevState, expenseTypeId: value }))}>
         <SelectTrigger className="w-[180px]">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Pentru</SelectLabel>
-            {Object.entries(apaCafeaEnum).map(([key, value]) => (
+            {expenseTypes.map((value) => (
               <SelectItem
-                key={key}
-                value={key}>
-                {value}
+                key={value.id}
+                value={value.id}>
+                {value.name}
               </SelectItem>
             ))}
           </SelectGroup>
@@ -48,9 +55,13 @@ export const FiltreSituatie: React.FC<Props> = ({ filtre, setFiltre }) => {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>An</SelectLabel>
-            <SelectItem value={'2025'}>2025</SelectItem>
-            <SelectItem value={'2024'}>2024</SelectItem>
-            <SelectItem value={'2023'}>2023</SelectItem>
+            {yearsArray.map((value) => (
+              <SelectItem
+                key={value}
+                value={value.toString()}>
+                {value}
+              </SelectItem>
+            ))}
           </SelectGroup>
         </SelectContent>
       </Select>

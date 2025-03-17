@@ -13,10 +13,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select.tsx';
-import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
 import { Textarea } from '@/components/ui/textarea.tsx';
 import { useFormAdaugaModificaCheltuiala } from '@/pages/cheltuieli/lista/hooks/useFormAdaugaModificaCheltuiala.tsx';
 import { useAdaugaModificaCheltuialaMutation } from '@/pages/cheltuieli/hooks/useAdaugaModificaCheltuialaMutation.tsx';
+import { useGetExpenseTypes } from '@/pages/persoane/hooks/useGetExpenseTypes.tsx';
+import { useGetYearsOfPayments } from '@/pages/persoane/hooks/useGetYearsOfPayments.tsx';
 
 type Props = {
   close: () => void;
@@ -29,6 +30,10 @@ export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
   const { close, cheltuiala } = props;
   const form = useFormAdaugaModificaCheltuiala({ defaultValues: cheltuiala });
   const { mutate, isPending } = useAdaugaModificaCheltuialaMutation({ cheltuiala, close });
+  const { data: expenses } = useGetExpenseTypes();
+
+  const { data: yearsData } = useGetYearsOfPayments();
+  const yearsArray: string[] = (yearsData ?? []) as string[];
 
   const onSubmit = (data: AdaugaModificaCheltuiala) => {
     mutate(data);
@@ -63,7 +68,7 @@ export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
 
         <FormField
           control={form.control}
-          name="what_for"
+          name="expense_type_id"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Pentru</FormLabel>
@@ -77,10 +82,42 @@ export const FormularAdaugaModificaCheltuiala: React.FC<Props> = (props) => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Pentru</SelectLabel>
-                      {Object.entries(apaCafeaEnum).map(([key, value]) => (
+                      {expenses?.map((item) => (
                         <SelectItem
-                          key={key}
-                          value={key}>
+                          key={item.id}
+                          value={item.id}>
+                          {item.id}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="year"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>An</FormLabel>
+              <FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value?.toString()}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selectează anul pentru care plătești" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>An</SelectLabel>
+                      {yearsArray.map((value) => (
+                        <SelectItem
+                          key={value}
+                          value={value.toString()}>
                           {value}
                         </SelectItem>
                       ))}

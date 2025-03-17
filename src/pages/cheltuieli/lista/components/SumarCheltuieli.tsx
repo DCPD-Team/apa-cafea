@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useGetSumarCheltuieli } from '@/pages/cheltuieli/hooks/useGetSumarCheltuieli.tsx';
 import { FiltreCheltuialaType } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
+import { Badge } from '@/components/ui/badge.tsx';
+import { Label } from '@/components/ui/label.tsx';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip.tsx';
 
 type Props = {
   filtre: FiltreCheltuialaType;
@@ -9,45 +12,43 @@ type Props = {
 export const SumarCheltuieli: React.FC<Props> = ({ filtre }) => {
   const { totalCheltuit, totalDisponibil } = useGetSumarCheltuieli(filtre);
 
-  return (
-    <div className="grid grid-cols-2 gap-3">
-      {filtre.pentru === 'apa' ? (
+  return useMemo(() => {
+    return (
+      <div className="grid grid-cols-2 gap-3">
         <>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total disponibil apa</span>
-            <span className="text-xl font-bold">{totalDisponibil} RON</span>
-          </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total cheltuit apa</span>
-            <span className="text-xl font-bold">{totalCheltuit} RON</span>
-          </div>
-        </>
-      ) : (
-        <>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total disponibil cafea</span>
-            <span className="text-xl font-bold">{totalDisponibil} RON</span>
-          </div>
-          <div className="flex flex-col gap-1">
-            <span className="text-sm text-muted-foreground">Total cheltuit cafea</span>
-            <span className="text-xl font-bold">{totalCheltuit} RON</span>
-          </div>
-        </>
-      )}
-    </div>
+          <Tooltip>
+            <TooltipTrigger>
+              <Badge className={'p-2'}>
+                <div className={'flex flex-col'}>
+                  <Label>Total disponibil {filtre.expenseTypeId}</Label>
+                  <p className="text-right text-lg font-bold">{totalDisponibil} RON</p>
+                </div>
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent
+              className={'p-2'}
+              style={{ width: 'var(--radix-tooltip-trigger-width)' }}>
+              <div>Daca e pe minus, mai fa niste plati</div>
+            </TooltipContent>
+          </Tooltip>
 
-    // TODO:    // <div className="flex gap-2">
-    //   <Badge className={'p-2'}>Total: {total}</Badge>
-    //   <Badge
-    //     className={'p-2'}
-    //     variant="outline">
-    //     Cheltuit: {totalCheltuit}
-    //   </Badge>
-    //   <Badge
-    //     className={'p-2'}
-    //     variant={totalDisponibil > 0 ? 'success' : 'destructive'}>
-    //     Disponibil: {totalDisponibil}
-    //   </Badge>
-    // </div>
-  );
+          <Tooltip>
+            <TooltipTrigger>
+              <Badge className={'p-2'}>
+                <div className={'flex flex-col'}>
+                  <Label>Total cheltuit {filtre.expenseTypeId}</Label>
+                  <p className="text-right text-lg font-bold">{totalCheltuit} RON</p>
+                </div>
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent
+              className={'p-2'}
+              style={{ width: 'var(--radix-tooltip-trigger-width)' }}>
+              <div>Aici e fara numar</div>
+            </TooltipContent>
+          </Tooltip>
+        </>
+      </div>
+    );
+  }, [totalDisponibil, totalCheltuit]);
 };

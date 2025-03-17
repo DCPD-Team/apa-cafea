@@ -4,7 +4,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.t
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
 import { compareByDataInscriere, Person } from '@/types/types.ts';
 import { ColumnDef } from '@tanstack/react-table';
-import { Checkbox } from '@/components/ui/checkbox.tsx';
 import { ActiuniPersoana } from '@/pages/persoane/lista/components/ActiuniPersoana.tsx';
 import { FiltruColoanePersoane } from '@/pages/persoane/lista/components/FiltruColoanePersoane.tsx';
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
@@ -12,12 +11,12 @@ import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { formatDate } from 'date-fns';
 import { useAuth } from '@/hooks/useAuth.tsx';
 
-export type PersonFilter = Partial<Pick<Person, 'first_name' | 'last_name' | 'water' | 'coffee'>>;
+export type PersonFilter = Partial<Pick<Person, 'first_name' | 'last_name'>>;
 
 export const ListaPersoane: React.FC = () => {
-  const { isLoading, isFetching, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
+  const { isLoading, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
   const [filters, setFilters] = useState<PersonFilter>({});
-  const { user } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
 
   const columns = useMemo<ColumnDef<Person>[]>(
     () => [
@@ -37,21 +36,6 @@ export const ListaPersoane: React.FC = () => {
         header: () => 'Prenume',
         accessorKey: 'first_name',
         filterFn: 'includesString',
-      },
-
-      {
-        header: 'Participă apă',
-        accessorKey: 'water',
-        cell: ({ row }) => {
-          return <Checkbox checked={row.original.water} />;
-        },
-      },
-      {
-        header: 'Participă cafea',
-        accessorKey: 'coffee',
-        cell: ({ row }) => {
-          return <Checkbox checked={row.original.coffee} />;
-        },
       },
       {
         header: 'Dată înscriere',
@@ -79,9 +63,7 @@ export const ListaPersoane: React.FC = () => {
               currentFilter={filters}
               setFilter={setFilters}
             />
-            {(user?.appRole?.includes('admin') || user?.appRole?.includes('moderator')) && (
-              <ButonAdaugaModificaPersoana />
-            )}
+            {(isAdmin || isModerator) && <ButonAdaugaModificaPersoana />}
           </div>
         </div>
       </CardHeader>

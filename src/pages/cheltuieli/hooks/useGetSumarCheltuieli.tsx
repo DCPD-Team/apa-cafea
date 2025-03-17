@@ -1,53 +1,27 @@
-import { ApaSauCafea, compareByDataCheltuiala } from '@/types/types.ts';
 import { useMemo } from 'react';
-import { useGetListaCheltuialaQuery } from '@/pages/cheltuieli/hooks/useGetListaCheltuialaQuery.tsx';
-import { useGetListaPlatiPersoanaFilteredQuery } from '@/pages/persoane/hooks/useGetListaPlatiPersoanaFilteredQuery.tsx';
+import { useGetSumarPlatiAn } from '@/pages/cheltuieli/hooks/useGetSumarPlatiAn.tsx';
+import { useGetSumarCheltuieliAn } from '@/pages/cheltuieli/hooks/useGetSumarCheltuieliAn.tsx';
 
-export type TotalPlati = {
-  totalDisponibil: number;
-  totalCheltuit: number;
-};
+export const useGetSumarCheltuieli = ({ an, expenseTypeId }: { an: number; expenseTypeId: string }) => {
+  const payments = useGetSumarPlatiAn({ an: an, expenseTypeId: expenseTypeId });
 
-export const useGetSumarCheltuieli = ({ an, pentru }: { an: number; pentru: ApaSauCafea }) => {
-  const { data: plati } = useGetListaPlatiPersoanaFilteredQuery({ an: an, pentru: pentru });
-
-  const cheltuieliFiltered = useGetListaCheltuialaQuery({ an: an, pentru: pentru, compareFn: compareByDataCheltuiala });
-
-  const cheltuieli = useMemo(() => {
-    return cheltuieliFiltered.data;
-  }, [cheltuieliFiltered, an, pentru]);
+  const expenses = useGetSumarCheltuieliAn({ an: an, expenseTypeId: expenseTypeId }).data?.reduce(
+    (acc, value) => acc + value.sum,
+    0
+  );
 
   return useMemo(() => {
-    if (!plati || !cheltuieli) {
-      return { totalDisponibil: 0, totalCheltuit: 0 };
-    }
-
-    if (pentru === 'apa') {
-      const filtredPaymentsApa = plati.filter((plata) => plata.what_for === 'apa');
-      const filtredExpensesApa = cheltuieli.filter((cheltuiala) => cheltuiala.what_for === 'apa');
-
-      const totalPaymentsApa =
-        filtredPaymentsApa.length > 0 ? filtredPaymentsApa.reduce((acc, plata) => acc + plata.sum, 0) : 0;
-      const totalExpensesApa =
-        filtredExpensesApa.length > 0 ? filtredExpensesApa.reduce((acc, expense) => acc + expense.sum, 0) : 0;
-
-      return {
-        totalDisponibil: totalPaymentsApa,
-        totalCheltuit: totalExpensesApa,
-      } as TotalPlati;
+    if (payments) {
+      if (!expenses) {
+        return { totalDisponibil: payments, totalCheltuit: 0 };
+      }
     } else {
-      const filtredPaymentsCafea = plati.filter((plata) => plata.what_for === 'cafea');
-      const filtredExpensesCafea = cheltuieli.filter((cheltuiala) => cheltuiala.what_for === 'cafea');
-
-      const totalPaymentsCafea =
-        filtredPaymentsCafea.length > 0 ? filtredPaymentsCafea.reduce((acc, plata) => acc + plata.sum, 0) : 0;
-      const totalExpensesCafea =
-        filtredExpensesCafea.length > 0 ? filtredExpensesCafea.reduce((acc, expense) => acc + expense.sum, 0) : 0;
-
-      return {
-        totalDisponibil: totalPaymentsCafea,
-        totalCheltuit: totalExpensesCafea,
-      } as TotalPlati;
+      if (expenses) {
+        return { totalDisponibil: 0, totalCheltuit: expenses };
+      } else {
+        return { totalDisponibil: 0, totalCheltuit: 0 };
+      }
     }
-  }, [cheltuieli, plati, an, pentru]);
+    return { totalCheltuit: expenses, totalDisponibil: payments - expenses };
+  }, [expenses, payments, an, expenseTypeId]);
 };

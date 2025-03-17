@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { useCalculeazaSituatie } from '@/pages/situatie/hooks/useCalculeazaSituatie.tsx';
 import { FaInfo } from 'react-icons/fa';
 import { FiltreSituatie } from '@/pages/situatie/components/FiltreSituatie.tsx';
-import { ApaSauCafea } from '@/types/types.ts';
 import { ColumnDef } from '@tanstack/react-table';
 import { twMerge } from 'tailwind-merge';
 import { Badge } from '@/components/ui/badge.tsx';
@@ -12,6 +10,8 @@ import { NavLink } from 'react-router-dom';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { FiltruColoaneSituatie } from '@/pages/situatie/components/FiltruColoaneSituatie.tsx';
+import { useCalculeazaSituatie } from '@/pages/situatie/hooks/useCalculeazaSituatie.tsx';
+import { useGetMonthlyPaymentsByYear } from '@/pages/persoane/detalii/plati_lunare/hooks/useGetMonthlyPaymentsByYear.tsx';
 
 export const LunileAnului = {
   IANUARIE: 'Ianuarie',
@@ -40,7 +40,7 @@ export type SituatiePersoana = {
 
 export type FiltreSituatieType = {
   an: number;
-  pentru: ApaSauCafea;
+  expenseTypeId: string;
 };
 
 export type SituatieFilter = {
@@ -74,11 +74,27 @@ const getMonthCellColor = (value: number, luna: Luna, an: number) => {
 
 export const TabelSituatie: React.FC = () => {
   const [columnFilters, setColumnFilters] = useState<SituatieFilter>({});
-  const [filtre, setFiltre] = useState<FiltreSituatieType>({ an: 2025, pentru: 'cafea' });
-  const { queryPersoane, queryPlati } = useGetDateSituatie();
-  const situatii = useCalculeazaSituatie({ ...filtre, persoane: queryPersoane.data, platiApi: queryPlati.data });
+  const [filtre, setFiltre] = useState<FiltreSituatieType>({ an: 2025, expenseTypeId: 'cafea' });
+  const { queryPersoane } = useGetDateSituatie();
 
-  const luniColumnDefs: ColumnDef<SituatiePersoana>[] = Object.entries(LunileAnului).map(([key, value], index) => {
+  const {
+    data: monthlyPayments,
+    isLoading: monthlyPaymentsIsLoading,
+    isFetching: monthlyPaymentsIsFetching,
+  } = useGetMonthlyPaymentsByYear({
+    expenseTypeId: filtre.expenseTypeId,
+    an: filtre.an.toString(),
+  });
+
+  const situatii = useCalculeazaSituatie({
+    ...filtre,
+    persoane: queryPersoane.data,
+    platiLunare: monthlyPayments,
+  });
+
+  console.log(situatii);
+
+  const luniColumnDefs: ColumnDef<SituatiePersoana>[] = Object.entries(LunileAnului).map(([key, value]) => {
     return {
       accessorKey: key,
       header: value,
@@ -139,8 +155,8 @@ export const TabelSituatie: React.FC = () => {
         />
       </div>
       <TabelCustom
-        isFetching={queryPersoane.isFetching || queryPlati.isFetching}
-        isLoading={queryPersoane.isLoading || queryPlati.isLoading || !situatii}
+        isFetching={queryPersoane.isFetching || monthlyPaymentsIsFetching}
+        isLoading={queryPersoane.isLoading || monthlyPaymentsIsLoading || !situatii}
         table={table}
         cols={15}
         rows={12}
