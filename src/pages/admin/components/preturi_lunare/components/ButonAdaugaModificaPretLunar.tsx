@@ -21,18 +21,16 @@ export const ButonAdaugaModificaPretLunar: React.FC<Props> = ({ monthlyPrice }) 
         <Button variant="default">
           {!monthlyPrice ? (
             <>
-              <IoMdAddCircleOutline /> Adauga
+              <IoMdAddCircleOutline /> Adaugă
             </>
           ) : (
-            <>
-              <FaEdit /> Modifica
-            </>
+            <FaEdit />
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{!monthlyPrice ? 'Adauga tip cheltuiala' : 'Modifica tip cheltuiala'} </DialogTitle>
+          <DialogTitle>{!monthlyPrice ? 'Adaugă tip cheltuială' : 'Modifică tip cheltuială'} </DialogTitle>
         </DialogHeader>
         <FormularAdaugaModificaPretLunar
           close={() => setOpen(false)}

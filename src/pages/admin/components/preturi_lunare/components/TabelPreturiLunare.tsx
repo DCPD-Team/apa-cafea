@@ -22,7 +22,7 @@ export const TabelPreturiLunare: React.FC = () => {
 
   const columns: ColumnDef<MonthlyPrices>[] = [
     {
-      header: 'Luna',
+      header: 'Lună',
       accessorKey: 'month_id',
       cell: ({ row }) => <> {row.original.month_id}</>,
     },
@@ -32,7 +32,7 @@ export const TabelPreturiLunare: React.FC = () => {
       cell: ({ row }) => <> {row.original.price_value} RON</>,
     },
     {
-      header: 'Actiuni',
+      header: 'Acțiuni',
       accessorKey: 'id',
       cell: ({ row }) => <ActiuniPretLunar monthlyPrice={row.original} />,
     },

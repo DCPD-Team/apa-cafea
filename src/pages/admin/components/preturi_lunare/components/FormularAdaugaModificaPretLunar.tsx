@@ -55,7 +55,7 @@ export const FormularAdaugaModificaPretLunar: React.FC<Props> = ({ close, monthl
           defaultValue={undefined}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Introdu valoarea pretului</FormLabel>
+              <FormLabel>Introdu valoarea prețului</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -79,7 +79,7 @@ export const FormularAdaugaModificaPretLunar: React.FC<Props> = ({ close, monthl
               name="month_id"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>An</FormLabel>
+                  <FormLabel>Luna</FormLabel>
                   <FormControl>
                     <Select
                       onValueChange={field.onChange}
@@ -89,7 +89,7 @@ export const FormularAdaugaModificaPretLunar: React.FC<Props> = ({ close, monthl
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          <SelectLabel>Luna</SelectLabel>
+                          <SelectLabel>Lună</SelectLabel>
                           {months?.map((item) => (
                             <SelectItem
                               key={item.id}
@@ -173,7 +173,7 @@ export const FormularAdaugaModificaPretLunar: React.FC<Props> = ({ close, monthl
           type="submit"
           disabled={!form.formState.isValid || isPending}>
           {isPending && <Loader2 className="animate-spin" />}
-          {!monthlyPrice?.id ? 'Adauga' : 'Modifica'}
+          {!monthlyPrice?.id ? 'Adaugă' : 'Modifică'}
         </Button>
       </form>
     </Form>

@@ -20,18 +20,16 @@ export const ButonAdaugaModificaTipCheltuiala: React.FC<Props> = ({ expenseType 
         <Button variant="default">
           {!expenseType ? (
             <>
-              <IoMdAddCircleOutline /> Adauga
+              <IoMdAddCircleOutline /> Adaugă
             </>
           ) : (
-            <>
-              <FaEdit /> Modifica
-            </>
+            <FaEdit />
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{!expenseType ? 'Adauga tip cheltuiala' : 'Modifica tip cheltuiala'} </DialogTitle>
+          <DialogTitle>{!expenseType ? 'Adaugă tip cheltuială' : 'Modifică tip cheltuială'} </DialogTitle>
         </DialogHeader>
         <FormularAdaugaModificaTipCheltuiala
           close={() => setOpen(false)}

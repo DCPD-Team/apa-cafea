@@ -42,7 +42,10 @@ export const PodiumChart: React.FC<PodiumType> = (props: PodiumType) => {
           accessibilityLayer
           data={chartData}>
           <XAxis dataKey="name" />
-          <YAxis padding={{ top: 10 }} />
+          <YAxis
+            padding={{ top: 10 }}
+            label={{ value: 'RON', angle: -90, position: 'insideLeft' }}
+          />
           <CartesianGrid vertical={false} />
           <ChartTooltip content={<ChartTooltipContent />} />
           <ChartLegend content={<ChartLegendContent />} />

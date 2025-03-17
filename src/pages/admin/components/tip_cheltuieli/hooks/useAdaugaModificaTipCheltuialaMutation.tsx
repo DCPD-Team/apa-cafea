@@ -19,7 +19,6 @@ export const useAdaugaModificaTipCheltuialaMutation = ({
         ? {
             ...data,
             id: data?.name?.toLowerCase(),
-            // id: tipCheltuiala?.id,
           }
         : {
             ...tipCheltuiala,
@@ -36,8 +35,8 @@ export const useAdaugaModificaTipCheltuialaMutation = ({
         variant: 'default',
         title: 'Error!',
         description: tipCheltuiala
-          ? 'Tipul de cheltuiala nu a putut fi modificatǎ'
-          : 'Tipul de cheltuiala nu a putut fi adaugata',
+          ? 'Tipul de cheltuială nu a putut fi modificatǎ'
+          : 'Tipul de cheltuială nu a putut fi adaugată',
       });
     },
     onSuccess: () => {
@@ -50,7 +49,7 @@ export const useAdaugaModificaTipCheltuialaMutation = ({
       close();
       toast({
         variant: 'default',
-        title: tipCheltuiala ? 'Tipul de cheltuiala a fost modificatǎ!' : 'Tipul de cheltuiala a fost adaugatǎ!',
+        title: tipCheltuiala ? 'Tipul de cheltuială a fost modificatǎ!' : 'Tipul de cheltuială a fost adaugatǎ!',
       });
     },
   });

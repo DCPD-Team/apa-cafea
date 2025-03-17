@@ -12,7 +12,7 @@ export const ListaPreturiLunare: React.FC = () => {
       <Card>
         <CardHeader>
           <div className={'flex items-center justify-between'}>
-            <CardTitle className={'text-3xl'}>Preturi lunare</CardTitle>
+            <CardTitle className={'text-3xl'}>Prețuri lunare</CardTitle>
             {user?.appRole?.includes('moderator') && <ButonAdaugaModificaPretLunar />}
           </div>
         </CardHeader>

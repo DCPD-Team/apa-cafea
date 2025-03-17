@@ -37,7 +37,7 @@ export const useAdaugaModificaPretLunarMutation = ({
       toast({
         variant: 'default',
         title: 'Error!',
-        description: pretLunar ? 'Pretul nu a putut fi modificat' : 'Pretul nu a putut fi adaugat',
+        description: pretLunar ? 'Prețul nu a putut fi modificat' : 'Prețul nu a putut fi adăugat',
       });
     },
     onSuccess: () => {
@@ -47,7 +47,7 @@ export const useAdaugaModificaPretLunarMutation = ({
       close();
       toast({
         variant: 'default',
-        title: pretLunar ? 'Pretul a fost modificat!' : 'Pretul a fost adaugat!',
+        title: pretLunar ? 'Prețul a fost modificat!' : 'Prețul a fost adăugat!',
       });
     },
   });

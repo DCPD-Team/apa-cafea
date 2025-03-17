@@ -4,23 +4,24 @@ import { useActiveazaInactiveazaTipCheltuiala } from '@/pages/admin/components/t
 import { ExpenseType } from '@/types/types.ts';
 import { Loader2 } from 'lucide-react';
 import { FaBan, FaRedo } from 'react-icons/fa';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip.tsx';
 
 type Props = {
   expenseType: ExpenseType;
 };
 export const ButonActiveazaInactiveazaTipCheltuiala: React.FC<Props> = ({ expenseType }) => {
   const { isPending, mutate: sterge } = useActiveazaInactiveazaTipCheltuiala({ tipCheltuiala: expenseType });
-  //todo asta e mai shady, nu ar trebui sters tipul de cheltuiala de fapt
-  // mai e si fk in o groaza se parti
-  // poate ori inactivare ca la persoane, gen cu data inactivare?
-  // sau deloc optiunea
   return (
-    <Button
-      variant={expenseType.active === true ? 'destructive' : 'default'}
-      onClick={() => sterge(expenseType)}
-      disabled={isPending}>
-      {isPending ? <Loader2 className="animate-spin" /> : expenseType.active ? <FaBan /> : <FaRedo />}
-      {expenseType.active ? 'Inactiveaza' : 'Activeaza'}
-    </Button>
+    <Tooltip delayDuration={0}>
+      <TooltipTrigger>
+        <Button
+          variant={expenseType.active === true ? 'destructive' : 'default'}
+          onClick={() => sterge(expenseType)}
+          disabled={isPending}>
+          {isPending ? <Loader2 className="animate-spin" /> : expenseType.active ? <FaBan /> : <FaRedo />}
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>{expenseType.active ? 'Inactivează' : 'Activează'}</TooltipContent>
+    </Tooltip>
   );
 };

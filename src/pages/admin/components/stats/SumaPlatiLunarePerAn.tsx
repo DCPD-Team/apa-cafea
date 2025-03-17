@@ -15,7 +15,7 @@ import {
 import { Bar, BarChart, CartesianGrid, Cell, LabelList, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 
-const chartConfig = {
+export const monthsChartConfig = {
   IANUARIE: {
     label: 'IANUARIE',
     color: '#2563eb',
@@ -91,26 +91,27 @@ export const SumaPlatiLunarePerAn: React.FC = () => {
   });
 
   return (
-    <Card>
-      <CardHeader className="flex gap-3">
-        <CardTitle className="text-3xl">Valoare plati efectuate</CardTitle>
+    <Card className={'w-[50%]'}>
+      <CardHeader>
+        <CardTitle>Valoare plăți efectuate</CardTitle>
         <FiltreSituatie
           filtre={filtre}
           setFiltre={setFiltre}
         />
       </CardHeader>
       <CardContent>
-        <div className={'flex flex-col gap-3'}>
+        <div className={'flex flex-col'}>
           <div className="flex flex-col items-center justify-between">
             <ChartContainer
-              config={chartConfig}
-              className="w-full p-10">
+              config={monthsChartConfig}
+              className="w-full">
               <BarChart
                 accessibilityLayer
                 data={chartData}>
                 <XAxis
-                  dataKey="an"
-                  label={{ value: 'Lunile anului', position: 'insideBottomRight' }}
+                  dataKey="month"
+                  angle={-35}
+                  tick={{ fontSize: 10, textAnchor: 'middle' }}
                 />
                 <YAxis
                   padding={{ top: 10 }}
@@ -126,11 +127,11 @@ export const SumaPlatiLunarePerAn: React.FC = () => {
                   {chartData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
-                      fill={chartConfig[entry.month as Luna].color}
+                      fill={monthsChartConfig[entry.month as Luna].color}
                     />
                   ))}
                   <LabelList
-                    dataKey="month"
+                    dataKey="total"
                     position="top"
                   />
                 </Bar>
@@ -141,7 +142,7 @@ export const SumaPlatiLunarePerAn: React.FC = () => {
                   {chartData.map((entry, index) => (
                     <Cell
                       key={`cell-${index}`}
-                      fill={chartConfig[entry.month as Luna].color}
+                      fill={monthsChartConfig[entry.month as Luna].color}
                       name={entry.month}
                     />
                   ))}

@@ -34,7 +34,7 @@ export const FormularAdaugaModificaTipCheltuiala: React.FC<{ tipCheltuiala?: Exp
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Denumire cheltuiala</FormLabel>
+              <FormLabel>Denumire cheltuială</FormLabel>
               <FormControl>
                 <Input
                   {...field}
@@ -51,7 +51,7 @@ export const FormularAdaugaModificaTipCheltuiala: React.FC<{ tipCheltuiala?: Exp
           type="submit"
           disabled={!form.formState.isValid || isPending}>
           {isPending && <Loader2 className="animate-spin" />}
-          {!tipCheltuiala?.id ? 'Adauga' : 'Modifica'}
+          {!tipCheltuiala?.id ? 'Adaugă' : 'Modifică'}
         </Button>
       </form>
     </Form>

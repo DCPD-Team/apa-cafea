@@ -18,7 +18,7 @@ export const TabelTipCheltuieli: React.FC = () => {
     },
     {
       id: 'id',
-      header: 'Actiuni',
+      header: 'Acțiuni',
       accessorFn: (row) => row.id,
       cell: (info) => (
         <ActiuniTipCheltuiala

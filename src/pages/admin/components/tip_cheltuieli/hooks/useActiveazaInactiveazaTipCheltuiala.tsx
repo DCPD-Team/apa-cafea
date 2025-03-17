@@ -20,15 +20,15 @@ export const useActiveazaInactiveazaTipCheltuiala = ({ tipCheltuiala }: { tipChe
       toast({
         variant: 'default',
         title: tipCheltuiala.active
-          ? 'Tipul de cheltuiala nu a putut fi inactivat!'
-          : 'Tipul de cheltuiala nu a putut fi activat!',
+          ? 'Tipul de cheltuială nu a putut fi inactivat!'
+          : 'Tipul de cheltuială nu a putut fi activat!',
         description: response?.message,
       });
     },
     onSuccess: () => {
       toast({
         variant: 'default',
-        title: tipCheltuiala.active ? 'Tipul de cheltuiala a fost inactivat!' : 'Tipul de cheltuiala a fost activat!',
+        title: tipCheltuiala.active ? 'Tipul de cheltuială a fost inactivat!' : 'Tipul de cheltuială a fost activat!',
       });
       queryClient.invalidateQueries({
         queryKey: ['expenseTypes'],
