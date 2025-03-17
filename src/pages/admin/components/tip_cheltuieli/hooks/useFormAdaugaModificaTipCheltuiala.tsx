@@ -7,8 +7,12 @@ const formSchema = z.object({
   name: z.string().optional(),
 });
 
-export const useFormAdaugaModificaTipCheltuiala = ({ defaultValues }: { defaultValues?: Omit<ExpenseType, 'id'> }) => {
-  return useForm<Omit<ExpenseType, 'id'>>({
+export const useFormAdaugaModificaTipCheltuiala = ({
+  defaultValues,
+}: {
+  defaultValues?: Omit<ExpenseType, 'id' | 'active'>;
+}) => {
+  return useForm<Omit<ExpenseType, 'id' | 'active'>>({
     mode: 'onChange',
     resolver: zodResolver(formSchema),
     defaultValues,

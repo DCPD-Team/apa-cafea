@@ -20,7 +20,7 @@ export const FormularAdaugaModificaTipCheltuiala: React.FC<{ tipCheltuiala?: Exp
 
   const { mutate, isPending } = useAdaugaModificaTipCheltuialaMutation({ tipCheltuiala: tipCheltuiala, close: close });
 
-  const onSubmit = (data: Omit<ExpenseType, 'id'>) => {
+  const onSubmit = (data: Omit<ExpenseType, 'id' | 'active'>) => {
     mutate(data);
   };
 

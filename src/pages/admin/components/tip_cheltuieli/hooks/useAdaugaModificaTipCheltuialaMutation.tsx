@@ -13,7 +13,7 @@ export const useAdaugaModificaTipCheltuialaMutation = ({
 }) => {
   const queryClient = useQueryClient();
 
-  return useMutation<void, PostgrestError | null, Omit<ExpenseType, 'id'>>({
+  return useMutation<void, PostgrestError | null, Omit<ExpenseType, 'id' | 'active'>>({
     mutationFn: async (data) => {
       const payload = !tipCheltuiala
         ? {
