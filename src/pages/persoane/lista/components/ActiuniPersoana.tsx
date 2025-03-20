@@ -22,7 +22,7 @@ export const ActiuniPersoana: React.FC<Props> = ({ persoana, areButonDetalii = t
       {areButonDetalii && (
         <Button asChild={true}>
           <NavLink to={`/persoana/${persoana.id}`}>
-            <FaInfo /> Detalii
+            <FaInfo />
           </NavLink>
         </Button>
       )}
@@ -35,7 +35,6 @@ export const ActiuniPersoana: React.FC<Props> = ({ persoana, areButonDetalii = t
           onClick={() => sterge(persoana)}
           disabled={isPending}>
           {isPending ? <Loader2 className="animate-spin" /> : <FaTrash />}
-          Inactiveaza
         </Button>
       )}
     </div>

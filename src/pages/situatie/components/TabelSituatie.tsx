@@ -132,7 +132,7 @@ export const TabelSituatie: React.FC = () => {
         return (
           <Button asChild={true}>
             <NavLink to={`/persoana/${info.row.original.userId}`}>
-              <FaInfo /> Detalii
+              <FaInfo />
             </NavLink>
           </Button>
         );

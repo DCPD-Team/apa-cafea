@@ -18,9 +18,6 @@ export const TabelContributiiPersoana: React.FC<Props> = ({ filters }) => {
   const { id } = useParams();
   const { isLoading, isFetching, data: plati } = useGetListaContributiiPersoanaQuery({ personId: id ?? '' });
   const { data: expenseTypes, isLoading: expenseIsLoading, isFetching: expenseIsFetching } = useGetExpenseTypes();
-  // const expenseTypeShow = expenseTypes?.map((item: ExpenseType) => {
-  //   return { id: item.id, name: item.name };
-  // });
 
   const columns = useMemo<ColumnDef<Contribution>[]>(
     () => [

@@ -4,9 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from '@/components/ui/button.tsx';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaEdit } from 'react-icons/fa';
-import {
-  FormularAdaugaModificaContributie,
-} from '@/pages/persoane/detalii/contributii/components/FormularAdaugaModificaContributie.tsx';
+import { FormularAdaugaModificaContributie } from '@/pages/persoane/detalii/contributii/components/FormularAdaugaModificaContributie.tsx';
 
 type Props = {
   contributie?: Contribution;
@@ -23,18 +21,18 @@ export const ButonAdaugaModificaContributie: React.FC<Props> = ({ contributie })
         <Button variant="default">
           {!contributie ? (
             <>
-              <IoMdAddCircleOutline /> Adauga
+              <IoMdAddCircleOutline /> Adaugă
             </>
           ) : (
             <>
-              <FaEdit /> Modifica
+              <FaEdit />
             </>
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{!contributie ? 'Adauga contributie' : 'Modifica contributie'} </DialogTitle>
+          <DialogTitle>{!contributie ? 'Adaugă contribuție' : 'Modifică contribuție'} </DialogTitle>
         </DialogHeader>
         <FormularAdaugaModificaContributie
           close={() => setOpen(false)}

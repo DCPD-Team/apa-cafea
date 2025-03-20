@@ -68,7 +68,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
           type="submit"
           disabled={!form.formState.isValid || isPending}>
           {isPending && <Loader2 className="animate-spin" />}
-          {!persoana ? 'Adauga' : 'Modifica'}
+          {!persoana ? 'Adaugă' : 'Modifică'}
         </Button>
       </form>
     </Form>

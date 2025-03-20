@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ApaSauCafea } from '@/types/types.ts';
 import { useAuth } from '@/hooks/useAuth.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { TabelContributiiPersoana } from '@/pages/persoane/detalii/contributii/components/TabelContributiiPersoana.tsx';
@@ -7,7 +6,7 @@ import { FiltruColoaneContributiePersoana } from '@/pages/persoane/detalii/contr
 import { ButonAdaugaModificaContributie } from '@/pages/persoane/detalii/contributii/components/ButonAdaugaModificaContributie.tsx';
 
 export type ContributiiPersoanaFilter = {
-  expense_type_id?: ApaSauCafea;
+  expense_type_id?: string;
   payment?: [number | undefined, number | undefined];
 };
 

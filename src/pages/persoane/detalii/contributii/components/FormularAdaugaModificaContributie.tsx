@@ -1,5 +1,5 @@
 import React from 'react';
-import { ApaSauCafea, Contribution } from '@/types/types.ts';
+import { Contribution } from '@/types/types.ts';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form.tsx';
 import { Input } from '@/components/ui/input.tsx';
 import { Button } from '@/components/ui/button.tsx';
@@ -25,14 +25,9 @@ type Props = {
 
 export type AdaugaModificaContributie = Omit<Contribution, 'id' | 'created_at' | 'person_id'>;
 
-export const apaCafeaEnum: Record<ApaSauCafea, string> = {
-  apa: 'Apa',
-  cafea: 'Cafea',
-};
-
 export const FormularAdaugaModificaContributie: React.FC<Props> = ({ contributie, close }) => {
   const { id: userId } = useParams();
-  const { data: expenseTypes, isLoading: expenseIsLoading, isFetching: expenseIsFetching } = useGetExpenseTypes();
+  const { data: expenseTypes } = useGetExpenseTypes();
   const form = useFormAdaugaModificaContributie({ defaultValues: contributie });
   const { mutate, isPending } = useAdaugaModificaContributieMutation({
     contributie: contributie,
@@ -107,7 +102,7 @@ export const FormularAdaugaModificaContributie: React.FC<Props> = ({ contributie
           type="submit"
           disabled={!form.formState.isValid || isPending}>
           {isPending && <Loader2 className="animate-spin" />}
-          {!contributie ? 'Adauga' : 'Modifica'}
+          {!contributie ? 'Adaugă' : 'Modifică'}
         </Button>
       </form>
     </Form>

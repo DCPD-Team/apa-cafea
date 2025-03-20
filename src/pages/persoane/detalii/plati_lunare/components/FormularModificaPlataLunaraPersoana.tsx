@@ -112,14 +112,14 @@ export const FormularModificaPlataLunaraPersoana: React.FC<Props> = ({
             )}
           />
         ) : (
-          <span className={'text-sm text-destructive'}>Nu poti efectua aceasta plată.</span>
+          <span className={'text-sm text-destructive'}>Nu poți efectua această plată.</span>
         )}
 
         <Button
           type="submit"
           disabled={!form.formState.isValid || isPending}>
           {isPending && <Loader2 className="animate-spin" />}
-          {!statusLunar.id ? 'Adauga' : 'Modifica'}
+          {!statusLunar.id ? 'Adaugă' : 'Modifică'}
         </Button>
       </form>
     </Form>

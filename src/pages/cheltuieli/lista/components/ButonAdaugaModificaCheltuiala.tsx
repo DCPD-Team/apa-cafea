@@ -21,18 +21,18 @@ export const ButonAdaugaModificaCheltuiala: React.FC<Props> = ({ cheltuiala }) =
         <Button variant="default">
           {!cheltuiala ? (
             <>
-              <IoMdAddCircleOutline /> Adauga
+              <IoMdAddCircleOutline /> Adaugă
             </>
           ) : (
             <>
-              <FaEdit /> Modifica
+              <FaEdit />
             </>
           )}
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{!cheltuiala ? 'Adauga cheltuiala' : 'Modifica cheltuiala'} </DialogTitle>
+          <DialogTitle>{!cheltuiala ? 'Adaugă cheltuială' : 'Modifică cheltuială'} </DialogTitle>
         </DialogHeader>
         <FormularAdaugaModificaCheltuiala
           close={() => setOpen(false)}

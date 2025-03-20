@@ -25,7 +25,6 @@ export const ActiuniCheltuiala: React.FC<Props> = ({ cheltuiala }) => {
             onClick={() => sterge(cheltuiala.id)}
             disabled={isPending}>
             {isPending ? <Loader2 className="animate-spin" /> : <FaTrash />}
-            Sterge
           </Button>
         </>
       ) : (

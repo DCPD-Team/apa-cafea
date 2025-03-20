@@ -20,12 +20,12 @@ export const ActiuniPlataLunara: React.FC<Props> = ({ statusLuna, targetYear, ex
       onOpenChange={(o) => setOpen(o)}>
       <DialogTrigger asChild>
         <Button variant="default">
-          <FaEdit /> Modifica
+          <FaEdit />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{'Modifica status lunar persoana'} </DialogTitle>
+          <DialogTitle>{'Modifică status lunar persoană'} </DialogTitle>
         </DialogHeader>
         <FormularModificaPlataLunaraPersoana
           close={() => setOpen(false)}

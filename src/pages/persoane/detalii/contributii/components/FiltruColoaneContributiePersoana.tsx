@@ -13,10 +13,9 @@ import {
   SelectValue,
 } from '@/components/ui/select.tsx';
 import { IoFilterOutline } from 'react-icons/io5';
-import { ApaSauCafea } from '@/types/types.ts';
 import { Input } from '@/components/ui/input.tsx';
-import { apaCafeaEnum } from '@/pages/persoane/detalii/plati/components/FormularAdaugaModificaPlata.tsx';
 import { ContributiiPersoanaFilter } from '@/pages/persoane/detalii/contributii/ListaContributiiPersoana.tsx';
+import { useGetExpenseTypes } from '@/pages/persoane/hooks/useGetExpenseTypes.tsx';
 
 type Props = {
   currentFilter: ContributiiPersoanaFilter;
@@ -24,12 +23,14 @@ type Props = {
 };
 
 export type ContributiePersoanaFilterForm = {
-  pentru?: ApaSauCafea;
+  expense_type_id?: string;
   sumaDeLa?: number;
   sumaPanaLa?: number;
 };
 
 export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilter, setFilter }) => {
+  const { data: expenseTypes } = useGetExpenseTypes();
+
   const [open, setOpen] = useState(false);
   const [openPentru, setOpenPentru] = useState(false);
   const [keyPentru, setKeyPentru] = React.useState(+new Date());
@@ -37,7 +38,7 @@ export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilte
   const form = useForm<ContributiePersoanaFilterForm>({
     mode: 'onChange',
     defaultValues: {
-      pentru: currentFilter.expense_type_id ?? ('' as unknown as undefined),
+      expense_type_id: currentFilter.expense_type_id ?? ('' as unknown as undefined),
       sumaDeLa: currentFilter.payment?.[0] ?? ('' as unknown as undefined),
       sumaPanaLa: currentFilter.payment?.[1] ?? ('' as unknown as undefined),
     },
@@ -45,11 +46,13 @@ export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilte
 
   const onSubmit = (data: ContributiePersoanaFilterForm) => {
     setFilter({
-      expense_type_id: data.pentru,
+      expense_type_id: data.expense_type_id,
       payment: [data.sumaDeLa, data.sumaPanaLa],
     });
     setOpen(false);
   };
+
+  if (!expenseTypes) return null;
 
   return (
     <Popover
@@ -68,7 +71,7 @@ export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilte
             className="space-y-8">
             <FormField
               control={form.control}
-              name="pentru"
+              name="expense_type_id"
               defaultValue={undefined}
               render={({ field }) => (
                 <FormItem>
@@ -81,15 +84,15 @@ export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilte
                       open={openPentru}
                       onOpenChange={(o) => setOpenPentru(o)}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Selectează pentru ce plătești" />
+                        <SelectValue placeholder="Selectează categoria de cheltuială" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
-                          {Object.entries(apaCafeaEnum).map(([key, value]) => (
+                          {expenseTypes.map((value) => (
                             <SelectItem
-                              key={key}
-                              value={key}>
-                              {value}
+                              key={value.id}
+                              value={value.id}>
+                              {value.name}
                             </SelectItem>
                           ))}
                         </SelectGroup>
@@ -101,7 +104,7 @@ export const FiltruColoaneContributiePersoana: React.FC<Props> = ({ currentFilte
                           size="sm"
                           onClick={(e) => {
                             e.stopPropagation();
-                            form.setValue('pentru', '' as unknown as undefined);
+                            form.setValue('expense_type_id', '' as unknown as undefined);
                             setKeyPentru(+new Date());
                             setOpenPentru(false);
                           }}>
