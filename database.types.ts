@@ -210,41 +210,6 @@ export type Database = {
         };
         Relationships: [];
       };
-      payments: {
-        Row: {
-          created_at: string;
-          id: string;
-          person_id: string;
-          sum: number;
-          updated_at: string | null;
-          what_for: string;
-        };
-        Insert: {
-          created_at?: string;
-          id?: string;
-          person_id: string;
-          sum: number;
-          updated_at?: string | null;
-          what_for: string;
-        };
-        Update: {
-          created_at?: string;
-          id?: string;
-          person_id?: string;
-          sum?: number;
-          updated_at?: string | null;
-          what_for?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'payments_person_id_fkey';
-            columns: ['person_id'];
-            isOneToOne: false;
-            referencedRelation: 'persons';
-            referencedColumns: ['id'];
-          },
-        ];
-      };
       persons: {
         Row: {
           avatar_pic_path: string | null;

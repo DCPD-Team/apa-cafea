@@ -97,5 +97,5 @@ export const useCalculeazaSituatie = ({
         } satisfies SituatiePersoana,
       ];
     }, [] as SituatiePersoana[]);
-  }, [an, persoane, platiLunare, expenseTypeId]);
+  }, [an, persoane, platiLunare, monthlyPricesFiltered, expenseTypeId]);
 };

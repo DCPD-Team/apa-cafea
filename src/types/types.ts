@@ -6,8 +6,6 @@ export type MonthlyPrices = Database['public']['Tables']['monthly_prices']['Row'
 
 export type MonthlyPayments = Database['public']['Tables']['monthly_payments']['Row'];
 
-export type Payment = Database['public']['Tables']['payments']['Row'];
-
 export type Contribution = Database['public']['Tables']['contributions']['Row'];
 
 export type Person = Database['public']['Tables']['persons']['Row'];

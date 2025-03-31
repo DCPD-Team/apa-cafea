@@ -8,10 +8,10 @@ import { useAuth } from '@/hooks/useAuth.tsx';
 import { ProfilAvatar } from '@/components/ProfilAvatar.tsx';
 
 export const Navbar: React.FC = () => {
-  const { user } = useAuth();
+  const { isModerator } = useAuth();
 
   const getStyles = (isActive: boolean) => {
-    return twMerge('px-6 py-2 rounded-md text-lg font-bold bg-slate-100', isActive ? 'bg-primary text-white' : '');
+    return twMerge('px-6 py-2 mx-1 rounded-md text-lg font-bold bg-slate-100', isActive ? 'bg-primary text-white' : '');
   };
 
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ export const Navbar: React.FC = () => {
             className={({ isActive }) => getStyles(isActive)}>
             Cheltuieli
           </NavLink>
-          {user?.appRole?.includes('moderator') && (
+          {isModerator && (
             <NavLink
               to="/admin"
               className={({ isActive }) => getStyles(isActive)}>
@@ -60,6 +60,7 @@ export const Navbar: React.FC = () => {
             </NavLink>
           )}
         </div>
+
         <Button
           variant={'outline'}
           onClick={() => {

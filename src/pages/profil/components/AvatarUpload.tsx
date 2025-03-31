@@ -33,7 +33,7 @@ export const AvatarUpload = () => {
   };
 
   return (
-    <Card>
+    <Card className="col-span-1 flex flex-col justify-between gap-3">
       <CardHeader>
         <CardTitle>Schimbă avatarul</CardTitle>
       </CardHeader>

@@ -155,7 +155,7 @@ export const TabelSituatie: React.FC = () => {
         />
       </div>
       <TabelCustom
-        isFetching={queryPersoane.isFetching || monthlyPaymentsIsFetching}
+        isFetching={queryPersoane.isFetching || monthlyPaymentsIsFetching || !situatii}
         isLoading={queryPersoane.isLoading || monthlyPaymentsIsLoading || !situatii}
         table={table}
         cols={15}
