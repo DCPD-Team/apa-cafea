@@ -1,5 +1,12 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import React, { useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { Cheltuiala } from '@/types/types.ts';
@@ -34,6 +41,10 @@ export const ButonAdaugaModificaCheltuiala: React.FC<Props> = ({ cheltuiala }) =
         <DialogHeader>
           <DialogTitle>{!cheltuiala ? 'Adaugă cheltuială' : 'Modifică cheltuială'} </DialogTitle>
         </DialogHeader>
+        <DialogDescription className="text-justify text-xs">
+          Adauga sau modifica selectand suma pe care ai cheltuit-o, tipul de cheltuiala, anul, precum si completand o
+          descriere sumara a acesteia, astfel incat actiunea sa fie justificabila.
+        </DialogDescription>
         <FormularAdaugaModificaCheltuiala
           close={() => setOpen(false)}
           cheltuiala={cheltuiala}

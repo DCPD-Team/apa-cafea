@@ -10,8 +10,8 @@ createRoot(document.getElementById('root')!).render(
   <ErrorBoundary fallback={<BrokenEspresso />}>
     <AuthProvider>
       <TooltipProvider>
-      <App />
-    </TooltipProvider>
+        <App />
+      </TooltipProvider>
     </AuthProvider>
   </ErrorBoundary>
 );

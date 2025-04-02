@@ -20,7 +20,7 @@ export const EvolutiePreturiLunarePerExpenseType: React.FC = () => {
   });
 
   return (
-    <Card className={'w-[50%]'}>
+    <Card className={'sm:w-full md:w-full lg:w-1/2'}>
       <CardHeader>
         <CardTitle>Evoluție prețuri lunare</CardTitle>
         <FiltrePreturiLunare

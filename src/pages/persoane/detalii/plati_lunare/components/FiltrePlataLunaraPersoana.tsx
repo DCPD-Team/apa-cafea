@@ -19,10 +19,11 @@ type Props = {
 
 export const FiltrePlataLunaraPersoana: React.FC<Props> = ({ filtre, setFiltre }) => {
   const { data: expenseTypes } = useGetExpenseTypes();
+  console.log(expenseTypes);
   const { data: yearsData } = useGetYearsOfPayments();
   const yearsArray: string[] = (yearsData ?? []) as string[];
 
-  console.log(yearsArray);
+  // console.log(yearsArray);
 
   if (!expenseTypes) {
     return null;

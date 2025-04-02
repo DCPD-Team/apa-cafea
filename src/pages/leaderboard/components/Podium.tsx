@@ -6,6 +6,8 @@ import { Button } from '@/components/ui/button.tsx';
 import { PodiumChart } from '@/pages/leaderboard/components/PodiumChart.tsx';
 import { useGetPodiumPictures } from '@/pages/leaderboard/hooks/useGetPodiumPictures.tsx';
 
+export type PodiumPicturesType = 'winner' | 'loser';
+
 export type LocPodiumType = {
   nume: string;
   valoare: number;
@@ -18,11 +20,12 @@ export type PodiumType = {
 };
 
 type Props = {
+  picturesType: PodiumPicturesType;
   titlu: string;
 } & PodiumType;
 
-export const Podium: React.FC<Props> = ({ titlu, locul1, locul2, locul3 }) => {
-  const { first, third, second } = useGetPodiumPictures();
+export const Podium: React.FC<Props> = ({ picturesType, titlu, locul1, locul2, locul3 }) => {
+  const { first, third, second } = useGetPodiumPictures({ podiumType: picturesType });
   const [isExpanded, setIsExpanded] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 

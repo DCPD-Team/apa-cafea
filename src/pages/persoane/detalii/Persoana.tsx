@@ -5,10 +5,10 @@ import { ListaPlatiLunarePersoana } from '@/pages/persoane/detalii/plati_lunare/
 
 export const Persoana: React.FC = () => {
   return (
-    <>
+    <div className="flex flex-col gap-2">
       <InformatiiPersoana />
       <ListaContributiiPersoana />
       <ListaPlatiLunarePersoana />
-    </>
+    </div>
   );
 };

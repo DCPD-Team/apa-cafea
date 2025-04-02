@@ -91,7 +91,7 @@ export const SumaPlatiLunarePerAn: React.FC = () => {
   });
 
   return (
-    <Card className={'w-[50%]'}>
+    <Card className={'sm:w-full md:w-full lg:w-[50%]'}>
       <CardHeader>
         <CardTitle>Valoare plăți efectuate</CardTitle>
         <FiltreSituatie

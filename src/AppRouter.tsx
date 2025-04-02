@@ -1,7 +1,6 @@
 import { createHashRouter, Navigate, RouteObject } from 'react-router-dom';
 import { Situatie } from '@/pages/situatie/Situatie.tsx';
 import { Leaderboard } from '@/pages/leaderboard/Leaderboard.tsx';
-import { Navbar } from '@/pages/Navbar.tsx';
 import { ListaPersoane } from '@/pages/persoane/lista/ListaPersoane.tsx';
 import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
 import { ListaCheltuieli } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
@@ -10,11 +9,12 @@ import { CustomRouteGuard } from '@/components/CustomRouteGuard.tsx';
 import { ProfilPagina } from '@/pages/profil/ProfilPagina.tsx';
 import { ProfilRedirect } from '@/pages/profil/components/ProfilRedirect.tsx';
 import NotFound from '@/components/NotFound.tsx';
+import { Layout } from '@/components/Layout.tsx';
 
 export const AppRoutes: RouteObject[] = [
   {
     path: '',
-    element: <Navbar />,
+    element: <Layout />,
 
     children: [
       {

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Button } from '@/components/ui/button'; // Replace with your UI button component
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useUploadAvatarPicture } from '@/hooks/useUploadAvatarPicture.tsx';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx'; // Replace with your UI input component
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 
 export const AvatarUpload = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

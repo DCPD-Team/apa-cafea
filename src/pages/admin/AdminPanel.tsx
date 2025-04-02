@@ -6,13 +6,13 @@ import { EvolutiePreturiLunarePerExpenseType } from '@/pages/admin/components/st
 
 export const AdminPanel: React.FC = () => {
   return (
-    <>
+    <div className="flex flex-col items-center gap-2">
       <ListaTipCheltuiala />
       <ListaPreturiLunare />
-      <div className={'flex w-full gap-2.5'}>
+      <div className={'flex w-full flex-col gap-2.5 sm:items-center md:w-full md:items-center'}>
         <SumaPlatiLunarePerAn />
         <EvolutiePreturiLunarePerExpenseType />
       </div>
-    </>
+    </div>
   );
 };

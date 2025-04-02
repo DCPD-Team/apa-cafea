@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaEdit } from 'react-icons/fa';
@@ -30,8 +37,11 @@ export const ButonAdaugaModificaPretLunar: React.FC<Props> = ({ monthlyPrice }) 
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{!monthlyPrice ? 'Adaugă tip cheltuială' : 'Modifică tip cheltuială'} </DialogTitle>
+          <DialogTitle>{!monthlyPrice ? 'Adaugă pret lunar' : 'Modifică pret lunar'} </DialogTitle>
         </DialogHeader>
+        <DialogDescription className="text-justify text-xs">
+          Sunt necesare valoarea pretului, luna pentru care aduci modificarile, anul, respectiv tipul cheltuielii.
+        </DialogDescription>
         <FormularAdaugaModificaPretLunar
           close={() => setOpen(false)}
           monthlyPrice={monthlyPrice}

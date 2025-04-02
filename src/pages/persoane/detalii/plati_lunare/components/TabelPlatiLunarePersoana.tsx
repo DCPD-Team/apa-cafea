@@ -26,7 +26,7 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
 
   const excludeSet = new Set(data?.filter((x) => x.target_year === filtre.an).map((x) => x.month_id));
   const celelalteluni = Object.keys(LunileAnului).filter((x) => !excludeSet.has(x));
-  console.log(celelalteluni);
+  // console.log(celelalteluni);
   const fakeData = useMemo(
     () =>
       celelalteluni.map(

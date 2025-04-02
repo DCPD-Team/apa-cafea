@@ -155,25 +155,25 @@ export type Database = {
       };
       monthly_prices: {
         Row: {
-          expense_type_id: string | null;
+          expense_type_id: string;
           id: string;
-          month_id: string | null;
+          month_id: string;
           price_value: number | null;
-          year: number | null;
+          year: number;
         };
         Insert: {
-          expense_type_id?: string | null;
+          expense_type_id?: string;
           id?: string;
-          month_id?: string | null;
+          month_id?: string;
           price_value?: number | null;
-          year?: number | null;
+          year?: number;
         };
         Update: {
-          expense_type_id?: string | null;
+          expense_type_id?: string;
           id?: string;
-          month_id?: string | null;
+          month_id?: string;
           price_value?: number | null;
-          year?: number | null;
+          year?: number;
         };
         Relationships: [
           {

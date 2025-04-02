@@ -17,7 +17,7 @@ export const useGetMonthlyPaymentsPerson = ({
         .eq('person_id', personId)
         .eq('expense_type_id', expenseTypeId);
 
-      console.log(monthly_payments);
+      // console.log(monthly_payments);
       return monthly_payments;
     },
   });

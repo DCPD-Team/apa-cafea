@@ -30,11 +30,13 @@ export const Leaderboard: React.FC = () => {
         <Podium
           {...rezultat.buniPlatnici}
           titlu={'Buni platnici'}
+          picturesType={'winner'}
         />
 
         <Podium
           {...rezultat.restantieri}
           titlu={'Restantieri'}
+          picturesType={'loser'}
         />
       </div>
     </div>

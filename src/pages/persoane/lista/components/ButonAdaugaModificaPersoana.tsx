@@ -1,5 +1,12 @@
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import React, { useState } from 'react';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FormularAdaugaModificaPersoana } from '@/pages/persoane/lista/components/FormularAdaugaModificaPersoana.tsx';
@@ -32,6 +39,7 @@ export const ButonAdaugaModificaPersoana: React.FC<Props> = ({ persoana }) => {
         <DialogHeader>
           <DialogTitle>{!persoana ? 'Adaugă persoană' : 'Modifică persoană'} </DialogTitle>
         </DialogHeader>
+        <DialogDescription>Aceasta persoana va contribui la platile lunare.</DialogDescription>
         <FormularAdaugaModificaPersoana
           close={() => setOpen(false)}
           persoana={persoana}

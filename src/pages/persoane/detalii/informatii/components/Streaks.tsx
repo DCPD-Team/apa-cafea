@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.t
 
 export const Streaks: React.FC = () => {
   return (
-    <Card>
+    <Card className="flex flex-col">
       <CardHeader>
         <CardTitle>Streaks</CardTitle>
       </CardHeader>

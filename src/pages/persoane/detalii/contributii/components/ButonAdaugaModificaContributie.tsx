@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { Contribution } from '@/types/types.ts';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog.tsx';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog.tsx';
 import { Button } from '@/components/ui/button.tsx';
 import { IoMdAddCircleOutline } from 'react-icons/io';
 import { FaEdit } from 'react-icons/fa';
@@ -34,6 +41,9 @@ export const ButonAdaugaModificaContributie: React.FC<Props> = ({ contributie })
         <DialogHeader>
           <DialogTitle>{!contributie ? 'Adaugă contribuție' : 'Modifică contribuție'} </DialogTitle>
         </DialogHeader>
+        <DialogDescription>
+          Completeaza suma prin care a contribuit persoana, respectiv tipul de cheltuiala.
+        </DialogDescription>
         <FormularAdaugaModificaContributie
           close={() => setOpen(false)}
           contributie={contributie}
