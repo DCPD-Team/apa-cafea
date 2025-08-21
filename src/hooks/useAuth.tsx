@@ -3,7 +3,7 @@ import { Session, User } from '@supabase/supabase-js';
 import { supabaseClient } from '../supabase/supabase';
 import { jwtDecode } from 'jwt-decode';
 
-const AuthContext = createContext<{
+export const AuthContext = createContext<{
   session: Session | null | undefined;
   user: AppUser | null | undefined;
   isLoading: boolean | null | undefined;
@@ -63,6 +63,8 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       const currentUser = session?.user as User & { appRole: string[] };
       if (session) {
         const jwt = jwtDecode<JwtCustomPayload>(session.access_token);
+
+        console.log('wtf ', jwt.user_roles);
         currentUser.appRole = jwt.user_roles;
       }
       setUser(currentUser);

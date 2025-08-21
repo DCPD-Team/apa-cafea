@@ -46,8 +46,8 @@ const items = [
 ];
 
 export function AppSidebar() {
-  const { isModerator } = useAuth();
-  const { user } = useAuth();
+  const { isModerator, isAdmin, user } = useAuth();
+  console.log(isModerator, isAdmin, user);
   const { data, isLoading, isFetching } = useGetAvatarPicture();
 
   const name = user?.email;
@@ -84,15 +84,15 @@ export function AppSidebar() {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton className="flex h-12 items-center gap-3 rounded-lg p-2 transition hover:cursor-pointer hover:bg-gray-200">
                   <div className="relative h-10 w-10">
-                    <img
-                      src={data}
-                      alt="User Avatar"
-                      className="h-10 w-10 rounded-full border-2 border-gray-400 object-cover shadow-sm"
-                    />
+                    {/*<img*/}
+                    {/*  src={data}*/}
+                    {/*  alt="User Avatar"*/}
+                    {/*  className="h-10 w-10 rounded-full border-2 border-gray-400 object-cover shadow-sm"*/}
+                    {/*/>*/}
                     <FaFireFlameCurved className="absolute -bottom-1 -right-1 h-4 w-4 animate-pulse text-orange-500" />
                   </div>
 
-                  <span className="text-sm font-medium text-gray-900">{name}</span>
+                  <span className="text-xs font-medium text-gray-900">{name}</span>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56">
@@ -120,7 +120,7 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
-              {isModerator && (
+              {(isModerator || isAdmin) && (
                 <SidebarMenuItem key={'Admin Panel'}>
                   <SidebarMenuButton asChild>
                     <Link to={'/admin'}>
