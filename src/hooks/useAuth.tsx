@@ -36,7 +36,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
           const jwt = jwtDecode<JwtCustomPayload>(session.access_token);
           currentUser.appRole = jwt.user_roles;
         }
-        console.log(currentUser);
         setUser(currentUser ?? null);
         setIsLoading(false);
       } catch (error) {
@@ -64,7 +63,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
       if (session) {
         const jwt = jwtDecode<JwtCustomPayload>(session.access_token);
 
-        console.log('wtf ', jwt.user_roles);
         currentUser.appRole = jwt.user_roles;
       }
       setUser(currentUser);
@@ -76,7 +74,6 @@ export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
   const isModerator = useMemo(() => user?.appRole?.includes('moderator'), [user]);
   const isAdmin = useMemo(() => user?.appRole?.includes('admin'), [user]);
-
   const value = {
     session,
     user,

@@ -70,14 +70,14 @@ export const useCalculeazaSituatie = ({
       // console.log(persoana);
       // console.log(platiLunare);
 
-      console.log(new Date().getMonth() + 1);
+      // console.log(new Date().getMonth() + 1);
       if (!persoana) return acc;
 
       return [
         ...acc,
         {
-          nume: persoana.last_name,
-          prenume: persoana.first_name,
+          nume: persoana.last_name ?? '',
+          prenume: persoana.first_name ?? '',
           userId,
           laZi: paidMonths.paidMonths >= new Date().getMonth() + 1,
           luni: Object.keys(LunileAnului).reduce(

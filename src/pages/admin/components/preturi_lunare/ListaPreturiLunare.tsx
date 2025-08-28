@@ -5,7 +5,7 @@ import { useAuth } from '@/hooks/useAuth.tsx';
 import { ButonAdaugaModificaPretLunar } from '@/pages/admin/components/preturi_lunare/components/ButonAdaugaModificaPretLunar.tsx';
 
 export const ListaPreturiLunare: React.FC = () => {
-  const { isModerator } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
 
   return (
     <>
@@ -13,7 +13,7 @@ export const ListaPreturiLunare: React.FC = () => {
         <CardHeader>
           <div className={'flex items-center justify-between'}>
             <CardTitle className={'text-3xl'}>Prețuri lunare</CardTitle>
-            {isModerator && <ButonAdaugaModificaPretLunar />}
+            {(isModerator || isAdmin) && <ButonAdaugaModificaPretLunar />}
           </div>
         </CardHeader>
         <CardContent>

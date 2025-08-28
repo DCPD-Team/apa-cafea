@@ -8,11 +8,11 @@ type Props = {
 };
 
 export const ActiuniPretLunar: React.FC<Props> = ({ monthlyPrice }) => {
-  const { isModerator } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
 
   return (
     <div className="flex gap-1">
-      {isModerator ? (
+      {isModerator || isAdmin ? (
         <>
           <ButonAdaugaModificaPretLunar monthlyPrice={monthlyPrice} />
         </>

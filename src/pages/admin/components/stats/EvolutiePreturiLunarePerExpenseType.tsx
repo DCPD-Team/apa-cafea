@@ -43,8 +43,9 @@ export const EvolutiePreturiLunarePerExpenseType: React.FC = () => {
                 <XAxis
                   dataKey="month"
                   type={'category'}
-                  angle={-35}
+                  angle={-30}
                   tick={{ fontSize: 10, textAnchor: 'middle', strokeWidth: 0.5 }}
+                  tickMargin={10}
                   interval="preserveEnd"
                 />
                 <YAxis label={{ value: 'RON', angle: -90, position: 'insideLeft' }} />

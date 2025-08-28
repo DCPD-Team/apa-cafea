@@ -31,8 +31,8 @@ export const LunileAnului = {
 export type Luna = keyof typeof LunileAnului;
 
 export type SituatiePersoana = {
-  nume: string;
-  prenume: string;
+  nume?: string;
+  prenume?: string;
   luni: Record<Luna, number>;
   laZi: boolean;
   userId: string;
@@ -61,12 +61,8 @@ const getMonthCellColor = (value: number, luna: Luna, an: number) => {
     return 'text-primary';
   }
 
-  if (value === 40) {
-    return 'text-green-700';
-  }
-
   if (value > 0) {
-    return 'text-yellow-700';
+    return 'text-green-700';
   }
 
   return 'text-red-700';
@@ -92,8 +88,6 @@ export const TabelSituatie: React.FC = () => {
     platiLunare: monthlyPayments,
   });
 
-  console.log(situatii);
-
   const luniColumnDefs: ColumnDef<SituatiePersoana>[] = Object.entries(LunileAnului).map(([key, value]) => {
     return {
       accessorKey: key,
@@ -115,6 +109,7 @@ export const TabelSituatie: React.FC = () => {
     {
       id: 'fullName',
       header: 'Nume',
+      accessorKey: 'userId',
       accessorFn: (row) => `${row.nume} ${row.prenume}`,
     },
     {

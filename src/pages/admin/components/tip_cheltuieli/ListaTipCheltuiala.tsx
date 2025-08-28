@@ -5,14 +5,14 @@ import { useAuth } from '@/hooks/useAuth.tsx';
 import { ButonAdaugaModificaTipCheltuiala } from '@/pages/admin/components/tip_cheltuieli/components/ButonAdaugaModificaTipCheltuiala.tsx';
 
 export const ListaTipCheltuiala: React.FC = () => {
-  const { isModerator } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
 
   return (
     <Card>
       <CardHeader>
         <div className={'flex items-center justify-between'}>
           <CardTitle className={'text-3xl'}>Tipuri de cheltuieli</CardTitle>
-          {isModerator && <ButonAdaugaModificaTipCheltuiala />}
+          {(isModerator || isAdmin) && <ButonAdaugaModificaTipCheltuiala />}
         </div>
       </CardHeader>
       <CardContent>

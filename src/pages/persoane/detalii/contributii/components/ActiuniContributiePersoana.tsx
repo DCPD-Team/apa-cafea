@@ -13,10 +13,10 @@ type Props = {
 
 export const ActiuniContributiePersoana: React.FC<Props> = ({ contributie }) => {
   const { isPending, mutate } = useStergeContributiePersoanaMutation({ id: contributie.id });
-  const { isModerator } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
   return (
     <div className="flex gap-1">
-      {isModerator ? (
+      {isModerator || isAdmin ? (
         <>
           <ButonAdaugaModificaContributie contributie={contributie} />
           <Button

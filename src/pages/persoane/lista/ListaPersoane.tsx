@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import { ButonAdaugaModificaPersoana } from '@/pages/persoane/lista/components/ButonAdaugaModificaPersoana.tsx';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card.tsx';
 import { useGetListaPersoanaQuery } from '@/pages/persoane/hooks/useGetListaPersoanaQuery.tsx';
 import { compareByDataInscriere, Person } from '@/types/types.ts';
@@ -9,14 +8,13 @@ import { FiltruColoanePersoane } from '@/pages/persoane/lista/components/FiltruC
 import { useCustomDataTable } from '@/hooks/useCustomDataTable.tsx';
 import { TabelCustom } from '@/components/ui/TabelCustom.tsx';
 import { formatDate } from 'date-fns';
-import { useAuth } from '@/hooks/useAuth.tsx';
 
 export type PersonFilter = Partial<Pick<Person, 'first_name' | 'last_name'>>;
 
 export const ListaPersoane: React.FC = () => {
   const { isLoading, data: persoane } = useGetListaPersoanaQuery({ compareFn: compareByDataInscriere });
   const [filters, setFilters] = useState<PersonFilter>({});
-  const { isModerator, isAdmin } = useAuth();
+  // const { isModerator, isAdmin } = useAuth();
 
   const columns = useMemo<ColumnDef<Person>[]>(
     () => [
@@ -43,6 +41,10 @@ export const ListaPersoane: React.FC = () => {
         accessorFn: (originalRow) => formatDate(new Date(originalRow.created_at), 'dd-MM-yyyy'),
       },
       {
+        header: 'Email',
+        accessorKey: 'user_mail',
+      },
+      {
         header: () => 'Actiuni',
         accessorKey: 'actiuni',
         cell: ({ row }) => <ActiuniPersoana persoana={row.original} />,
@@ -63,7 +65,7 @@ export const ListaPersoane: React.FC = () => {
               currentFilter={filters}
               setFilter={setFilters}
             />
-            {(isAdmin || isModerator) && <ButonAdaugaModificaPersoana />}
+            {/*{(isAdmin || isModerator) && <ButonAdaugaModificaPersoana />}*/}
           </div>
         </div>
       </CardHeader>

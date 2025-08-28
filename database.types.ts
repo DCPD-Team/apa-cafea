@@ -47,6 +47,39 @@ export type Database = {
           },
         ];
       };
+      expense_suggestions: {
+        Row: {
+          admin_decision: boolean;
+          admin_decision_justification: string | null;
+          created_at: string;
+          expense_proposal: string;
+          id: string;
+          justification: string | null;
+          link_to_resource: string | null;
+          updated_at: string | null;
+        };
+        Insert: {
+          admin_decision?: boolean;
+          admin_decision_justification?: string | null;
+          created_at?: string;
+          expense_proposal: string;
+          id?: string;
+          justification?: string | null;
+          link_to_resource?: string | null;
+          updated_at?: string | null;
+        };
+        Update: {
+          admin_decision?: boolean;
+          admin_decision_justification?: string | null;
+          created_at?: string;
+          expense_proposal?: string;
+          id?: string;
+          justification?: string | null;
+          link_to_resource?: string | null;
+          updated_at?: string | null;
+        };
+        Relationships: [];
+      };
       expense_type: {
         Row: {
           active: boolean | null;
@@ -219,29 +252,35 @@ export type Database = {
         Row: {
           avatar_pic_path: string | null;
           created_at: string;
-          first_name: string;
+          first_name: string | null;
           id: string;
           inactivation_date: string | null;
-          last_name: string;
+          last_name: string | null;
           updated_at: string;
+          user_id: string | null;
+          user_mail: string | null;
         };
         Insert: {
           avatar_pic_path?: string | null;
           created_at?: string;
-          first_name: string;
+          first_name?: string | null;
           id?: string;
           inactivation_date?: string | null;
-          last_name: string;
+          last_name?: string | null;
           updated_at?: string;
+          user_id?: string | null;
+          user_mail?: string | null;
         };
         Update: {
           avatar_pic_path?: string | null;
           created_at?: string;
-          first_name?: string;
+          first_name?: string | null;
           id?: string;
           inactivation_date?: string | null;
-          last_name?: string;
+          last_name?: string | null;
           updated_at?: string;
+          user_id?: string | null;
+          user_mail?: string | null;
         };
         Relationships: [];
       };
@@ -262,6 +301,41 @@ export type Database = {
           role?: Database['public']['Enums']['app_role'];
         };
         Relationships: [];
+      };
+      subscriptions: {
+        Row: {
+          created_at: string;
+          ending_date: string | null;
+          expense_type_id: string | null;
+          id: string;
+          starting_date: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          created_at?: string;
+          ending_date?: string | null;
+          expense_type_id?: string | null;
+          id?: string;
+          starting_date?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          created_at?: string;
+          ending_date?: string | null;
+          expense_type_id?: string | null;
+          id?: string;
+          starting_date?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'subscriptions_expense_type_id_fkey';
+            columns: ['expense_type_id'];
+            isOneToOne: false;
+            referencedRelation: 'expense_type';
+            referencedColumns: ['id'];
+          },
+        ];
       };
       user_roles: {
         Row: {
@@ -391,7 +465,8 @@ export type Database = {
         | 'expenses.delete'
         | 'payments.add'
         | 'payments.update'
-        | 'payments.delete';
+        | 'payments.delete'
+        | 'expense_suggestions.update';
       app_role: 'admin' | 'moderator';
     };
     CompositeTypes: {
@@ -522,6 +597,7 @@ export const Constants = {
         'payments.add',
         'payments.update',
         'payments.delete',
+        'expense_suggestions.update',
       ],
       app_role: ['admin', 'moderator'],
     },

@@ -39,6 +39,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
                 <Input
                   placeholder="Popescu..."
                   {...field}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />
@@ -57,6 +58,7 @@ export const FormularAdaugaModificaPersoana: React.FC<Props> = (props) => {
                 <Input
                   placeholder="Ion..."
                   {...field}
+                  value={field.value ?? ''}
                 />
               </FormControl>
               <FormMessage />

@@ -13,9 +13,9 @@ import { PodiumType } from '@/pages/leaderboard/components/Podium.tsx';
 export const PodiumChart: React.FC<PodiumType> = (props: PodiumType) => {
   const { locul1, locul2, locul3 } = props;
   const chartData = [
-    { name: 'Locul 2', valoare: locul2.valoare, persoana: locul2.nume, color: '#2563eb' },
-    { name: 'Locul 1', valoare: locul1.valoare, persoana: locul1.nume, color: '#60a5fa' },
-    { name: 'Locul 3', valoare: locul3.valoare, persoana: locul3.nume, color: '#60b5d0' },
+    { name: 'Locul 2', valoare: locul2?.valoare, persoana: locul2?.nume, color: '#2563eb' },
+    { name: 'Locul 1', valoare: locul1?.valoare, persoana: locul1?.nume, color: '#60a5fa' },
+    { name: 'Locul 3', valoare: locul3?.valoare, persoana: locul3?.nume, color: '#60b5d0' },
   ];
 
   const chartConfig = {

@@ -1,18 +1,17 @@
 import React, { PropsWithChildren } from 'react';
 import { useAuth } from '@/hooks/useAuth.tsx';
 import { toast } from '@/hooks/use-toast.ts';
-import { Navigate } from 'react-router-dom';
+import BrokenEspresso from '@/components/BrokenEspresso.tsx';
 
 export const CustomRouteGuard: React.FC<PropsWithChildren> = ({ children }) => {
-  const { isModerator } = useAuth();
-
-  if (!isModerator) {
+  const { isModerator, isAdmin } = useAuth();
+  if (!(isModerator || isAdmin)) {
     toast({
       variant: 'destructive',
       title: 'Nu ai acces la resursa solicitata!',
     });
-    return <Navigate to={'/leaderboard'} />; //TODO va fi pg misto de la edi
+    return <BrokenEspresso />;
   }
 
-  return isModerator && <>{children}</>;
+  return (isModerator || isAdmin) && <>{children}</>;
 };

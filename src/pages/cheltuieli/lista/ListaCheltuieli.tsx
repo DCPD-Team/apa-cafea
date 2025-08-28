@@ -26,7 +26,7 @@ export type CheltuialaFilter = {
 export const ListaCheltuieli: React.FC = () => {
   const [columnFilters, setColumnFilters] = useState<CheltuialaFilter>({});
   const [filtre, setFiltre] = useState<FiltreCheltuialaType>({ an: 2025, expenseTypeId: 'cafea' });
-  const { isModerator } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
 
   const {
     isLoading,
@@ -107,7 +107,7 @@ export const ListaCheltuieli: React.FC = () => {
               currentFilter={columnFilters}
               setFilter={setColumnFilters}
             />
-            {isModerator && <ButonAdaugaModificaCheltuiala />}
+            {(isModerator || isAdmin) && <ButonAdaugaModificaCheltuiala />}
           </div>
         </div>
       </CardHeader>

@@ -12,7 +12,7 @@ export type ContributiiPersoanaFilter = {
 
 export const ListaContributiiPersoana: React.FC = () => {
   const [filters, setFilters] = useState<ContributiiPersoanaFilter>({});
-  const { isModerator } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
 
   return (
     <Card>
@@ -25,7 +25,7 @@ export const ListaContributiiPersoana: React.FC = () => {
               setFilter={setFilters}
             />
 
-            {isModerator && <ButonAdaugaModificaContributie />}
+            {(isModerator || isAdmin) && <ButonAdaugaModificaContributie />}
           </div>
         </div>
       </CardHeader>

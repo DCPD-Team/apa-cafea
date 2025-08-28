@@ -9,6 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarMenuSkeleton,
   SidebarSeparator,
 } from '@/components/ui/sidebar';
 import { Home, Settings } from 'lucide-react';
@@ -18,8 +19,6 @@ import { LuLogOut } from 'react-icons/lu';
 import { supabaseClient } from '@/supabase/supabase.ts';
 import { Link, useNavigate } from 'react-router-dom';
 import React from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from './ui/dropdown-menu';
-import { DropdownMenuTrigger } from '@/components/ui/dropdown-menu.tsx';
 import { useGetAvatarPicture } from '@/hooks/useGetAvatarPicture.tsx';
 
 const items = [
@@ -47,7 +46,6 @@ const items = [
 
 export function AppSidebar() {
   const { isModerator, isAdmin, user } = useAuth();
-  console.log(isModerator, isAdmin, user);
   const { data, isLoading, isFetching } = useGetAvatarPicture();
 
   const name = user?.email;
@@ -64,15 +62,7 @@ export function AppSidebar() {
   };
 
   if (isFetching || isLoading || !data) {
-    return (
-      <div className="flex items-center gap-3 rounded-lg p-2 transition hover:cursor-pointer hover:bg-gray-200">
-        <div className="relative h-10 w-10">
-          <div className="h-10 w-10 rounded-full border-2 border-gray-400 object-cover shadow-sm" />
-          <FaFireFlameCurved className="absolute -bottom-1 -right-1 h-4 w-4 animate-pulse text-orange-500" />
-        </div>
-        <span className="text-sm font-medium text-gray-900" />
-      </div>
-    );
+    return <SidebarMenuSkeleton />;
   }
 
   return (
@@ -80,27 +70,24 @@ export function AppSidebar() {
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <SidebarMenuButton className="flex h-12 items-center gap-3 rounded-lg p-2 transition hover:cursor-pointer hover:bg-gray-200">
-                  <div className="relative h-10 w-10">
-                    {/*<img*/}
-                    {/*  src={data}*/}
-                    {/*  alt="User Avatar"*/}
-                    {/*  className="h-10 w-10 rounded-full border-2 border-gray-400 object-cover shadow-sm"*/}
-                    {/*/>*/}
-                    <FaFireFlameCurved className="absolute -bottom-1 -right-1 h-4 w-4 animate-pulse text-orange-500" />
-                  </div>
+            <SidebarMenuButton
+              className="flex h-12 items-center gap-3 rounded-lg p-2 transition hover:cursor-pointer hover:bg-gray-200"
+              asChild>
+              <Link
+                to={'profil'}
+                className="flex">
+                <div className="relative h-10 w-10">
+                  <img
+                    src={data}
+                    alt="User Avatar"
+                    className="h-10 w-10 rounded-full border-2 border-gray-400 object-cover shadow-sm"
+                  />
+                  <FaFireFlameCurved className="absolute -bottom-1 -right-1 h-4 w-4 animate-pulse text-orange-500" />
+                </div>
 
-                  <span className="text-xs font-medium text-gray-900">{name}</span>
-                </SidebarMenuButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
-                <DropdownMenuItem>
-                  <span>Schimba fotografia de profil</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <span className="text-xs font-medium text-gray-900">{name}</span>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>

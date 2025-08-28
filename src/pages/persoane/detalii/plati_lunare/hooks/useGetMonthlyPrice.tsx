@@ -20,7 +20,7 @@ export const useGetMonthlyPrice = ({
         .eq('year', year)
         .eq('expense_type_id', expenseTypeId)
         .limit(1)
-        .single();
+        .maybeSingle();
       return price;
     },
   });

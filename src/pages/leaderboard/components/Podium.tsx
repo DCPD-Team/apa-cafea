@@ -14,9 +14,9 @@ export type LocPodiumType = {
 };
 
 export type PodiumType = {
-  locul1: LocPodiumType;
-  locul2: LocPodiumType;
-  locul3: LocPodiumType;
+  locul1?: LocPodiumType;
+  locul2?: LocPodiumType;
+  locul3?: LocPodiumType;
 };
 
 type Props = {
@@ -30,9 +30,9 @@ export const Podium: React.FC<Props> = ({ picturesType, titlu, locul1, locul2, l
   const [activeIndex, setActiveIndex] = useState(0);
 
   const podiumData: PodiumEntry[] = [
-    { ...locul1, imageUrl: first?.publicUrl },
-    { ...locul2, imageUrl: second?.publicUrl },
-    { ...locul3, imageUrl: third?.publicUrl },
+    { nume: locul1 ? locul1.nume : '-', valoare: locul1 ? locul1.valoare : 0, imageUrl: first?.publicUrl },
+    { nume: locul2 ? locul2.nume : '-', valoare: locul2 ? locul2.valoare : 0, imageUrl: second?.publicUrl },
+    { nume: locul3 ? locul3.nume : '-', valoare: locul3 ? locul3.valoare : 0, imageUrl: third?.publicUrl },
   ];
 
   const handleNext = () => setActiveIndex((prev) => (prev + 1) % podiumData.length);

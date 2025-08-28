@@ -16,7 +16,7 @@ export type FiltrePlataLunaraPersoanaType = {
 };
 
 export const TabelPlatiLunarePersoana: React.FC = () => {
-  const { isModerator } = useAuth();
+  const { isModerator, isAdmin } = useAuth();
   const { id: personId } = useParams();
   const [filtre, setFiltre] = useState<FiltrePlataLunaraPersoanaType>({ an: 2025, expenseTypeId: 'cafea' });
   const { data, isFetching, isLoading } = useGetMonthlyPaymentsPerson({
@@ -78,7 +78,7 @@ export const TabelPlatiLunarePersoana: React.FC = () => {
   ];
 
   const { table } = useCustomDataTable({
-    columns: isModerator ? adminColums : baseColumns,
+    columns: isModerator || isAdmin ? adminColums : baseColumns,
     data: newData,
     disablePagination: true,
   });

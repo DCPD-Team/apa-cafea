@@ -4,9 +4,8 @@ import { useGetAvatarPicture } from '@/hooks/useGetAvatarPicture.tsx';
 
 export const InformatiiProfil: React.FC = () => {
   const { data: poza, isFetching, isLoading } = useGetAvatarPicture();
-  console.log('poza', poza);
 
-  if (isFetching || isLoading) {
+  if (isFetching || isLoading || !poza) {
     return (
       <Card className="col-span-2 flex flex-col">
         <CardHeader className="fade-in fade-out" />
@@ -18,10 +17,19 @@ export const InformatiiProfil: React.FC = () => {
   return (
     <Card className="col-span-2 flex flex-col">
       <CardHeader>
-        <CardTitle>Informatii Profil</CardTitle>
+        <CardTitle>Profilul meu</CardTitle>
       </CardHeader>
       <CardContent>
-        <div> Aici vor fi acele informatii pretioase</div>
+        <div className="flex gap-2">
+          <div>
+            <img
+              src={poza}
+              alt="User Avatar"
+              className="h-100 w-100 rounded-xl border-2 border-gray-400 object-cover shadow-sm"
+            />
+          </div>
+          <div> Aici vor fi acele informatii pretioase</div>
+        </div>
       </CardContent>
     </Card>
   );
