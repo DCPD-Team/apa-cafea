@@ -3,13 +3,13 @@ import { Situatie } from '@/pages/situatie/Situatie.tsx';
 import { Leaderboard } from '@/pages/leaderboard/Leaderboard.tsx';
 import { ListaPersoane } from '@/pages/persoane/lista/ListaPersoane.tsx';
 import { Persoana } from '@/pages/persoane/detalii/Persoana.tsx';
-import { ListaCheltuieli } from '@/pages/cheltuieli/lista/ListaCheltuieli.tsx';
 import { AdminPanel } from '@/pages/admin/AdminPanel.tsx';
 import { CustomRouteGuard } from '@/components/CustomRouteGuard.tsx';
 import { ProfilPagina } from '@/pages/profil/ProfilPagina.tsx';
 import { ProfilRedirect } from '@/pages/profil/components/ProfilRedirect.tsx';
 import NotFound from '@/components/NotFound.tsx';
 import { Layout } from '@/components/Layout.tsx';
+import { CheltuieliPannel } from '@/pages/cheltuieli/CheltuieliPannel.tsx';
 
 export const AppRoutes: RouteObject[] = [
   {
@@ -62,7 +62,7 @@ export const AppRoutes: RouteObject[] = [
           {
             index: true,
             path: '',
-            element: <ListaCheltuieli />,
+            element: <CheltuieliPannel />,
           },
         ],
       },
